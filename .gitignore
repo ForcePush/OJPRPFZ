@@ -51,9 +51,7 @@ build/
 [Oo]bj/
 
 *.bsc
-ojpenhanced/cgamex86.dll
-ojpenhanced/jampgamex86.dll
-ojpenhanced/uix86.dll
+*.dll
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
