@@ -2176,14 +2176,14 @@ static void CG_InitG2SaberData(int saberNum, clientInfo_t *ci)
 
 					if (tagBolt == -1)
 					{
-						assert(0);
+//						assert(0);
 					}
 					break;
 				}
 
 				if (tagBolt == -1)
 				{
-					assert(0);
+//					assert(0);
 					break;
 				}
 			}
@@ -16928,7 +16928,7 @@ stillDoSaber:
 							if (tagBolt == -1)
 							{
 								return; // 1.3 fix
-								assert(0);
+								//assert(0);
 								break;
 							}
 						}
@@ -18096,7 +18096,7 @@ void CG_ResetPlayerEntity( centity_t *cent )
 
 			if (!cent->npcClient)
 			{
-				assert(0);
+//				assert(0);
 				return;
 			}
 

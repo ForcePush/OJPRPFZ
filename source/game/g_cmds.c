@@ -11,6 +11,8 @@
 //#include "../../ui/menudef.h"			// for the voice chats
 //[/SVN]
 
+#include "accounts/ac_public.h"
+
 //[CoOp]
 extern	qboolean		in_camera;
 //[/CoOp]
@@ -686,7 +688,7 @@ void Cmd_SetDP(gentity_t *ent)
 
 	trap_Argv(1, idStr, sizeof(idStr));
 	trap_Argv(2, maxDodgeStr, sizeof(maxDodgeStr));
-	id = atoi(idStr);
+	id = G_ClientNumberFromArg(idStr);
 	maxDodge = atoi(maxDodgeStr);
 
 	if (id < 0 || id > MAX_CLIENTS || !g_entities[id].playerState)
@@ -717,7 +719,7 @@ void Cmd_SetFP(gentity_t *ent)
 
 	trap_Argv(1, idStr, sizeof(idStr));
 	trap_Argv(2, maxFPStr, sizeof(maxFPStr));
-	id = atoi(idStr);
+	id = G_ClientNumberFromArg(idStr);
 	maxFP = atoi(maxFPStr);
 
 	if (id < 0 || id > MAX_CLIENTS || !g_entities[id].playerState)
@@ -2349,254 +2351,270 @@ void BotOrderParser(gentity_t *ent, gentity_t *target, int mode, const char *cha
 #define DIST_SAY_SHOUT 2000
 #define DIST_SAY_LOW 100
 #define DIST_SAY_FORCE 0
-void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) {
-	int			i,j,switcher,oldi,oldj;
-   int         dice_amount[3];
-   int         dice_sides[3];
-	gentity_t	*other;
-	int			color;
-	char		name[64];
-	// don't let text be too long for malicious reasons
-	char		text[MAX_SAY_TEXT];
-	char		location[64];
-	char		*locMsg = NULL;
-   int distance;
-   char *chatMod;
+void G_Say(gentity_t *ent, gentity_t *target, int mode, const char *chatText) {
+    int			i, j, switcher, oldi, oldj;
+    int         dice_amount[3];
+    int         dice_sides[3];
+    gentity_t	*other;
+    int			color;
+    char		name[64];
+    // don't let text be too long for malicious reasons
+    char		text[MAX_SAY_TEXT];
+    char		location[64];
+    char		*locMsg = NULL;
+    int distance;
+    char *chatMod;
 
-	if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
-		mode = SAY_ALL;
-	}
+    if (g_gametype.integer < GT_TEAM && mode == SAY_TEAM) {
+        mode = SAY_ALL;
+    }
 
-	//[AdminSys][ChatSpamProtection]
-	if(!(ent->r.svFlags & SVF_BOT))
-	{//don't chat protect the bots.
-		if(ent->client && ent->client->chatDebounceTime > level.time //debounce isn't up
-			//and we're not bouncing our message back to our self while using SAY_TELL 
-			&& (mode != SAY_TELL || ent != target)) 
-		{//prevent players from spamming chat.
-			//Warn them.
-			if(ojp_chatProtectTime.integer > 0)
-			{
-				trap_SendServerCommand(ent->s.number, 
-					va("cp \""S_COLOR_BLUE"Please Don't Spam.\nWait %.2f Seconds Before Trying Again.\n\"", 
-					((float) ojp_chatProtectTime.integer/(float) 1000)));
-			}
-			return;
-		}
-		else
-		{//we can chat, bump the debouncer
-			ent->client->chatDebounceTime = level.time + ojp_chatProtectTime.integer;
-		}
-	}
-	//[/AdminSys][/ChatSpamProtection]
-
-	//[TABBot]
-	//Scan for bot orders
-	BotOrderParser(ent, target, mode, chatText);
-	//[/TABBot]
-
-	switch ( mode ) {
-	default:
-	case SAY_ALL:
-      if(!Q_stricmpn("/shout", chatText, 6) || !Q_stricmpn("!", chatText, 1)) {
-         if(!Q_stricmpn("/shout", chatText, 6)) {
-            chatMod = (char*)chatText+7;
-         } else {
-            chatMod = (char*)chatText+1;
-         }
-         G_LogPrintf( "Shout: %s shouts: %s\n", ent->client->pers.netname, chatMod );
-         Com_sprintf (name, sizeof(name), "%s%c%c"EC" shouts: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-         color = COLOR_RED;
-         distance = DIST_SAY_SHOUT;
-      } else if(!Q_stricmpn("/me", chatText, 3) || !Q_stricmpn("@", chatText, 1)) {
-         if(!Q_stricmpn("/me", chatText, 3)) {
-         chatMod = (char*)chatText+4;
-         } else {
-         chatMod = (char*)chatText+1;
-         }
-         G_LogPrintf( "Action: %s %s\n", ent->client->pers.netname, chatMod );
-         Com_sprintf (name, sizeof(name), "%s%c%c"EC" ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-         color = COLOR_YELLOW;
-         distance = DIST_SAY_SHOUT;
-	  }
-	  else if (!Q_stricmpn("^3rolls", chatText, 7)) {
-		  chatMod = (char*)chatText;
-		  G_LogPrintf("Roll Action: %s %s\n", ent->client->pers.netname, chatMod);
-		  Com_sprintf(name, sizeof(name), "%s%c%c"EC" ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
-		  color = COLOR_YELLOW;
-		  distance = DIST_SAY_SHOUT;
-	  }
-	  else if (!Q_stricmpn("/low", chatText, 4) || !Q_stricmpn(".", chatText, 1)) {
-		  if (!Q_stricmpn("/low", chatText, 4)) {
-        chatMod = (char*)chatText + 5;
-        } else {
-        chatMod = (char*)chatText + 1;
+    //[AdminSys][ChatSpamProtection]
+    if (!(ent->r.svFlags & SVF_BOT))
+    {//don't chat protect the bots.
+        if (ent->client && ent->client->chatDebounceTime > level.time //debounce isn't up
+            //and we're not bouncing our message back to our self while using SAY_TELL 
+            && (mode != SAY_TELL || ent != target))
+        {//prevent players from spamming chat.
+            //Warn them.
+            if (ojp_chatProtectTime.integer > 0)
+            {
+                trap_SendServerCommand(ent->s.number,
+                    va("cp \""S_COLOR_BLUE"Please Don't Spam.\nWait %.2f Seconds Before Trying Again.\n\"",
+                        ((float)ojp_chatProtectTime.integer / (float)1000)));
+            }
+            return;
         }
-		  G_LogPrintf("Say (low): %s says (low): %s\n", ent->client->pers.netname, chatMod);
-		  Com_sprintf(name, sizeof(name), "%s%c%c"EC" says (low): ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
-		  color = COLOR_WHITE;
-		  distance = DIST_SAY_LOW;
-	  }	
-	  else if (!Q_stricmpn("/comm", chatText, 5) || !Q_stricmpn("#", chatText, 1)) {
-if (!Q_stricmpn("/comm", chatText, 5)) {		
-      chatMod = (char*)chatText + 6;
-      } else {
-      chatMod = (char*)chatText + 1;
-      }
-		  G_LogPrintf("Comm (Comm) %s: %s\n", ent->client->pers.netname, chatMod);
-		  Com_sprintf(name, sizeof(name), "%s%c%c"EC" says (comm): ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
-		  color = COLOR_CYAN;
-		  distance = 0;
-	  }
-	  else if(!Q_stricmpn("/ooc", chatText, 4) || !Q_stricmpn("//", chatText, 2)) {
-         if(!Q_stricmpn("/ooc", chatText, 4)) {
-         chatMod = (char*)chatText+5;
-         } else {
-         chatMod = (char*)chatText+2;
-         }
-         G_LogPrintf( "OOC: (OOC) %s: %s\n", ent->client->pers.netname, chatMod );
-         Com_sprintf (name, sizeof(name), "(OOC) %s%c%c"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-         color = COLOR_GREEN;
-         distance = 0;
-      } else {
-         chatMod = (char*)chatText;
-         G_LogPrintf( "say: %s says: %s\n", ent->client->pers.netname, chatMod );
-         Com_sprintf (name, sizeof(name), "%s%c%c"EC" says: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-         color = COLOR_WHITE;
-         distance = DIST_SAY_SPEAK;
-      }
-		break;
-	case SAY_TEAM:
-		G_LogPrintf( "sayteam: %s: %s\n", ent->client->pers.netname, chatText );
-		if (Team_GetLocationMsg(ent, location, sizeof(location)))
-		{
-			Com_sprintf (name, sizeof(name), EC"(%s%c%c"EC")"EC": ", 
-				ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-			locMsg = location;
-		}
-		else
-		{
-			Com_sprintf (name, sizeof(name), EC"(%s%c%c"EC")"EC": ", 
-				ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-		}
-      chatMod = (char*)chatText;
-		color = COLOR_CYAN;
-		break;
-	case SAY_TELL:
-		if (target && g_gametype.integer >= GT_TEAM &&
-			target->client->sess.sessionTeam == ent->client->sess.sessionTeam &&
-			Team_GetLocationMsg(ent, location, sizeof(location)))
-		{
-			Com_sprintf (name, sizeof(name), EC"[%s%c%c"EC"]"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-			locMsg = location;
-		}
-		else
-		{
-			Com_sprintf (name, sizeof(name), EC"[%s%c%c"EC"]"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-		}
-      chatMod = (char*)chatText;
-		color = COLOR_MAGENTA;
-		break;
-   case SAY_ADMIN:
-		G_LogPrintf( "sayteam: <admin>[%s]: %s\n", ent->client->pers.netname, chatText );
-		Com_sprintf (name, sizeof(name), EC"^3<admin>^7[%s^7]: ", 
-				ent->client->pers.netname );
-		color = COLOR_YELLOW;
-		break;
-	case SAY_CLAN:
-		G_LogPrintf( "sayteam: <clan>[%s]: %s\n", ent->client->pers.netname, chatText );
-		Com_sprintf (name, sizeof(name), EC"^1<clan>^7[%s^7]: ", 
-				ent->client->pers.netname );
-		color = COLOR_RED;
-		break;
-	}
+        else
+        {//we can chat, bump the debouncer
+            ent->client->chatDebounceTime = level.time + ojp_chatProtectTime.integer;
+        }
+    }
+    //[/AdminSys][/ChatSpamProtection]
 
-	Q_strncpyz( text, chatMod, sizeof(text) );
+    //[TABBot]
+    //Scan for bot orders
+    BotOrderParser(ent, target, mode, chatText);
+    //[/TABBot]
 
-	if ( target ) {
-		G_SayTo( ent, target, mode, color, name, text, locMsg );
-		return;
-	}
+    switch (mode) {
+    default:
+    case SAY_ALL:
+        if (!Q_stricmpn("/shout", chatText, 6) || !Q_stricmpn("!", chatText, 1)) {
+            if (!Q_stricmpn("/shout", chatText, 6)) {
+                chatMod = (char*)chatText + 7;
+            }
+            else {
+                chatMod = (char*)chatText + 1;
+            }
+            G_LogPrintf("Shout: %s shouts: %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" shouts: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_RED;
+            distance = DIST_SAY_SHOUT;
+        }
+        else if (!Q_stricmpn("/me", chatText, 3) || !Q_stricmpn("@", chatText, 1)) {
+            if (!Q_stricmpn("/me", chatText, 3)) {
+                chatMod = (char*)chatText + 4;
+            }
+            else {
+                chatMod = (char*)chatText + 1;
+            }
+            G_LogPrintf("Action: %s %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_YELLOW;
+            distance = DIST_SAY_SHOUT;
+        }
+        else if (!Q_stricmpn("^3rolls", chatText, 7)) {
+            chatMod = (char*)chatText;
+            G_LogPrintf("Roll Action: %s %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_YELLOW;
+            distance = DIST_SAY_SHOUT;
+        }
+        else if (!Q_stricmpn("/low", chatText, 4) || !Q_stricmpn(".", chatText, 1)) {
+            if (!Q_stricmpn("/low", chatText, 4)) {
+                chatMod = (char*)chatText + 5;
+            }
+            else {
+                chatMod = (char*)chatText + 1;
+            }
+            G_LogPrintf("Say (low): %s says (low): %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" says (low): ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_WHITE;
+            distance = DIST_SAY_LOW;
+        }
+        else if (!Q_stricmpn("/comm", chatText, 5) || !Q_stricmpn("#", chatText, 1)) {
+            if (!Q_stricmpn("/comm", chatText, 5)) {
+                chatMod = (char*)chatText + 6;
+            }
+            else {
+                chatMod = (char*)chatText + 1;
+            }
+            G_LogPrintf("Comm (Comm) %s: %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" says (comm): ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_CYAN;
+            distance = 0;
+        }
+        else if (!Q_stricmpn("/ooc", chatText, 4) || !Q_stricmpn("//", chatText, 2)) {
+            if (!Q_stricmpn("/ooc", chatText, 4)) {
+                chatMod = (char*)chatText + 5;
+            }
+            else {
+                chatMod = (char*)chatText + 2;
+            }
+            G_LogPrintf("OOC: (OOC) %s: %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "(OOC) %s%c%c"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_GREEN;
+            distance = 0;
+        }
+        else {
+            chatMod = (char*)chatText;
+            G_LogPrintf("say: %s says: %s\n", ent->client->pers.netname, chatMod);
+            Com_sprintf(name, sizeof(name), "%s%c%c"EC" says: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            color = COLOR_WHITE;
+            distance = DIST_SAY_SPEAK;
+        }
+        break;
+    case SAY_TEAM:
+        G_LogPrintf("sayteam: %s: %s\n", ent->client->pers.netname, chatText);
+        if (Team_GetLocationMsg(ent, location, sizeof(location)))
+        {
+            Com_sprintf(name, sizeof(name), EC"(%s%c%c"EC")"EC": ",
+                ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            locMsg = location;
+        }
+        else
+        {
+            Com_sprintf(name, sizeof(name), EC"(%s%c%c"EC")"EC": ",
+                ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+        }
+        chatMod = (char*)chatText;
+        color = COLOR_CYAN;
+        break;
+    case SAY_TELL:
+        if (target && g_gametype.integer >= GT_TEAM &&
+            target->client->sess.sessionTeam == ent->client->sess.sessionTeam &&
+            Team_GetLocationMsg(ent, location, sizeof(location)))
+        {
+            Com_sprintf(name, sizeof(name), EC"[%s%c%c"EC"]"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+            locMsg = location;
+        }
+        else
+        {
+            Com_sprintf(name, sizeof(name), EC"[%s%c%c"EC"]"EC": ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE);
+        }
+        chatMod = (char*)chatText;
+        color = COLOR_MAGENTA;
+        break;
+    case SAY_ADMIN:
+        G_LogPrintf("sayteam: <admin>[%s]: %s\n", ent->client->pers.netname, chatText);
+        Com_sprintf(name, sizeof(name), EC"^3<admin>^7[%s^7]: ",
+            ent->client->pers.netname);
+        color = COLOR_YELLOW;
+        break;
+    case SAY_CLAN:
+        G_LogPrintf("sayteam: <clan>[%s]: %s\n", ent->client->pers.netname, chatText);
+        Com_sprintf(name, sizeof(name), EC"^1<clan>^7[%s^7]: ",
+            ent->client->pers.netname);
+        color = COLOR_RED;
+        break;
+    }
 
-	// echo the text to the console
-	if ( g_dedicated.integer ) {
-		G_Printf( "%s%s\n", name, text);
-	}
-	if ( strstr( text, "!freezemotd") ){
-		trap_SendServerCommand( ent-g_entities, va("print \"^7Freezing MOTD... ^3(TYPE IN !hidemotd OR /hidemotd TO HIDE IT!)\n\"" ) );
-		strcpy(ent->client->csMessage, G_NewString(va("^0*^1%s^0*\n\n^7%s\n", GAMEVERSION, roar_motd_line.string )));
-		ent->client->csTimeLeft = Q3_INFINITE;
-	}
+    Q_strncpyz(text, chatMod, sizeof(text));
 
-	if ( strstr( text, "!showmotd") ){
-		trap_SendServerCommand( ent-g_entities, va("print \"^7Showing MOTD...\n\"" ) );
-		strcpy(ent->client->csMessage, G_NewString(va("^0*^1%s^0*\n\n^7%s\n", GAMEVERSION, roar_motd_line.string )));
-		ent->client->csTimeLeft = x_cstime.integer;
-	}
-if ( strstr( text, "!jetpack") ){
-if (roar_allow_jetpack_command.integer == 1)
-	   {
-		   if (ent->client->ps.duelInProgress){
-			   trap_SendServerCommand( ent-g_entities, va("print \"Jetpack is not allowed in duels!\n\"" ) );
-		   }
-		   else if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) 
-   { 
-      ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_JETPACK); 
-   } 
-   else 
-   { 
-      ent->client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_JETPACK); 
-   }
-   	if (ent->client->jetPackOn)
-	{
-		Jetpack_Off(ent);
-	}
-   }
-	else {
-		trap_SendServerCommand( ent-g_entities, va("print \"Jetpack is disabled on this server!\n\"" ) );
-	}
-}
+    if (target) {
+        G_SayTo(ent, target, mode, color, name, text, locMsg);
+        return;
+    }
 
-	if ( strstr( text, "!slapme") ){
-		if (ent->client->ps.forceHandExtend == HANDEXTEND_KNOCKDOWN)
-		{
-			return;
-		}
-		if (roar_allow_KnockMeDown_command.integer == 0)
-		{
-			trap_SendServerCommand( ent-g_entities, va("print \"^7KnockMeDown is disabled on this server!\n\"" ) );
-		}
-		else if (ent->health < 1 || (ent->client->ps.eFlags & EF_DEAD))
-			{
-			}
-		else
-		{
-			ent->client->ps.velocity[2] = 375;
-			ent->client->ps.forceHandExtend = HANDEXTEND_KNOCKDOWN;
-			ent->client->ps.forceDodgeAnim = 0;
-			ent->client->ps.forceHandExtendTime = level.time + 700;
-		}
-	}
+    // echo the text to the console
+    if (g_dedicated.integer) {
+        G_Printf("%s%s\n", name, text);
+    }
+    if (strstr(text, "!freezemotd")) {
+        trap_SendServerCommand(ent - g_entities, va("print \"^7Freezing MOTD... ^3(TYPE IN !hidemotd OR /hidemotd TO HIDE IT!)\n\""));
+        strcpy(ent->client->csMessage, G_NewString(va("^0*^1%s^0*\n\n^7%s\n", GAMEVERSION, roar_motd_line.string)));
+        ent->client->csTimeLeft = Q3_INFINITE;
+    }
 
-	if (Q_stricmp( text, "!hidemotd") == 0 )
-		{
-			trap_SendServerCommand( ent-g_entities, va("print \"^7Hiding MOTD...\n\"" ) );
-			ent->client->csTimeLeft -= 0;
-			strcpy(ent->client->csMessage, G_NewString(va(" \n" )));
-		}
-	// send it to all the apropriate clients
-	for (j = 0; j < level.maxclients; j++) {
-		other = &g_entities[j];
-      if ( mode == SAY_ALL ) {
-         if ( (Distance( ent->client->ps.origin, other->client->ps.origin ) <= distance) || distance == 0) {
-            G_SayTo( ent, other, mode, color, name, text, locMsg );
-         } else {
-            continue;
-         }
-      } else {
-         G_SayTo( ent, other, mode, color, name, text, locMsg );
-      }
-	}
+    if (strstr(text, "!showmotd")) {
+        trap_SendServerCommand(ent - g_entities, va("print \"^7Showing MOTD...\n\""));
+        strcpy(ent->client->csMessage, G_NewString(va("^0*^1%s^0*\n\n^7%s\n", GAMEVERSION, roar_motd_line.string)));
+        ent->client->csTimeLeft = x_cstime.integer;
+    }
+    if (strstr(text, "!jetpack")) {
+        if (roar_allow_jetpack_command.integer == 1)
+        {
+            if (ent->client->ps.duelInProgress) {
+                trap_SendServerCommand(ent - g_entities, va("print \"Jetpack is not allowed in duels!\n\""));
+            }
+            else if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK))
+            {
+                ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_JETPACK);
+            }
+            else
+            {
+                ent->client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_JETPACK);
+            }
+            if (ent->client->jetPackOn)
+            {
+                Jetpack_Off(ent);
+            }
+        }
+        else {
+            trap_SendServerCommand(ent - g_entities, va("print \"Jetpack is disabled on this server!\n\""));
+        }
+    }
+
+    if (strstr(text, "!slapme")) {
+        if (ent->client->ps.forceHandExtend == HANDEXTEND_KNOCKDOWN)
+        {
+            return;
+        }
+        if (roar_allow_KnockMeDown_command.integer == 0)
+        {
+            trap_SendServerCommand(ent - g_entities, va("print \"^7KnockMeDown is disabled on this server!\n\""));
+        }
+        else if (ent->health < 1 || (ent->client->ps.eFlags & EF_DEAD))
+        {
+        }
+        else
+        {
+            ent->client->ps.velocity[2] = 375;
+            ent->client->ps.forceHandExtend = HANDEXTEND_KNOCKDOWN;
+            ent->client->ps.forceDodgeAnim = 0;
+            ent->client->ps.forceHandExtendTime = level.time + 700;
+        }
+    }
+
+    if (Q_stricmp(text, "!hidemotd") == 0)
+    {
+        trap_SendServerCommand(ent - g_entities, va("print \"^7Hiding MOTD...\n\""));
+        ent->client->csTimeLeft -= 0;
+        strcpy(ent->client->csMessage, G_NewString(va(" \n")));
+    }
+    // send it to all the apropriate clients
+    for (j = 0; j < level.maxclients; j++)
+    {
+        other = &g_entities[j];
+        if (mode == SAY_ALL)
+        {
+            if ((Distance(ent->client->ps.origin, other->client->ps.origin) <= distance) ||
+                distance == 0 ||
+                (other->client && other->client->sess.sessionTeam == TEAM_SPECTATOR))
+            {
+                G_SayTo(ent, other, mode, color, name, text, locMsg);
+            }
+            else
+            {
+                continue;
+            }
+        }
+        else
+        {
+            G_SayTo(ent, other, mode, color, name, text, locMsg);
+        }
+    }
 }
 
 
@@ -10575,7 +10593,7 @@ else {
 //			trap_SendServerCommand( clientNum, va("print \"You can only add bots as the server.\n\"" ) );
 			trap_SendServerCommand( clientNum, va("print \"%s.\n\"", G_GetStringEdString("MP_SVGAME", "ONLY_ADD_BOTS_AS_SERVER")));
 		}
-		else
+		else if (!AC_ExecuteCommand(cmd, ent))  // Skinpack: accounts system
 		{
 			trap_SendServerCommand( clientNum, va("print \"unknown cmd %s\n\"", cmd ) );
 		}

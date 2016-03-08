@@ -13,6 +13,8 @@
 #include "g_roff.h"
 //[/ROFF]
 
+#include "accounts/ac_public.h"
+
 //[Experimental]
 #define SUN 0
 #define DEADBODYSPHYSICS 0
@@ -1939,6 +1941,9 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 #endif
 	//[/Experimental]
+
+    // Skinpack: accounts system
+    AC_Init();
 }
 
 

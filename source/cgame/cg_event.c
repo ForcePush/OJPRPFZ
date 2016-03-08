@@ -4058,7 +4058,6 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		break;
 	//[/VisualWeapons]
 
-
 	default:
 		DEBUGNAME("UNKNOWN");
 		CG_Error( "Unknown event: %i", event );

@@ -2,6 +2,8 @@
 //
 // g_local.h -- local definitions for game module
 
+#pragma once
+
 //testing
 #include "q_shared.h"
 #include "bg_public.h"
