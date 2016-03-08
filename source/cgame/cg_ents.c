@@ -2545,15 +2545,16 @@ static void CG_Missile( centity_t *cent ) {
 
 			//[SaberThrowSys]
 			//add blade bolts to saber hilt model so we can draw the saber blade on dropped/ballistic sabers
-			if(cent->ghoul2 && s1->owner != ENTITYNUM_NONE)
+
+			// rww: Skinpack: FIXME! need to find a way to get NPC's saber numblades.
+			if(cent->ghoul2 && s1->owner != ENTITYNUM_NONE && s1->owner < MAX_CLIENTS)
 			{
-				//get the our owner's information.
-				clientInfo_t	*SaberOwnerInfo = &cgs.clientinfo[s1->owner];
+				int numBlades = cgs.clientinfo[s1->owner].saber[0].numBlades;
 				int m = 0;
 				int tagBolt;
 				char *tagName;
 
-				while (m < SaberOwnerInfo->saber[0].numBlades)
+				while (m < numBlades)
 				{
 					tagName = va("*blade%i", m+1);
 					tagBolt = trap_G2API_AddBolt(cent->ghoul2, 0, tagName);
@@ -2796,7 +2797,8 @@ Ghoul2 Insert End
 		int				k;
 		int				l = 0;
 
-		if(s1->owner != ENTITYNUM_NONE)
+		// rww: Skinpack: need to find a way to get NPC's saber numblades!
+		if(s1->owner != ENTITYNUM_NONE && s1->owner < MAX_CLIENTS)
 		{//we have an owner associated with this player.
 
 			//get the our owner's information.

@@ -50,6 +50,11 @@ build/
 [Bb]in/
 [Oo]bj/
 
+*.bsc
+ojpenhanced/cgamex86.dll
+ojpenhanced/jampgamex86.dll
+ojpenhanced/uix86.dll
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
