@@ -83,9 +83,71 @@ const skillToString_t skillStrings[NUM_SKILLS] =
 FILE *ac_accountsFile;
 qboolean ac_modified;
 
-void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, ac_account_t *currentAcc)
+const ac_fileField_t *AC_GetFieldFromName(const char *name)
 {
-    char *skill = strtok(value, ",");
+    for (int i = AC_FIELD_LOGIN + 1; i < AC_FIELD_MAX; i++)
+    {
+        if (strcmp(name, ac_fileFields[i].name) == 0)
+        {
+            return ac_fileFields + i;
+        }
+    }
+
+    return NULL;
+}
+
+char **AC_GetStringField(ac_account_t *acc, const ac_fileField_t *field)
+{
+    if (!acc || !field || field->type != AC_FIELDTYPE_STRING)
+    {
+        return NULL;
+    }
+
+    return (char **)((char *)acc + field->offset);
+}
+
+int *AC_GetNumberField(ac_account_t *acc, const ac_fileField_t *field)
+{
+    if (!acc || !field || field->type != AC_FIELDTYPE_NUMBER)
+    {
+        return NULL;
+    }
+
+    return (int *)((char *)acc + field->offset);
+}
+
+forcePowers_t AC_ForcePowerFromString(const char *name)
+{
+    for (int i = 0; i < NUM_FORCE_POWERS; i++)
+    {
+        if (strcmp(name, forcePowerStrings[i].fpName) == 0)
+        {
+            return forcePowerStrings[i].fp;
+        }
+    }
+
+    return -1;
+}
+
+skills_t AC_SkillFromString(const char *name)
+{
+    for (int i = 0; i < NUM_SKILLS; i++)
+    {
+        if (strcmp(name, skillStrings[i].skName) == 0)
+        {
+            return skillStrings[i].sk;
+        }
+    }
+
+    return -1;
+}
+
+
+// if playerNum is valid client, send error messages to him
+// print in log otherwise
+void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, int playerNum)
+{
+    char *skill = strtok(value, ", ");
     if (!skill)
     {
         // player has no skills, it's okay
@@ -110,37 +172,55 @@ void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, ac
 
         if (skillLevel == 0)
         {
-            G_LogPrintf("^3AC_ParseSkill: skill %s has 0 level (line %d).\n", skill, currentLine);
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
+            {
+                trap_SendServerCommand(playerNum, va("print \"^3AC_ParseSkill: skill %s has 0 level.\n\"", skill));
+            }
+            else
+            {
+                G_LogPrintf("^3AC_ParseSkill: skill %s has 0 level (line %d).\n", skill, currentLine);
+            }
         }
 
         if (skillLevel > 3)
         {
-            G_LogPrintf("^3AC_ParseSkill: skill %s has too big level (line %d).\n", skill, currentLine);
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
+            {
+                trap_SendServerCommand(playerNum, va("print \"^3AC_ParseSkill: skill %s has too big level.\n\"", skill));
+            }
+            else
+            {
+                G_LogPrintf("^3AC_ParseSkill: skill %s has too big level (line %d).\n", skill, currentLine);
+            }
             skillLevel = 3;
         }
 
-        for (int i = 0; i <= NUM_SKILLS; i++)
+        skills_t skillInt = AC_SkillFromString(skill);
+
+        if (skillInt  < 0)
         {
-            if (i >= NUM_SKILLS)
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
             {
-                AC_FreeAccount(currentAcc);
-                G_Error("^1AC_ParseSkill: unknown skill %s (line %d)\n", skill, currentLine);
-
-                return;
+                trap_SendServerCommand(playerNum, va("print \"^1AC_ParseSkill: unknown skill %s.\n\"", skill));
+            }
+            else
+            {
+                G_LogPrintf("^1AC_ParseSkill: unknown skill %s (line %d)\n", skill, currentLine);
             }
 
-            if (strcmp(skill, skillStrings[i].skName) == 0)
-            {
-                skillsArray[skillStrings[i].sk] = skillLevel;
-                break;
-            }
+            skill = strtok(NULL, ", ");
+            continue;
         }
 
-        skill = strtok(NULL, ",");
+        skillsArray[skillInt] = skillLevel;
+
+        skill = strtok(NULL, ", ");
     }
 }
 
-void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, ac_account_t *currentAcc)
+// if playerNum is valid client, send error messages to him
+// print in log otherwise
+void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, int playerNum)
 {
     char *force = strtok(value, ",");
     if (!force)
@@ -156,36 +236,51 @@ void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, ac_
 
         if (forceLevel == 0)
         {
-            G_LogPrintf("^3AC_ParseForce: force %s has 0 level (line %d).\n", force, currentLine);
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
+            {
+                trap_SendServerCommand(playerNum, va("print \"^3AC_ParseForces: force %s has 0 level.\n\"", force));
+            }
+            else
+            {
+                G_LogPrintf("^3AC_ParseForces: force %s has 0 level (line %d).\n", force, currentLine);
+            }
         }
 
         if (forceLevel > 3)
         {
-            G_LogPrintf("^3AC_ParseForce: force %s has too big level (line %d).\n", force, currentLine);
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
+            {
+                trap_SendServerCommand(playerNum, va("print \"^3AC_ParseForces: force %s has too big level.\n\"", force));
+            }
+            else
+            {
+                G_LogPrintf("^3AC_ParseForces: force %s has too big level (line %d).\n", force, currentLine);
+            }
             forceLevel = 3;
         }
 
         force[forceLen - 1] = '\0';  // remove level
         forceLen--;
 
-        for (int i = 0; i <= NUM_FORCE_POWERS; i++)
+        forcePowers_t forceInt = AC_ForcePowerFromString(force);
+        if (forceInt  < 0)
         {
-            if (i >= NUM_FORCE_POWERS)
+            if (playerNum >= 0 && playerNum <= MAX_CLIENTS)
             {
-                AC_FreeAccount(currentAcc);
-                G_Error("^1AC_ParseForce: unknown force %s (line %d)\n", force, currentLine);
-
-                return;
+                trap_SendServerCommand(playerNum, va("print \"^1AC_ParseForces: unknown force %s.\n\"", force));
+            }
+            else
+            {
+                G_LogPrintf("^1AC_ParseForces: unknown force %s (line %d)\n", force, currentLine);
             }
 
-            if (strcmp(force, forcePowerStrings[i].fpName) == 0)
-            {
-                forceArray[forcePowerStrings[i].fp] = forceLevel;
-                break;
-            }
+            force = strtok(NULL, ", ");
+            continue;
         }
 
-        force = strtok(NULL, ",");
+        forceArray[forceInt] = forceLevel;
+
+        force = strtok(NULL, ", ");
     }
 }
 
@@ -195,9 +290,6 @@ void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, ac_
 // creates new account if currentAcc == 0 and name == "login".
 ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, int currentLine)
 {
-    ac_fileField field = 0;
-    ac_fileFieldType type = 0;
-
     if (strcmp(name, ac_fileFields[AC_FIELD_LOGIN].name) == 0)
     {
         if (currentAcc)
@@ -224,30 +316,20 @@ ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, i
         return NULL;
     }
 
-    for (int i = AC_FIELD_LOGIN + 1; i <= AC_FIELD_MAX; i++)
+    const ac_fileField_t *field = AC_GetFieldFromName(name);
+    if (!field)
     {
-        if (i >= AC_FIELD_MAX)
-        {
-            AC_FreeAccount(currentAcc);
-            G_Error("^1AC_ParseField: unknown field %s on line %d\n", name, currentLine);
+        AC_FreeAccount(currentAcc);
+        G_Error("^1AC_ParseField: unknown field %s on line %d\n", name, currentLine);
 
-            return NULL;
-        }
-
-        if (strcmp(name, ac_fileFields[i].name) == 0)
-        {
-            field = i;
-            type = ac_fileFields[i].type;
-
-            break;
-        }
+        return NULL;
     }
-
-    switch (type)
+    
+    switch (field->type)
     {
     case AC_FIELDTYPE_STRING:
         {
-            char **str = (char **)((char *)currentAcc + ac_fileFields[field].offset);
+            char **str = AC_GetStringField(currentAcc, field);
             if (*str)
             {
                 AC_FreeAccount(currentAcc);
@@ -267,19 +349,19 @@ ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, i
     case AC_FIELDTYPE_NUMBER:
         {
             // Skinpack: TODO: make it a bit cleaner
-            *(int *)((char *)currentAcc + ac_fileFields[field].offset) = atoi(value);
+            *AC_GetNumberField(currentAcc, field) = atoi(value);
 
             return currentAcc;
         }
     case AC_FIELDTYPE_SKILL:
         {
-            AC_ParseSkills(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
+            AC_ParseSkills(((unsigned char *)currentAcc + field->offset), value, currentLine, -1);
             
             return currentAcc;
         }
     case AC_FIELDTYPE_FORCE:
         {
-            AC_ParseForces(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
+            AC_ParseForces(((unsigned char *)currentAcc + field->offset), value, currentLine, -1);
 
             return currentAcc;
         }
@@ -423,7 +505,7 @@ void AC_WriteSkillsField(const char *name, const unsigned char skillsArray[NUM_S
 
     for (int i = 0; i < NUM_SKILLS; i++)
     {
-        if (skillsArray[i])
+        if (skillsArray[skillStrings[i].sk])
         {
             if (currentPos + skillStrings[i].nameLen + 4 >= sizeof(buffer))  // need space for level, ',' '\n' and '\0'
             {
@@ -454,11 +536,11 @@ void AC_WriteForcesField(const char *name, const unsigned char forcesArray[NUM_F
 
     for (int i = 0; i < NUM_FORCE_POWERS; i++)
     {
-        if (forcesArray[i])
+        if (forcesArray[forcePowerStrings[i].fp])
         {
             if (currentPos + forcePowerStrings[i].nameLen + 1 >= sizeof(buffer))
             {
-                G_LogPrintf("^1AC_WriteSkillsField: too long skills string!\n");
+                G_LogPrintf("^1AC_WriteForcesField: too long forces string!\n");
                 return;
             }
 
@@ -556,5 +638,6 @@ void AC_SaveAccounts()
         AC_WriteAccount(acc, ac_accountsFile);
     }
 
+    fclose(ac_accountsFile);
     ac_modified = qfalse;
 }

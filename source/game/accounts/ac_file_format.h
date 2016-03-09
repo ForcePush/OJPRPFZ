@@ -60,13 +60,21 @@ typedef struct
     size_t nameLen;
 } skillToString_t;
 
+forcePowers_t AC_ForcePowerFromString(const char *name);
+skills_t AC_SkillFromString(const char *name);
+
 extern const forcePowerToString_t forcePowerStrings[NUM_FORCE_POWERS];
 extern const skillToString_t skillStrings[NUM_SKILLS];
 
 extern const ac_fileField_t ac_fileFields[AC_FIELD_MAX];
 extern FILE *ac_accountsFile;
 
-void AC_ReadAccounts();
-void AC_SaveAccounts();
+char **AC_GetStringField(ac_account_t *acc, const ac_fileField_t *field);
+int *AC_GetNumberField(ac_account_t *acc, const ac_fileField_t *field);
+
+void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, int playerNum);
+void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, int playerNum);
+
+const ac_fileField_t *AC_GetFieldFromName(const char *name);
 
 #endif  // AC_FILE_FORMAT_H

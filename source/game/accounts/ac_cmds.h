@@ -7,6 +7,8 @@
 #define AC_MAX_CMD_NAME_LEN 128
 #define AC_MAX_CMDS 128
 
+#define AC_ARGV_BUFFER_LEN 512
+
 typedef struct
 {
     char name[AC_MAX_CMD_NAME_LEN];

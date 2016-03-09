@@ -5,6 +5,16 @@
 
 ac_account_list_t *ac_accountsList;
 
+void AC_Print(gentity_t *to, const char *text)
+{
+    if (!to->playerState)
+    {
+        return;
+    }
+
+    trap_SendServerCommand(to->playerState->clientNum, va("print \"%s\n\"", text));
+}
+
 void AC_FreeAccount(ac_account_t *acc)
 {
     if (!acc)
@@ -40,8 +50,9 @@ void AC_AddAccount(ac_account_t *acc)
     }
 
     ac_accountsList->last = acc;
-
     ac_accountsList->size++;
+
+    ac_modified = qtrue;
 }
 
 void AC_InitAccounts()
@@ -74,6 +85,65 @@ void AC_ShutdownAccounts()
     }
 
     free(ac_accountsList);
+}
+
+ac_account_t *AC_AccountFromLogin(const char *login)
+{
+    for (ac_account_t *acc = ac_accountsList->first; acc; acc = acc->next)
+    {
+        if (strcmp(login, acc->login) == 0)
+        {
+            return acc;
+        }
+    }
+
+    return NULL;
+}
+
+qboolean AC_AccountExists(const char *login)
+{
+    return (AC_AccountFromLogin(login) != NULL);
+}
+
+qboolean AC_RemoveAccount(const char *login)
+{
+    if (!login)
+    {
+        return qfalse;
+    }
+
+    ac_account_t *acc = NULL;
+    for (acc = ac_accountsList->first; acc; acc = acc->next)
+    {
+        if (strcmp(login, acc->login) == 0)
+        {
+            break;
+        }
+    }
+
+    if (acc)
+    {
+        if (acc->prev)
+        {
+            acc->prev->next = acc->next;
+        }
+
+        if (acc->next)
+        {
+            acc->next->prev = acc->prev;
+        }
+
+        AC_FreeAccount(acc);
+
+        ac_accountsList->size--;
+        ac_modified = qtrue;
+
+        return qtrue;
+    }
+    else
+    {
+        return qfalse;
+    }
 }
 
 

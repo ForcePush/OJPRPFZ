@@ -4745,6 +4745,9 @@ void G_RunFrame( int levelTime ) {
 	}
 	//[/ROQFILES]
 
+    // Skinpack: accounts system: save accounts if needed
+    AC_SaveAccounts();
+
 	if (g_gametype.integer == GT_SIEGE &&
 		g_siegeRespawn.integer &&
 		g_siegeRespawnCheck < level.time)
