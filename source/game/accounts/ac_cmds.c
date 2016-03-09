@@ -1,7 +1,7 @@
 #include "ac_public.h"
 #include "ac_cmds.h"
 
-ac_cmd_t ac_cmdTable[MAX_CMDS];
+ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
 int ac_cmdsAmount;
 
 
@@ -36,13 +36,13 @@ void AC_Logout(gentity_t *ent)
 // Skinpack: TODO: AC_RemoveCommand
 void AC_AddCommand(const char *cmd, ac_cmdFunction func)
 {
-    if (ac_cmdsAmount >= MAX_CMDS)
+    if (ac_cmdsAmount >= AC_MAX_CMDS)
     {
-        G_Printf("^1AC_Addcommand: MAX_CMDS reached!\n");
+        G_Printf("^1AC_Addcommand: AC_MAX_CMDS reached!\n");
         return;
     }
     
-    if (strlen(cmd) > MAX_CMD_NAME_LEN)
+    if (strlen(cmd) > AC_MAX_CMD_NAME_LEN)
     {
         G_Printf("^3AC_Addcommand: too big cmd name.\n");
         return;

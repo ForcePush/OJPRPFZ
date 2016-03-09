@@ -1967,6 +1967,9 @@ void G_ShutdownGame( int restart ) {
 
 //	G_Printf ("==== ShutdownGame ====\n");
 
+    // Skinpack: accounts system
+    AC_Shutdown();
+
 	//[AdminCommands]
 	G_SaveBanIP();
 	//[/AdminCommands]

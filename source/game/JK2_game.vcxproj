@@ -270,6 +270,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="accounts\ac_cmds.c" />
+    <ClCompile Include="accounts\ac_file_format.c" />
     <ClCompile Include="accounts\ac_main.c" />
     <ClCompile Include="ai_aotc.c" />
     <ClCompile Include="ai_hybrid.c" />
@@ -387,6 +388,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accounts\ac_cmds.h" />
+    <ClInclude Include="accounts\ac_file_format.h" />
+    <ClInclude Include="accounts\ac_main.h" />
     <ClInclude Include="accounts\ac_public.h" />
     <ClInclude Include="ai.h" />
     <ClInclude Include="ai_main.h" />
