@@ -10,15 +10,14 @@ typedef struct ac_account_t_
     char *login;
     char *password;
     char *name;
-    int faction;  // Skinpack: TODO: make an appropriate enum.
     int scale;
     int fp;
     int dp;
     int hp;
     int armor;
     unsigned char skills[NUM_SKILLS];
-    unsigned char stances[NUM_SKILLS];
     unsigned char forces[NUM_FORCE_POWERS];
+    int faction;  // Skinpack: TODO: make an appropriate enum.
 
     struct ac_account_t_ *prev;
     struct ac_account_t_ *next;
@@ -32,6 +31,8 @@ typedef struct
 } ac_account_list_t;
 
 extern ac_account_list_t *ac_accountsList;
+
+extern qboolean ac_modified;
 
 void AC_AddAccount(ac_account_t *acc);
 void AC_FreeAccount(ac_account_t *acc);

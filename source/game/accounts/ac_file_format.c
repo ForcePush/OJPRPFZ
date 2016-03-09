@@ -24,65 +24,66 @@ const ac_fileField_t ac_fileFields[AC_FIELD_MAX] =
     { AC_FF(armor), AC_FIELDTYPE_NUMBER },
     { AC_FF(skills), AC_FIELDTYPE_SKILL },
     { AC_FF(forces), AC_FIELDTYPE_FORCE },
-    { AC_FF(stances), AC_FIELDTYPE_STANCE },
     { AC_FF(faction), AC_FIELDTYPE_NUMBER },
 };
 
 #undef AC_FF
 
+#define AC_ENUM2STRING(arg)   { #arg, arg, sizeof(#arg) }
 const forcePowerToString_t forcePowerStrings[NUM_FORCE_POWERS] =
 {
-    ENUM2STRING(FP_HEAL),
-    ENUM2STRING(FP_LEVITATION),
-    ENUM2STRING(FP_SPEED),
-    ENUM2STRING(FP_PUSH),
-    ENUM2STRING(FP_PULL),
-    ENUM2STRING(FP_TELEPATHY),
-    ENUM2STRING(FP_GRIP),
-    ENUM2STRING(FP_LIGHTNING),
-    ENUM2STRING(FP_RAGE),
-    ENUM2STRING(FP_PROTECT),
-    ENUM2STRING(FP_ABSORB),
-    ENUM2STRING(FP_TEAM_HEAL),
-    ENUM2STRING(FP_TEAM_FORCE),
-    ENUM2STRING(FP_DRAIN),
-    ENUM2STRING(FP_SEE),
-    ENUM2STRING(FP_SABER_OFFENSE),
-    ENUM2STRING(FP_SABER_DEFENSE),
-    ENUM2STRING(FP_SABERTHROW),
+    AC_ENUM2STRING(FP_HEAL),
+    AC_ENUM2STRING(FP_LEVITATION),
+    AC_ENUM2STRING(FP_SPEED),
+    AC_ENUM2STRING(FP_PUSH),
+    AC_ENUM2STRING(FP_PULL),
+    AC_ENUM2STRING(FP_TELEPATHY),
+    AC_ENUM2STRING(FP_GRIP),
+    AC_ENUM2STRING(FP_LIGHTNING),
+    AC_ENUM2STRING(FP_RAGE),
+    AC_ENUM2STRING(FP_PROTECT),
+    AC_ENUM2STRING(FP_ABSORB),
+    AC_ENUM2STRING(FP_TEAM_HEAL),
+    AC_ENUM2STRING(FP_TEAM_FORCE),
+    AC_ENUM2STRING(FP_DRAIN),
+    AC_ENUM2STRING(FP_SEE),
+    AC_ENUM2STRING(FP_SABER_OFFENSE),
+    AC_ENUM2STRING(FP_SABER_DEFENSE),
+    AC_ENUM2STRING(FP_SABERTHROW),
 };
 
 const skillToString_t skillStrings[NUM_SKILLS] =
 {
-    ENUM2STRING(SK_JETPACK),
-    ENUM2STRING(SK_PISTOL),
-    ENUM2STRING(SK_BLASTER),
-    ENUM2STRING(SK_THERMAL),
-    ENUM2STRING(SK_ROCKET),
-    ENUM2STRING(SK_BACTA),
-    ENUM2STRING(SK_FLAMETHROWER),
-    ENUM2STRING(SK_BOWCASTER),
-    ENUM2STRING(SK_FORCEFIELD),
-    ENUM2STRING(SK_CLOAK),
-    ENUM2STRING(SK_SEEKER),
-    ENUM2STRING(SK_SENTRY),
-    ENUM2STRING(SK_DETPACK),
-    ENUM2STRING(SK_REPEATER),
-    ENUM2STRING(SK_DISRUPTOR),
-    ENUM2STRING(SK_BLUESTYLE),
-    ENUM2STRING(SK_REDSTYLE),
-    ENUM2STRING(SK_PURPLESTYLE),
-    ENUM2STRING(SK_GREENSTYLE),
-    ENUM2STRING(SK_DUALSTYLE),
-    ENUM2STRING(SK_STAFFSTYLE),
-    ENUM2STRING(SK_REPEATERUPGRADE),
-    ENUM2STRING(SK_FLECHETTE),
-    ENUM2STRING(SK_BLASTERRATEOFFIREUPGRADE),
+    AC_ENUM2STRING(SK_JETPACK),
+    AC_ENUM2STRING(SK_PISTOL),
+    AC_ENUM2STRING(SK_BLASTER),
+    AC_ENUM2STRING(SK_THERMAL),
+    AC_ENUM2STRING(SK_ROCKET),
+    AC_ENUM2STRING(SK_BACTA),
+    AC_ENUM2STRING(SK_FLAMETHROWER),
+    AC_ENUM2STRING(SK_BOWCASTER),
+    AC_ENUM2STRING(SK_FORCEFIELD),
+    AC_ENUM2STRING(SK_CLOAK),
+    AC_ENUM2STRING(SK_SEEKER),
+    AC_ENUM2STRING(SK_SENTRY),
+    AC_ENUM2STRING(SK_DETPACK),
+    AC_ENUM2STRING(SK_REPEATER),
+    AC_ENUM2STRING(SK_DISRUPTOR),
+    AC_ENUM2STRING(SK_BLUESTYLE),
+    AC_ENUM2STRING(SK_REDSTYLE),
+    AC_ENUM2STRING(SK_PURPLESTYLE),
+    AC_ENUM2STRING(SK_GREENSTYLE),
+    AC_ENUM2STRING(SK_DUALSTYLE),
+    AC_ENUM2STRING(SK_STAFFSTYLE),
+    AC_ENUM2STRING(SK_REPEATERUPGRADE),
+    AC_ENUM2STRING(SK_FLECHETTE),
+    AC_ENUM2STRING(SK_BLASTERRATEOFFIREUPGRADE),
 };
 
 FILE *ac_accountsFile;
+qboolean ac_modified;
 
-void AC_ParseSkill(unsigned char *skillsArray, char *value, int currentLine, ac_account_t *currentAcc)
+void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, ac_account_t *currentAcc)
 {
     char *skill = strtok(value, ",");
     if (!skill)
@@ -139,7 +140,7 @@ void AC_ParseSkill(unsigned char *skillsArray, char *value, int currentLine, ac_
     }
 }
 
-void AC_ParseForce(unsigned char *forceArray, char *value, int currentLine, ac_account_t *currentAcc)
+void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, ac_account_t *currentAcc)
 {
     char *force = strtok(value, ",");
     if (!force)
@@ -270,16 +271,15 @@ ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, i
 
             return currentAcc;
         }
-    case AC_FIELDTYPE_STANCE:
     case AC_FIELDTYPE_SKILL:
         {
-            AC_ParseSkill(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
+            AC_ParseSkills(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
             
             return currentAcc;
         }
     case AC_FIELDTYPE_FORCE:
         {
-            AC_ParseForce(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
+            AC_ParseForces(((unsigned char *)currentAcc + ac_fileFields[field].offset), value, currentLine, currentAcc);
 
             return currentAcc;
         }
@@ -287,7 +287,7 @@ ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, i
     default:
         {
             AC_FreeAccount(currentAcc);
-            G_Error("^1AC_ParseField: unknown filetype!\n");
+            G_Error("^1AC_ParseField: unknown field type!\n");
 
             return NULL;
         }
@@ -399,9 +399,162 @@ void AC_ReadAccounts()
     }
 
     fclose(accountsFile);
+
+    ac_modified = qfalse;
+}
+
+void AC_WriteStringField(const char *name, const char *value, FILE *file)
+{
+    fputs(va("%s: %s\n", name, value), file);
+}
+
+void AC_WriteNumberField(const char *name, int value, FILE *file)
+{
+    fputs(va("%s: %d\n", name, value), file);
+}
+
+void AC_WriteSkillsField(const char *name, const unsigned char skillsArray[NUM_SKILLS], FILE *file)
+{
+    char buffer[AC_MAX_LINE_LEN] = { 0 };
+    int currentPos = 0;
+
+    sprintf(buffer, "%s: ", name);
+    currentPos = strlen(buffer);
+
+    for (int i = 0; i < NUM_SKILLS; i++)
+    {
+        if (skillsArray[i])
+        {
+            if (currentPos + skillStrings[i].nameLen + 4 >= sizeof(buffer))  // need space for level, ',' '\n' and '\0'
+            {
+                G_LogPrintf("^1AC_WriteSkillsField: too long skills string!\n");
+                return;
+            }
+
+            strcpy(buffer + currentPos, skillStrings[i].skName);
+            currentPos += skillStrings[i].nameLen - 1;  // don't copy '\0'
+
+            buffer[currentPos++] = '0' + skillsArray[i];  // digit to ASCII char conversion
+            buffer[currentPos++] = ',';
+        }
+    }
+
+    buffer[currentPos - 1] = '\n';  // replace last ',' with '\n'
+
+    fputs(buffer, file);
+}
+
+void AC_WriteForcesField(const char *name, const unsigned char forcesArray[NUM_FORCE_POWERS], FILE *file)
+{
+    char buffer[AC_MAX_LINE_LEN] = { 0 };
+    int currentPos = 0;
+
+    sprintf(buffer, "%s: ", name);
+    currentPos = strlen(buffer);
+
+    for (int i = 0; i < NUM_FORCE_POWERS; i++)
+    {
+        if (forcesArray[i])
+        {
+            if (currentPos + forcePowerStrings[i].nameLen + 1 >= sizeof(buffer))
+            {
+                G_LogPrintf("^1AC_WriteSkillsField: too long skills string!\n");
+                return;
+            }
+
+            strcpy(buffer + currentPos, forcePowerStrings[i].fpName);
+            currentPos += forcePowerStrings[i].nameLen - 1;  // don't copy '\0'
+
+            buffer[currentPos++] = '0' + forcesArray[i];  // digit to ASCII char conversion
+            buffer[currentPos++] = ',';
+        }
+    }
+
+    buffer[currentPos - 1] = '\n';  // replace last ',' with '\n'
+
+    fputs(buffer, file);
+}
+
+void AC_WriteAccount(ac_account_t *acc, FILE *file)
+{
+    for (int i = 0; i < AC_FIELD_MAX; i++)
+    {
+        switch (ac_fileFields[i].type)
+        {
+        case AC_FIELDTYPE_STRING:
+            {
+                // Skinpack: rww: make it a bit cleaner. Use macro?
+                AC_WriteStringField(ac_fileFields[i].name, *(char **)((char *)acc + ac_fileFields[i].offset), file);
+                break;
+            }
+        case AC_FIELDTYPE_NUMBER:
+            {
+                AC_WriteNumberField(ac_fileFields[i].name, *(int *)((char *)acc + ac_fileFields[i].offset), file);
+                break;
+            }
+        case AC_FIELDTYPE_SKILL:
+            {
+                AC_WriteSkillsField(ac_fileFields[i].name, (unsigned char *)acc + ac_fileFields[i].offset, file);
+                break;
+            }
+        case AC_FIELDTYPE_FORCE:
+            {
+                AC_WriteForcesField(ac_fileFields[i].name, (unsigned char *)acc + ac_fileFields[i].offset, file);
+                break;
+            }
+
+        default:
+            {
+                G_LogPrintf("^1AC_WriteAccount: unknown fieldType %d\n", ac_fileFields[i].type);
+                break;
+            }
+        }
+    }
+
+    fputs("\n", file);
 }
 
 void AC_SaveAccounts()
 {
+    if (!ac_modified)
+    {
+        return;
+    }
 
+    // back up current accounts file
+    ac_accountsFile = fopen(AC_ACCOUNTS_FILENAME, "r");
+    if (ac_accountsFile)
+    {
+        FILE *accountsBackup = fopen(AC_ACCOUNTS_FILENAME_BACKUP, "w");
+        if (!accountsBackup)
+        {
+            G_LogPrintf("^1AC_SaveAccounts: cannot open backup file.\n");
+            return;
+        }
+
+        char lineBuffer[AC_MAX_LINE_LEN] = { 0 };
+
+        while (fgets(lineBuffer, sizeof(lineBuffer), ac_accountsFile))
+        {
+            fputs(lineBuffer, accountsBackup);
+        }
+
+        fclose(accountsBackup);
+        fclose(ac_accountsFile);
+        ac_accountsFile = NULL;
+    }
+
+    ac_accountsFile = fopen(AC_ACCOUNTS_FILENAME, "w");
+    if (!ac_accountsFile)
+    {
+        G_LogPrintf("^1AC_SaveAccounts: cannot open accounts file.\n");
+        return;
+    }
+
+    for (ac_account_t *acc = ac_accountsList->first; acc; acc = acc->next)
+    {
+        AC_WriteAccount(acc, ac_accountsFile);
+    }
+
+    ac_modified = qfalse;
 }

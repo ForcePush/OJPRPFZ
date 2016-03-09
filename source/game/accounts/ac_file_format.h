@@ -7,6 +7,8 @@
 #include "ac_main.h"
 
 #define AC_ACCOUNTS_FILENAME "accounts.dat"
+#define AC_ACCOUNTS_FILENAME_BACKUP AC_ACCOUNTS_FILENAME".backup"
+
 #define AC_MAX_FILEFIELD_NAME 64
 #define AC_MAX_FIELD_VALUE_LEN 4096
 #define AC_MAX_LINE_LEN (AC_MAX_FILEFIELD_NAME + AC_MAX_FIELD_VALUE_LEN + 3)  // + ': ' + \n
@@ -17,7 +19,6 @@ typedef enum
     AC_FIELDTYPE_NUMBER,
     AC_FIELDTYPE_FORCE,
     AC_FIELDTYPE_SKILL,
-    AC_FIELDTYPE_STANCE,
 } ac_fileFieldType;
 
 // MUST be synchronized with ac_fileFields array!
@@ -35,7 +36,7 @@ typedef enum
     AC_FIELD_STANCES,
     AC_FIELD_FORCES,
     AC_FIELD_FACTION,
-    AC_FIELD_MAX,
+    AC_FIELD_MAX = AC_FIELD_FACTION,
 } ac_fileField;
 
 typedef struct
@@ -49,12 +50,14 @@ typedef struct
 {
     const char *fpName;
     forcePowers_t fp;
+    size_t nameLen;
 } forcePowerToString_t;
 
 typedef struct
 {
     const char *skName;
     skills_t sk;
+    size_t nameLen;
 } skillToString_t;
 
 extern const forcePowerToString_t forcePowerStrings[NUM_FORCE_POWERS];

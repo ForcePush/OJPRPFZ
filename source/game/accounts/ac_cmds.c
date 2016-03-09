@@ -1,5 +1,6 @@
 #include "ac_public.h"
 #include "ac_cmds.h"
+#include "ac_file_format.h"
 
 ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
 int ac_cmdsAmount;
@@ -8,7 +9,7 @@ int ac_cmdsAmount;
 // commands section
 void AC_Test(gentity_t *ent)
 {
-    trap_SendServerCommand(ent->playerState->clientNum, "print \"^2/ac_test!\n\"");
+    trap_SendServerCommand(ent->playerState->clientNum, "print \"^2Coming soon!\n\"");
 }
 
 void AC_Register(gentity_t *ent)
