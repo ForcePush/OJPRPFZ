@@ -5,6 +5,8 @@
 #include "bg_saga.h"
 #include "g_adminshared.h"
 
+#include "accounts/ac_public.h"
+
 // g_client.c -- client functions that don't happen every frame
 
 static vec3_t	playerMins = {-15, -15, DEFAULT_MINS_2};
@@ -2486,6 +2488,10 @@ void ClientUserinfoChanged( int clientNum ) {
 	{
 		G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s );
 	}
+
+    // Skinpack: accounts system: set player's stats again
+    // they may change because of userinfo_change
+    AC_SetPlayerStats(ent);
 }
 
 
@@ -4783,6 +4789,9 @@ void ClientSpawn(gentity_t *ent) {
 	*/
 	//Disabled. At least for now. Not sure if I'll want to do it or not eventually.
 
+    // Skinpack: accounts system: set player's stats if he's logged on
+    AC_SetPlayerStats(ent);
+
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
 	client->ps.commandTime = level.time - 100;
@@ -4848,6 +4857,9 @@ void ClientDisconnect( int clientNum ) {
 	// cleanup if we are kicking a bot that
 	// hasn't spawned yet
 	G_RemoveQueuedBotBegin( clientNum );
+
+    // Skinpack: accounts system
+    AC_PlayerLeaving(clientNum);
 
 	ent = g_entities + clientNum;
 	if ( !ent->client ) {

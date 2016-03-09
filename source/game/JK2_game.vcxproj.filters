@@ -347,6 +347,9 @@
     <ClCompile Include="accounts\ac_file_format.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="accounts\ac_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai.h">
@@ -518,6 +521,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="accounts\ac_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="accounts\ac_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

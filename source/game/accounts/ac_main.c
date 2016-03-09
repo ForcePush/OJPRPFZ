@@ -146,6 +146,11 @@ qboolean AC_RemoveAccount(const char *login)
     }
 }
 
+// Skinpack: TODO: add some password hashing/encryption
+qboolean AC_CheckPassword(const ac_account_t *acc, const char *password)
+{
+    return (strcmp(acc->password, password) == 0);
+}
 
 void AC_Init()
 {

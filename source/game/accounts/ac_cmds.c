@@ -1,6 +1,7 @@
 #include "ac_public.h"
 #include "ac_cmds.h"
 #include "ac_file_format.h"
+#include "ac_client.h"
 
 ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
 int ac_cmdsAmount;
@@ -13,7 +14,7 @@ void AC_Cmd_Test(gentity_t *ent)
 
 void AC_Cmd_Register(gentity_t *ent)
 {
-    // /ac_register <login> <password>
+    // /ac_register <login> <password> <name>
     int argc = trap_Argc();
 
     if (argc < 4)
@@ -306,12 +307,47 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
 
 void AC_Cmd_Login(gentity_t *ent)
 {
-    AC_Print(ent, "^2Coming soon!");
+    // /ac_login <login> <password>
+    int argc = trap_Argc();
+
+    if (argc < 3)
+    {
+        AC_Print(ent, "^3ac_login: usage: /ac_login <login> <password>");
+        return;
+    }
+
+    if (ac_loggedPlayers[ent->playerState->clientNum] != NULL)
+    {
+        AC_Print(ent, va("^3You're already logged on, ^7%s^3!", ac_loggedPlayers[ent->playerState->clientNum]->name));
+        return;
+    }
+
+    char buffer[AC_ARGV_BUFFER_LEN] = { 0 };
+    trap_Argv(1, buffer, sizeof(buffer));  // login
+
+    ac_account_t *acc = AC_AccountFromLogin(buffer);
+    if (!acc)
+    {
+        AC_Print(ent, "^3Account not found.");
+        return;
+    }
+
+    trap_Argv(2, buffer, sizeof(buffer));  // password
+    if (!AC_CheckPassword(acc, buffer))
+    {
+        AC_Print(ent, "^3Bad password.");
+        return;
+    }
+
+    ac_loggedPlayers[ent->playerState->clientNum] = acc;
+    AC_SetPlayerStats(ent);
+
+    AC_Print(ent, va("^2You're logged on! Hello, ^7%s^7!", acc->name));
 }
 
 void AC_Cmd_Logout(gentity_t *ent)
 {
-    AC_Print(ent, "^2Coming soon!");
+    AC_PlayerLogout(ent);
 }
 // end commands section
 

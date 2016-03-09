@@ -41,6 +41,8 @@ void AC_FreeAccount(ac_account_t *acc);
 ac_account_t *AC_AccountFromLogin(const char *login);
 qboolean AC_AccountExists(const char *login);
 
+qboolean AC_CheckPassword(const ac_account_t *acc, const char *password);
+
 void AC_Print(gentity_t *to, const char *text);
 
 #endif  // AC_MAIN_H
