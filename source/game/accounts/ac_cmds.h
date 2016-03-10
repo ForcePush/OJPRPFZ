@@ -9,6 +9,8 @@
 
 #define AC_ARGV_BUFFER_LEN 512
 
+typedef void(*ac_cmdFunction)(gentity_t*);
+
 typedef struct
 {
     char name[AC_MAX_CMD_NAME_LEN];
