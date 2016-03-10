@@ -1115,7 +1115,9 @@ int ForcePowerUsableOn(gentity_t *attacker, gentity_t *other, forcePowers_t forc
 	{
 		if (BG_InKnockDown(other->client->ps.legsAnim))
 		{
-			return 0;
+            // Skinpack: why so? Fixed.
+//			return 0;
+            return 1;
 		}
 	}
 

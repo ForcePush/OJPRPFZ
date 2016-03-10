@@ -46,7 +46,7 @@ void AC_Cmd_Register(gentity_t *ent)
 
     if (AC_AccountExists(buffer))
     {
-        AC_Print(ent, "ac_register: account exists.");
+        AC_Print(ent, "^3ac_register: account exists.");
         return;
     }
 
@@ -246,7 +246,7 @@ void AC_Cmd_ListAccounts(gentity_t *ent)
     int argc = trap_Argc();
     if (argc < 2)
     {
-        AC_Print(ent, "^3ac_find: usage: /ac_list <page>");
+        AC_Print(ent, "^3ac_list: usage: /ac_list <page>");
         int totalPages = ac_accountsList->size / AC_ACCS_PER_PAGE +
             (ac_accountsList->size % AC_ACCS_PER_PAGE == 0 ? 0 : 1);
 

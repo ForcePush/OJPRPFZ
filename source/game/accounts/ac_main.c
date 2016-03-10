@@ -2,6 +2,7 @@
 #include "ac_cmds.h"
 #include "ac_file_format.h"
 #include "ac_main.h"
+#include "ac_client.h"
 
 ac_account_list_t *ac_accountsList;
 
@@ -88,6 +89,14 @@ void AC_InitAccounts()
 
 void AC_ShutdownAccounts(qboolean save)
 {
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (ac_loggedPlayers[i])
+        {
+            AC_PlayerLogout(g_entities + i);
+        }
+    }
+
     if (save)
     {
         AC_SaveAccounts(qtrue);
@@ -106,6 +115,7 @@ void AC_ShutdownAccounts(qboolean save)
     }
 
     free(ac_accountsList);
+    ac_accountsList = NULL;
 }
 
 ac_account_t *AC_AccountFromLogin(const char *login)

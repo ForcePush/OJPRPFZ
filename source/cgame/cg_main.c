@@ -11,6 +11,8 @@ displayContextDef_t cgDC;
 	#include "cg_lights.h"
 #endif
 
+#include "crashlog/cg_crash.h"
+
 extern int cgSiegeRoundState;
 extern int cgSiegeRoundTime;
 /*
@@ -187,9 +189,11 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 
 	switch ( command ) {
 	case CG_INIT:
+        EnableStackTrace();
 		CG_Init( arg0, arg1, arg2 );
 		return 0;
 	case CG_SHUTDOWN:
+        DisableStackTrace();
 		CG_Shutdown();
 		return 0;
 	case CG_CONSOLE_COMMAND:

@@ -173,6 +173,9 @@
     <ClCompile Include="..\game\WalkerNPC.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="crashlog\cg_crash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\game\anims.h">
@@ -245,6 +248,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\ui\ui_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crashlog\cg_crash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

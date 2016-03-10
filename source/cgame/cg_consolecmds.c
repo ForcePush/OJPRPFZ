@@ -267,6 +267,12 @@ typedef struct {
 extern void siegecvarlist(void);
 //[/SIEGECVARFIX]
 
+void CG_TestCrashlog(void)
+{
+    char *str = NULL;
+    strcpy(str, "boom");
+}
+
 static consoleCommand_t	commands[] = {
 	{ "testgun", CG_TestGun_f },
 	{ "testmodel", CG_TestModel_f },
@@ -301,8 +307,9 @@ static consoleCommand_t	commands[] = {
 	{ "siegeCvarUpdate", CG_SiegeCvarUpdate_f },
 	{ "siegeCompleteCvarUpdate", CG_SiegeCompleteCvarUpdate_f },
 	//[SIEGECVARFIX]
-	{ "siegeCvarList", siegecvarlist},
+	{ "siegeCvarList", siegecvarlist },
 	//[/SIEGECVARFIX]
+    { "testCrash", CG_TestCrashlog },
 };
 
 

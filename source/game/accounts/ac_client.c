@@ -26,7 +26,7 @@ void AC_SetPlayerStats(gentity_t *ent)
     ent->playerState->iModelScale = acc->scale;
     ent->playerState->stats[STAT_DODGE] = ent->playerState->stats[STAT_MAX_DODGE] = acc->dp;
     ent->playerState->stats[STAT_HEALTH] = ent->playerState->stats[STAT_MAX_HEALTH] = acc->hp;
-    ent->client->pers.maxHealth = ent->maxHealth = acc->hp;
+    ent->client->pers.maxHealth = acc->hp;
     ent->playerState->stats[STAT_ARMOR] = acc->armor;
     ent->playerState->fd.forcePower = ent->playerState->fd.forcePowerMax = acc->fp;
     
