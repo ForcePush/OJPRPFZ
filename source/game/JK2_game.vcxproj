@@ -269,6 +269,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="accounts\ac_admin.c" />
     <ClCompile Include="accounts\ac_client.c" />
     <ClCompile Include="accounts\ac_cmds.c" />
     <ClCompile Include="accounts\ac_file_format.c" />
@@ -388,6 +389,7 @@
     <ClCompile Include="WalkerNPC.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="accounts\ac_admin.h" />
     <ClInclude Include="accounts\ac_client.h" />
     <ClInclude Include="accounts\ac_cmds.h" />
     <ClInclude Include="accounts\ac_file_format.h" />

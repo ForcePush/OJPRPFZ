@@ -596,34 +596,37 @@ void AC_WriteAccount(ac_account_t *acc, FILE *file)
     fputs("\n", file);
 }
 
-void AC_SaveAccounts()
+void AC_SaveAccounts(qboolean shutdown)
 {
     if (!ac_modified)
     {
         return;
     }
 
-    // back up current accounts file
-    ac_accountsFile = fopen(AC_ACCOUNTS_FILENAME, "r");
-    if (ac_accountsFile)
+    // back up current accounts file if we're shutting down
+    if (shutdown)
     {
-        FILE *accountsBackup = fopen(AC_ACCOUNTS_FILENAME_BACKUP, "w");
-        if (!accountsBackup)
+        ac_accountsFile = fopen(AC_ACCOUNTS_FILENAME, "r");
+        if (ac_accountsFile)
         {
-            G_LogPrintf("^1AC_SaveAccounts: cannot open backup file.\n");
-            return;
+            FILE *accountsBackup = fopen(AC_ACCOUNTS_FILENAME_BACKUP, "w");
+            if (!accountsBackup)
+            {
+                G_LogPrintf("^1AC_SaveAccounts: cannot open backup file.\n");
+                return;
+            }
+
+            char lineBuffer[AC_MAX_LINE_LEN] = { 0 };
+
+            while (fgets(lineBuffer, sizeof(lineBuffer), ac_accountsFile))
+            {
+                fputs(lineBuffer, accountsBackup);
+            }
+
+            fclose(accountsBackup);
+            fclose(ac_accountsFile);
+            ac_accountsFile = NULL;
         }
-
-        char lineBuffer[AC_MAX_LINE_LEN] = { 0 };
-
-        while (fgets(lineBuffer, sizeof(lineBuffer), ac_accountsFile))
-        {
-            fputs(lineBuffer, accountsBackup);
-        }
-
-        fclose(accountsBackup);
-        fclose(ac_accountsFile);
-        ac_accountsFile = NULL;
     }
 
     ac_accountsFile = fopen(AC_ACCOUNTS_FILENAME, "w");

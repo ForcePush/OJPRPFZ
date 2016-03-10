@@ -2330,6 +2330,9 @@ extern int Tforce[MAX_CLIENTS];
 extern int Tsplat[MAX_CLIENTS];
 //RoAR mod END
 
+// Skinpack: accounts system
+extern vmCvar_t ac_adminPassword;
+
 //[AotCAI]
 extern	vmCvar_t	bot_thinklevel;
 //[/AotCAI]

@@ -2362,6 +2362,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		maxHealth = 100;
 		health = 100; //atoi( Info_ValueForKey( userinfo, "handicap" ) );
 	}
+
 	client->pers.maxHealth = health;
 	if ( client->pers.maxHealth < 1 || client->pers.maxHealth > maxHealth ) {
 		client->pers.maxHealth = 100;
@@ -3977,6 +3978,9 @@ void ClientSpawn(gentity_t *ent) {
 	//give default weapons
 	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_NONE );
 
+    // Skinpack: accounts system: set player's stats to give him weapons/hp
+    AC_SetPlayerStats(ent);
+
 	if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL)
 	{
 		wDisable = g_duelWeaponDisable.integer;
@@ -4790,6 +4794,7 @@ void ClientSpawn(gentity_t *ent) {
 	//Disabled. At least for now. Not sure if I'll want to do it or not eventually.
 
     // Skinpack: accounts system: set player's stats if he's logged on
+    // in ClientSpawn it's called twice
     AC_SetPlayerStats(ent);
 
 	// run a client frame to drop exactly to the floor,

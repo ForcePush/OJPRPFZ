@@ -2,9 +2,22 @@
 #include "ac_cmds.h"
 #include "ac_file_format.h"
 #include "ac_client.h"
+#include "ac_admin.h"
 
 ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
 int ac_cmdsAmount;
+
+// Skinpack: TODO: a better way of doing it?
+qboolean AC_Cmd_AdminCheck(gentity_t *ent)
+{
+    if (!AC_CheckAdmin(ent))
+    {
+        AC_Print(ent, "^1You're not an admin! Login with /ac_adminLogin.");
+        return qfalse;
+    }
+
+    return qtrue;
+}
 
 // commands section
 void AC_Cmd_Test(gentity_t *ent)
@@ -15,6 +28,11 @@ void AC_Cmd_Test(gentity_t *ent)
 void AC_Cmd_Register(gentity_t *ent)
 {
     // /ac_register <login> <password> <name>
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     int argc = trap_Argc();
 
     if (argc < 4)
@@ -51,6 +69,11 @@ void AC_Cmd_Register(gentity_t *ent)
 void AC_Cmd_RemoveAccount(gentity_t *ent)
 {
     // /ac_removeAccount <login>
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     int argc = trap_Argc();
 
     if (argc < 2)
@@ -75,9 +98,13 @@ void AC_Cmd_RemoveAccount(gentity_t *ent)
 void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
 {
     // /ac_setf <login> <field> <value>
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     int argc = trap_Argc();
     int selfNum = ent->playerState->clientNum;
-
     if (argc < 4)
     {
         if (overwrite)
@@ -113,7 +140,14 @@ void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
     {
     case AC_FIELDTYPE_STRING:
     {
-        strcpy(*AC_GetStringField(acc, field), buffer);
+        char **accField = AC_GetStringField(acc, field);
+        if (*accField)
+        {
+            free(*accField);
+        }
+        *accField = (char *)calloc(strlen(buffer) + 1, sizeof(char));
+        strcpy(*accField, buffer);
+
         break;
     }
     case AC_FIELDTYPE_NUMBER:
@@ -154,20 +188,34 @@ void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
 
 void AC_Cmd_SetField(gentity_t *ent)
 {
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     AC_Cmd_SetFieldHelper(ent, qtrue);
 }
 
 // Adds forces/skills instead of overwriting it
 void AC_Cmd_AddField(gentity_t *ent)
 {
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     AC_Cmd_SetFieldHelper(ent, qfalse);
 }
 
 void AC_Cmd_FindAccount(gentity_t *ent)
 {
     // /ac_find <part of login/name>
-    int argc = trap_Argc();
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
 
+    int argc = trap_Argc();
     if (argc < 2)
     {
         AC_Print(ent, "^3ac_find: usage: /ac_find <part of login/name>");
@@ -186,19 +234,60 @@ void AC_Cmd_FindAccount(gentity_t *ent)
     }
 }
 
+#define AC_ACCS_PER_PAGE 15
 void AC_Cmd_ListAccounts(gentity_t *ent)
 {
-    int i = 1;
-    for (ac_account_t *acc = ac_accountsList->first; acc; acc = acc->next)
+    // /ac_list <page>
+    if (!AC_Cmd_AdminCheck(ent))
     {
+        return;
+    }
+
+    int argc = trap_Argc();
+    if (argc < 2)
+    {
+        AC_Print(ent, "^3ac_find: usage: /ac_list <page>");
+        int totalPages = ac_accountsList->size / AC_ACCS_PER_PAGE +
+            (ac_accountsList->size % AC_ACCS_PER_PAGE == 0 ? 0 : 1);
+
+        AC_Print(ent, va("^3Total pages: %d", totalPages));
+        return;
+    }
+
+    char buffer[AC_ARGV_BUFFER_LEN] = { 0 };
+    trap_Argv(1, buffer, sizeof(buffer));  // page
+
+    int startNumber = (atoi(buffer) - 1) * AC_ACCS_PER_PAGE + 1;  // start from 1
+    int endNumber = startNumber + AC_ACCS_PER_PAGE;
+    int i = 1;
+
+    if (startNumber < 0 || endNumber < 0)
+    {
+        AC_Print(ent, "^3Wrong page number.");
+        return;
+    }
+
+    for (ac_account_t *acc = ac_accountsList->first;
+         acc && i < endNumber;
+         acc = acc->next, i++)
+    {
+        if (i < startNumber)
+        {
+            continue;
+        }
+
         AC_Print(ent, va("%d: ^7%s ^2[^7%s^2]", i, acc->login, acc->name));
-        i++;
     }
 }
 
 void AC_Cmd_AccountDetails(gentity_t *ent)
 {
     // /ac_info <login>
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
     int argc = trap_Argc();
 
     if (argc < 2)
@@ -227,19 +316,19 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
         {
         case AC_FIELDTYPE_STRING:
         {
-            AC_Print(ent, va("%s: %s", field->name, *AC_GetStringField(acc, field)));
+            AC_Print(ent, va("%s^2: ^7%s", field->name, *AC_GetStringField(acc, field)));
             break;
         }
         case AC_FIELDTYPE_NUMBER:
         {
-            AC_Print(ent, va("%s: %d", field->name, *AC_GetNumberField(acc, field)));
+            AC_Print(ent, va("%s^2: ^7%d", field->name, *AC_GetNumberField(acc, field)));
             break;
         }
         case AC_FIELDTYPE_FORCE:
         {
             int currentPos = 0;
 
-            sprintf(buffer, "%s: ", field->name);
+            sprintf(buffer, "%s^2:^7 ", field->name);
             currentPos = strlen(buffer);
 
             for (int i = 0; i < NUM_FORCE_POWERS; i++)
@@ -269,7 +358,7 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
         {
             int currentPos = 0;
 
-            sprintf(buffer, "%s: ", field->name);
+            sprintf(buffer, "%s^2:^7 ", field->name);
             currentPos = strlen(buffer);
 
             for (int i = 0; i < NUM_SKILLS; i++)
@@ -303,6 +392,42 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
         }
         }
     }
+}
+
+void AC_Cmd_ReloadAccounts(gentity_t *ent)
+{
+    // it is dangerous command, so it has a complicated syntax
+    // /ac_reloadAccounts <save or dontSave>
+    if (!AC_Cmd_AdminCheck(ent))
+    {
+        return;
+    }
+
+    int argc = trap_Argc();
+    if (argc < 2)
+    {
+        AC_Print(ent, "^3ac_reloadAccounts: usage: /ac_reloadAccounts <save or dontSave>");
+        return;
+    }
+
+    char buffer[AC_ARGV_BUFFER_LEN] = { 0 };
+    trap_Argv(1, buffer, sizeof(buffer));  // save or dontSave
+
+    if (strcmp(buffer, "save") == 0)
+    {
+        AC_ShutdownAccounts(qtrue);
+    }
+    else if (strcmp(buffer, "dontSave") == 0)
+    {
+        AC_ShutdownAccounts(qfalse);
+    }
+    else
+    {
+        AC_Print(ent, "^3ac_reloadAccounts: usage: /ac_reloadAccounts <save or dontSave>");
+        return;
+    }
+
+    AC_InitAccounts();
 }
 
 void AC_Cmd_Login(gentity_t *ent)
@@ -340,9 +465,12 @@ void AC_Cmd_Login(gentity_t *ent)
     }
 
     ac_loggedPlayers[ent->playerState->clientNum] = acc;
-    AC_SetPlayerStats(ent);
+    // Skinpack: TODO: maybe copy/paste force/weapon code
+    // from ClientSpawn instead of just respawning client?
+    ClientSpawn(ent);
 
     AC_Print(ent, va("^2You're logged on! Hello, ^7%s^7!", acc->name));
+    AC_PrintBroadcast(va("^7%s ^2is logged on as ^7%s!", ent->client->pers.netname, acc->name));
 }
 
 void AC_Cmd_Logout(gentity_t *ent)
@@ -405,6 +533,9 @@ void AC_InitCommands()
     AC_AddCommand("ac_find", AC_Cmd_FindAccount);
     AC_AddCommand("ac_list", AC_Cmd_ListAccounts);
     AC_AddCommand("ac_info", AC_Cmd_AccountDetails);
+    AC_AddCommand("ac_reloadAccounts", AC_Cmd_ReloadAccounts);
+    AC_AddCommand("ac_adminLogin", AC_Cmd_AdminLogin);
+    AC_AddCommand("ac_adminLogout", AC_Cmd_AdminLogout);
 
     AC_AddCommand("ac_login", AC_Cmd_Login);
     AC_AddCommand("ac_logout", AC_Cmd_Logout);

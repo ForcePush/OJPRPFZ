@@ -1178,6 +1178,8 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &roar_spectate_keep_score,			"cm_spectate_keep_score",			"1",		CVAR_ARCHIVE,					0, qfalse },
 	{ &gsess,								"gsess",							"",			CVAR_INTERNAL | CVAR_ROM | CVAR_NORESTART, 0, qfalse},
 	//RoAR mod END
+    // Skinpack: accounts system
+    { &ac_adminPassword,         "ac_adminPassword",         "", CVAR_ARCHIVE | CVAR_INTERNAL, 0, qfalse },
 };
 
 // bk001129 - made static to avoid aliasing
@@ -4746,7 +4748,7 @@ void G_RunFrame( int levelTime ) {
 	//[/ROQFILES]
 
     // Skinpack: accounts system: save accounts if needed
-    AC_SaveAccounts();
+    AC_SaveAccounts(qfalse);
 
 	if (g_gametype.integer == GT_SIEGE &&
 		g_siegeRespawn.integer &&

@@ -15,6 +15,16 @@ void AC_Print(gentity_t *to, const char *text)
     trap_SendServerCommand(to->playerState->clientNum, va("print \"%s\n\"", text));
 }
 
+void AC_PrintBroadcast(const char *text)
+{
+    char *buffer = va("print \"%s\n\"", text);
+
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        trap_SendServerCommand(i, buffer);
+    }
+}
+
 void AC_FreeAccount(ac_account_t *acc)
 {
     if (!acc)
@@ -22,9 +32,17 @@ void AC_FreeAccount(ac_account_t *acc)
         return;
     }
 
-    if (acc->login) { free(acc->login); }
-    if (acc->name) { free(acc->name); }
-    if (acc->password) { free(acc->password); }
+    for (int i = 0; i < AC_FIELD_MAX; i++)
+    {
+        if (ac_fileFields[i].type == AC_FIELDTYPE_STRING)
+        {
+            char **accField = AC_GetStringField(acc, &ac_fileFields[i]);
+            if (accField && *accField)
+            {
+                free(*accField);
+            }
+        }
+    }
 
     free(acc);
 }
@@ -68,9 +86,12 @@ void AC_InitAccounts()
     AC_ReadAccounts();
 }
 
-void AC_ShutdownAccounts()
+void AC_ShutdownAccounts(qboolean save)
 {
-    AC_SaveAccounts();
+    if (save)
+    {
+        AC_SaveAccounts(qtrue);
+    }
 
     ac_account_t *tempAcc = ac_accountsList->first;
 
@@ -166,5 +187,5 @@ void AC_Shutdown()
         ac_accountsFile = NULL;
     }
 
-    AC_ShutdownAccounts();
+    AC_ShutdownAccounts(qtrue);
 }

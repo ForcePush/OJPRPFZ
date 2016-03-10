@@ -1,6 +1,7 @@
 #include "../g_local.h"
 #include "ac_public.h"
 #include "ac_main.h"
+#include "ac_admin.h"
 
 #include "ac_client.h"
 
@@ -25,6 +26,7 @@ void AC_SetPlayerStats(gentity_t *ent)
     ent->playerState->iModelScale = acc->scale;
     ent->playerState->stats[STAT_DODGE] = ent->playerState->stats[STAT_MAX_DODGE] = acc->dp;
     ent->playerState->stats[STAT_HEALTH] = ent->playerState->stats[STAT_MAX_HEALTH] = acc->hp;
+    ent->client->pers.maxHealth = ent->maxHealth = acc->hp;
     ent->playerState->stats[STAT_ARMOR] = acc->armor;
     ent->playerState->fd.forcePower = ent->playerState->fd.forcePowerMax = acc->fp;
     
@@ -68,4 +70,5 @@ void AC_PlayerLeaving(int clientNum)
     }
 
     ac_loggedPlayers[clientNum] = NULL;
+    ac_adminLoggedOn[clientNum] = qfalse;  // admin system
 }
