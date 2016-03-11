@@ -15,7 +15,7 @@
 #pragma warning(disable : 4201)
 #pragma warning(disable : 4214)
 #pragma warning(disable : 4244)		// conversion from double to float
-#pragma warning(disable : 4284)		// return type not UDT
+//#pragma warning(disable : 4284)		// return type not UDT
 #pragma warning(disable : 4305)		// truncation from const double to float
 #pragma warning(disable : 4310)		// cast truncates constant value
 #pragma warning(disable : 4389)		// signed/unsigned mismatch
@@ -24,7 +24,7 @@
 #pragma warning(disable : 4511)		//copy ctor could not be genned
 #pragma warning(disable : 4512)		//assignment op could not be genned
 #pragma warning(disable : 4514)		// unreffed inline removed
-#pragma warning(disable : 4663)		// c++ lang change
+//#pragma warning(disable : 4663)		// c++ lang change
 #pragma warning(disable : 4702)		// unreachable code
 #pragma warning(disable : 4710)		// not inlined
 #pragma warning(disable : 4711)		// selected for automatic inline expansion
