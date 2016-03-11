@@ -1637,7 +1637,7 @@ void AddScore( gentity_t *ent, vec3_t origin, int score );
 void CalculateRanks( void );
 qboolean SpotWouldTelefrag( gentity_t *spot );
 //[LastManStanding]
-qboolean LMS_EnoughPlayers();
+qboolean LMS_EnoughPlayers(void);
 //[/LastManStanding]
 
 extern gentity_t *gJMSaberEnt;

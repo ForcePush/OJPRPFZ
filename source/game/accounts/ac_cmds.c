@@ -541,7 +541,7 @@ qboolean AC_ExecuteCommand(const char *cmd, gentity_t *ent)
     return qfalse;
 }
 
-void AC_InitCommands()
+void AC_InitCommands(void)
 {
     AC_AddCommand("ac_test", AC_Cmd_Test);
     AC_AddCommand("ac_register", AC_Cmd_Register);
@@ -557,4 +557,5 @@ void AC_InitCommands()
 
     AC_AddCommand("ac_login", AC_Cmd_Login);
     AC_AddCommand("ac_logout", AC_Cmd_Logout);
+	return;
 }

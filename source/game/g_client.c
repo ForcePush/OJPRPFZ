@@ -5298,7 +5298,7 @@ qboolean OJP_AllPlayersHaveClientPlugin(void)
 
 
 //[LastManStanding]
-qboolean LMS_EnoughPlayers()
+qboolean LMS_EnoughPlayers(void)
 {//checks to see if there's enough players in game to enable LMS rules
 	if(level.numNonSpectatorClients < 2)
 	{//definitely not enough.

@@ -3426,7 +3426,7 @@ CG_LoadHudMenu();
 
 =================
 */
-void CG_LoadHudMenu() 
+void CG_LoadHudMenu(void)
 {
 	const char *hudSet;
 
@@ -3502,7 +3502,8 @@ void CG_LoadHudMenu()
 
 }
 
-void CG_AssetCache() {
+void CG_AssetCache(void)
+{
 	//if (Assets.textFont == NULL) {
 	//  trap_R_RegisterFont("fonts/arial.ttf", 72, &Assets.textFont);
 	//}
@@ -3971,7 +3972,7 @@ Ghoul2 Insert End
 */
 
 extern playerState_t *cgSendPS[MAX_GENTITIES]; //is not MAX_CLIENTS because NPCs exceed MAX_CLIENTS
-void CG_PmoveClientPointerUpdate();
+void CG_PmoveClientPointerUpdate(void);
 
 //#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void WP_SaberLoadParms( void );
@@ -3979,7 +3980,7 @@ void BG_VehicleLoadParms( void );
 //#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[WEAPONSDAT]
-extern void BG_LoadWeaponsData();
+extern void BG_LoadWeaponsData(void);
 //[/WEAPONSDAT]
 /*
 =================

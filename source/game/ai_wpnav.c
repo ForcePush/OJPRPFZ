@@ -256,8 +256,8 @@ void G_TestLine(vec3_t start, vec3_t end, int color, int time)
 extern vmCvar_t bot_wp_editornumber;
 //[/BotTweaks]
 //[CoOpEditor]
-void AutosaveRender();
-void SpawnPointRender();
+void AutosaveRender(void);
+void SpawnPointRender(void);
 //[/CoOpEditor]
 void BotWaypointRender(void)
 {

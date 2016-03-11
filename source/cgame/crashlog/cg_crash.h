@@ -2,7 +2,7 @@
 #define CG_CRASH_H
 #pragma once
 
-void EnableStackTrace();
-void DisableStackTrace();
+void EnableStackTrace(void);
+void DisableStackTrace(void);
 
 #endif

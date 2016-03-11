@@ -4841,6 +4841,7 @@ int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float const
 
 //[WeapAccuracy]
 extern void G_AddMercBalance(gentity_t *self, int amount);
+extern int PM_inKnockDown(playerState_t);
 //[/WeapAccuracy]
 void FireWeapon( gentity_t *ent, qboolean altFire ) 
 {

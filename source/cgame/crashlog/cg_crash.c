@@ -242,19 +242,23 @@ void win32_deinitialize_handler(void) {
     FreeLibrary(imagehlp);
 }
 
-void EnableCoreDumps() {
+void EnableCoreDumps(void)
+{
 
 }
 
-void DisableCoreDump() {
+void DisableCoreDump(void)
+{
 
 }
 
-void EnableStackTrace() {
+void EnableStackTrace(void)
+{
     win32_initialize_handler();
 }
 
-void DisableStackTrace() {
+void DisableStackTrace(void)
+{
     win32_deinitialize_handler();
 }
 //[/CrashLog]

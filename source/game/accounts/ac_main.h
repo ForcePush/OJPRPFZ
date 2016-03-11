@@ -34,7 +34,7 @@ extern ac_account_list_t *ac_accountsList;
 
 extern qboolean ac_modified;
 
-void AC_InitAccounts();
+void AC_InitAccounts(void);
 
 int AC_ClientNumFromEnt(gentity_t *ent);
 

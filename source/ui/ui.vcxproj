@@ -157,7 +157,8 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalOptions>/W4 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/W3 /Wall %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4464;4255</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_Debug;%(PreprocessorDefinitions)</PreprocessorDefinitions>

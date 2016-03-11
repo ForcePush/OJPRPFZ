@@ -661,7 +661,7 @@ void CG_DrawFlagModel( float x, float y, float w, float h, int team, qboolean fo
 DrawAmmo
 ================
 */
-void DrawAmmo()
+void DrawAmmo(void)
 {
 	int x, y;
 
@@ -7398,7 +7398,8 @@ static void CG_DrawTeamVote(void) {
 	CG_DrawSmallString( 4, 90, s, 1.0F );
 }
 
-static qboolean CG_DrawScoreboard() {
+static qboolean CG_DrawScoreboard(void)
+{
 	return CG_DrawOldScoreboard();
 #if 0
 	static qboolean firstTime = qtrue;
@@ -7751,7 +7752,8 @@ static void CG_DrawWarmup( void ) {
 CG_DrawTimedMenus
 =================
 */
-void CG_DrawTimedMenus() {
+void CG_DrawTimedMenus(void)
+{
 	if (cg.voiceTime) {
 		int t = cg.time - cg.voiceTime;
 		if ( t > 2500 ) {
@@ -7762,7 +7764,7 @@ void CG_DrawTimedMenus() {
 	}
 }
 
-void CG_DrawFlagStatus()
+void CG_DrawFlagStatus(void)
 {
 	int myFlagTakenShader = 0;
 	int theirFlagShader = 0;
@@ -9218,7 +9220,8 @@ static void CG_Draw2D( void ) {
 }
 
 
-static void CG_DrawTourneyScoreboard() {
+static void CG_DrawTourneyScoreboard(void)
+{
 }
 
 /*

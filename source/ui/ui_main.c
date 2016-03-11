@@ -695,7 +695,7 @@ void Menu_ShowItemByName(menuDef_t *menu, const char *p, qboolean bShow);
 
 //#include "../namespace_end.h" //VOLGARENOK: deprecated
 
-void UpdateForceUsed();
+void UpdateForceUsed(void);
 
 char holdSPString[MAX_STRING_CHARS]={0};
 char holdSPString2[MAX_STRING_CHARS]={0};
@@ -838,7 +838,8 @@ static const char *GetNetSourceString(int iSource)
 
 
 
-void AssetCache() {
+void AssetCache(void)
+{
 	int n;
 	//if (Assets.textFont == NULL) {
 	//}
@@ -1069,7 +1070,7 @@ int frameCount = 0;
 int startTime;
 
 vmCvar_t	ui_rankChange;
-static void UI_BuildPlayerList();
+static void UI_BuildPlayerList(void);
 //[UITweaks]
 /* not used in basejka code
 //char parsedFPMessage[1024];
@@ -1585,10 +1586,10 @@ qboolean Asset_Parse(int handle) {
 }
 
 
-void UI_Report() {
+void UI_Report(void)
+{
   String_Report();
   //Font_Report();
-
 }
 
 void UI_ParseMenu(const char *menuFile) {
@@ -1728,7 +1729,8 @@ void UI_LoadMenus(const char *menuFile, qboolean reset) {
 	trap_PC_RemoveAllGlobalDefines ( );
 }
 
-void UI_Load() {
+void UI_Load(void)
+{
 	char *menuSet;
 	char lastName[1024];
 	menuDef_t *menu = Menu_GetFocused();
@@ -2489,7 +2491,7 @@ void UpdateBotButtons(void)
 
 }
 
-void UpdateForceStatus()
+void UpdateForceStatus(void)
 {
 	menuDef_t *menu;
 
@@ -2877,7 +2879,8 @@ static void UI_DrawOpponent(rectDef_t *rect) {
 
 }
 */
-static void UI_NextOpponent() {
+static void UI_NextOpponent(void)
+{
   int i = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_opponentName"));
   int j = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_teamName"));
 	i++;
@@ -2893,7 +2896,8 @@ static void UI_NextOpponent() {
  	trap_Cvar_Set( "ui_opponentName", uiInfo.teamList[i].teamName );
 }
 
-static void UI_PriorOpponent() {
+static void UI_PriorOpponent(void)
+{
   int i = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_opponentName"));
   int j = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_teamName"));
 	i--;
@@ -3288,7 +3292,8 @@ static void UI_DrawCrosshair(rectDef_t *rect, float scale, vec4_t color) {
 UI_BuildPlayerList
 ===============
 */
-static void UI_BuildPlayerList() {
+static void UI_BuildPlayerList(void)
+{
 	uiClientState_t	cs;
 	int		n, count, team, team2, playerTeamNumber;
 	char	info[MAX_INFO_STRING];
@@ -4956,7 +4961,8 @@ static void UI_StartSinglePlayer() {
 UI_LoadMods
 ===============
 */
-static void UI_LoadMods() {
+static void UI_LoadMods(void)
+{
 	int		numdirs;
 	char	dirlist[2048];
 	char	*dirptr;
@@ -4987,7 +4993,8 @@ static void UI_LoadMods() {
 UI_LoadMovies
 ===============
 */
-static void UI_LoadMovies() {
+static void UI_LoadMovies(void)
+{
 	char	movielist[4096];
 	char	*moviename;
 	int		i, len;
@@ -5019,7 +5026,8 @@ static void UI_LoadMovies() {
 UI_LoadDemos
 ===============
 */
-static void UI_LoadDemos() {
+static void UI_LoadDemos(void)
+{
 	char	demolist[4096];
 	char demoExt[32];
 	char	*demoname;
@@ -7700,7 +7708,8 @@ qboolean UI_hasSkinForBase(const char *base, const char *team) {
 UI_HeadCountByColor
 ==================
 */
-static int UI_HeadCountByColor() {
+static int UI_HeadCountByColor(void)
+{
 	int i, c;
 	char *teamname;
 
@@ -8827,12 +8836,11 @@ static int UI_GetIndexFromSelection(int actual) {
   return 0;
 }
 
-static void UI_UpdatePendingPings() { 
+static void UI_UpdatePendingPings(void)
+{
 	trap_LAN_ResetPings(ui_netSource.integer);
 	uiInfo.serverStatus.refreshActive = qtrue;
 	uiInfo.serverStatus.refreshtime = uiInfo.uiDC.realTime + 1000;
-
-
 
 }
 
@@ -10937,7 +10945,8 @@ void _UI_MouseEvent( int dx, int dy )
 
 }
 
-void UI_LoadNonIngame() {
+void UI_LoadNonIngame(void)
+{
 	const char *menuSet = UI_Cvar_VariableString("ui_menuFilesMP");
 	if (menuSet == NULL || menuSet[0] == '\0') {
 		menuSet = "ui/jampmenus.txt";

@@ -855,7 +855,7 @@ int g_cgEStoPSTime = 0;
 //Assign all the entity playerstate pointers to the corresponding one
 //so that we can access playerstate stuff in bg code (and then translate
 //it back to entitystate data)
-void CG_PmoveClientPointerUpdate()
+void CG_PmoveClientPointerUpdate(void)
 {
 	int i;
 

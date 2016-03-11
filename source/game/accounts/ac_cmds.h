@@ -21,6 +21,6 @@ extern ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
 extern int ac_cmdsAmount;
 
 void AC_AddCommand(const char *cmd, ac_cmdFunction func);
-void AC_InitCommands();
+void AC_InitCommands(void);
 
 #endif  // AC_CMDS_H

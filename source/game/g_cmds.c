@@ -4163,7 +4163,7 @@ extern void TAB_BotSaberDuelChallenged(gentity_t *bot, gentity_t *player);
 extern int FindBotType(int clientNum);
 //[/TABBots]
 
-void Cmd_EngageDuel_f(gentity_t *ent)
+void Cmd_EngageDuel_f(gentity_t *ent, ...)
 {
     trace_t tr;
     vec3_t forward, fwdOrg;
