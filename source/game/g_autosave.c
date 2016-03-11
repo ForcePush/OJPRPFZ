@@ -22,7 +22,7 @@ void Touch_Autosave(gentity_t *self, gentity_t *other, trace_t *trace)
 
 
 extern void G_TestLine(vec3_t start, vec3_t end, int color, int time);
-void SpawnPointRender()
+void SpawnPointRender(void)
 {//renders all the spawnpoints used for CoOp so that the CoOp editor can add more of them as needed.
 	//warning: It's assumed that the debounce for this function is handled elsewhere (in this case BotWaypointRender)
 	//without a debounce, this can overload and crash the game with events!
@@ -41,7 +41,7 @@ void SpawnPointRender()
 }
 
 
-void AutosaveRender()
+void AutosaveRender(void)
 {//renders all the autosaves used for CoOp so that the CoOp editor can add more of them as needed.
 	//warning: It's assumed that the debounce for this function is handled elsewhere (in this case BotWaypointRender)
 	//without a debounce, this can overload and crash the game with events!

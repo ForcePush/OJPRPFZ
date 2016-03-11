@@ -307,7 +307,7 @@ void UI_ReaAllocMem(void **ptr, int sze, int count);
 char *UI_GetSaberHiltInfo(qboolean TwoHanded, int index);
 //[/DynamicMemory_Sabers]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 // Functions in BG or ui_shared
 void Menu_ShowGroup (menuDef_t *menu, char *itemName, qboolean showFlag);
 void Menu_ItemDisable(menuDef_t *menu, char *name,int disableFlag);
@@ -370,7 +370,7 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 
 	return -1;
 }
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 siegeClassDesc_t g_UIClassDescriptions[MAX_SIEGE_CLASSES];
 siegeTeam_t *siegeTeam1 = NULL;
@@ -384,10 +384,10 @@ int g_UIGloballySelectedSiegeClass = -1;
 qboolean	UIPAFtextLoaded = qfalse;
 animation_t	uiHumanoidAnimations[MAX_TOTALANIMATIONS]; //humanoid animations are the only ones that are statically allocated.
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 bgLoadedAnim_t bgAllAnims[MAX_ANIM_FILES];
 int uiNumAllAnims = 1; //start off at 0, because 0 will always be assigned to humanoid.
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 animation_t *UI_AnimsetAlloc(void)
 {
@@ -487,7 +487,7 @@ models/players/visor/animation.cfg, etc
 
 ======================
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 static char UIPAFtext[60000];
 int UI_ParseAnimationFile(const char *filename, animation_t *animset, qboolean isHumanoid) 
 {
@@ -693,9 +693,9 @@ int UI_ParseAnimationFile(const char *filename, animation_t *animset, qboolean i
 //menuDef_t *Menus_FindByName(const char *p);
 void Menu_ShowItemByName(menuDef_t *menu, const char *p, qboolean bShow);
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
-void UpdateForceUsed();
+void UpdateForceUsed(void);
 
 char holdSPString[MAX_STRING_CHARS]={0};
 char holdSPString2[MAX_STRING_CHARS]={0};
@@ -838,7 +838,8 @@ static const char *GetNetSourceString(int iSource)
 
 
 
-void AssetCache() {
+void AssetCache(void)
+{
 	int n;
 	//if (Assets.textFont == NULL) {
 	//}
@@ -903,7 +904,7 @@ void _UI_DrawRect( float x, float y, float width, float height, float size, cons
 	trap_R_SetColor( NULL );
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int MenuFontToHandle(int iMenuFont)
 {
 	switch (iMenuFont)
@@ -916,7 +917,7 @@ int MenuFontToHandle(int iMenuFont)
 
 	return uiInfo.uiDC.Assets.qhMediumFont;	// 0;
 }
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 int Text_Width(const char *text, float scale, int iMenuFont) 
 {	
@@ -1069,14 +1070,14 @@ int frameCount = 0;
 int startTime;
 
 vmCvar_t	ui_rankChange;
-static void UI_BuildPlayerList();
+static void UI_BuildPlayerList(void);
 //[UITweaks]
 /* not used in basejka code
 //char parsedFPMessage[1024];
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern int FPMessageTime;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 */
 //[/UITweaks]
 
@@ -1280,9 +1281,9 @@ void _UI_Refresh( int realtime )
 _UI_Shutdown
 =================
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void UI_CleanupGhoul2(void);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[DynamicMemory_Sabers]
 void UI_FreeSabers(void);
@@ -1585,10 +1586,10 @@ qboolean Asset_Parse(int handle) {
 }
 
 
-void UI_Report() {
+void UI_Report(void)
+{
   String_Report();
   //Font_Report();
-
 }
 
 void UI_ParseMenu(const char *menuFile) {
@@ -1728,7 +1729,8 @@ void UI_LoadMenus(const char *menuFile, qboolean reset) {
 	trap_PC_RemoveAllGlobalDefines ( );
 }
 
-void UI_Load() {
+void UI_Load(void)
+{
 	char *menuSet;
 	char lastName[1024];
 	menuDef_t *menu = Menu_GetFocused();
@@ -2489,7 +2491,7 @@ void UpdateBotButtons(void)
 
 }
 
-void UpdateForceStatus()
+void UpdateForceStatus(void)
 {
 	menuDef_t *menu;
 
@@ -2877,7 +2879,8 @@ static void UI_DrawOpponent(rectDef_t *rect) {
 
 }
 */
-static void UI_NextOpponent() {
+static void UI_NextOpponent(void)
+{
   int i = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_opponentName"));
   int j = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_teamName"));
 	i++;
@@ -2893,7 +2896,8 @@ static void UI_NextOpponent() {
  	trap_Cvar_Set( "ui_opponentName", uiInfo.teamList[i].teamName );
 }
 
-static void UI_PriorOpponent() {
+static void UI_PriorOpponent(void)
+{
   int i = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_opponentName"));
   int j = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_teamName"));
 	i--;
@@ -3288,7 +3292,8 @@ static void UI_DrawCrosshair(rectDef_t *rect, float scale, vec4_t color) {
 UI_BuildPlayerList
 ===============
 */
-static void UI_BuildPlayerList() {
+static void UI_BuildPlayerList(void)
+{
 	uiClientState_t	cs;
 	int		n, count, team, team2, playerTeamNumber;
 	char	info[MAX_INFO_STRING];
@@ -3946,9 +3951,9 @@ static qboolean UI_Effects_HandleKey(int flags, float *special, int key) {
 	return qfalse;
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern void	Item_RunScript(itemDef_t *item, const char *s);		//from ui_shared;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 // For hot keys on the chat main menu.
 static qboolean UI_Chat_Main_HandleKey(int key) 
@@ -4956,7 +4961,8 @@ static void UI_StartSinglePlayer() {
 UI_LoadMods
 ===============
 */
-static void UI_LoadMods() {
+static void UI_LoadMods(void)
+{
 	int		numdirs;
 	char	dirlist[2048];
 	char	*dirptr;
@@ -4987,7 +4993,8 @@ static void UI_LoadMods() {
 UI_LoadMovies
 ===============
 */
-static void UI_LoadMovies() {
+static void UI_LoadMovies(void)
+{
 	char	movielist[4096];
 	char	*moviename;
 	int		i, len;
@@ -5019,7 +5026,8 @@ static void UI_LoadMovies() {
 UI_LoadDemos
 ===============
 */
-static void UI_LoadDemos() {
+static void UI_LoadDemos(void)
+{
 	char	demolist[4096];
 	char demoExt[32];
 	char	*demoname;
@@ -5872,10 +5880,10 @@ static void UI_SetSaberBoxesandHilts (void)
 
 //extern qboolean UI_SaberModelForSaber( const char *saberName, char *saberModel );
 extern qboolean UI_SaberSkinForSaber( const char *saberName, char *saberSkin );
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean ItemParse_asset_model_go( itemDef_t *item, const char *name,int *runTimeLength );
 extern qboolean ItemParse_model_g2skin_go( itemDef_t *item, const char *skinName );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static void UI_UpdateSaberType( void )
 {
@@ -6042,9 +6050,9 @@ static void UI_GetSaberCvars ( void )
 
 
 //extern qboolean ItemParse_model_g2skin_go( itemDef_t *item, const char *skinName );
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean ItemParse_model_g2anim_go( itemDef_t *item, const char *animName );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 //extern qboolean ItemParse_asset_model_go( itemDef_t *item, const char *name );
 
 void UI_UpdateCharacterSkin( void )
@@ -7530,9 +7538,9 @@ static void UI_RunMenuScript(char **args)
 static void UI_GetTeamColor(vec4_t *color) {
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int BG_SiegeCountBaseClass(const int team, const short classIndex);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static void UI_SiegeClassCnt( const int team )
 {
@@ -7700,7 +7708,8 @@ qboolean UI_hasSkinForBase(const char *base, const char *team) {
 UI_HeadCountByColor
 ==================
 */
-static int UI_HeadCountByColor() {
+static int UI_HeadCountByColor(void)
+{
 	int i, c;
 	char *teamname;
 
@@ -8827,12 +8836,11 @@ static int UI_GetIndexFromSelection(int actual) {
   return 0;
 }
 
-static void UI_UpdatePendingPings() { 
+static void UI_UpdatePendingPings(void)
+{
 	trap_LAN_ResetPings(ui_netSource.integer);
 	uiInfo.serverStatus.refreshActive = qtrue;
 	uiInfo.serverStatus.refreshtime = uiInfo.uiDC.realTime + 1000;
-
-
 
 }
 
@@ -10937,7 +10945,8 @@ void _UI_MouseEvent( int dx, int dy )
 
 }
 
-void UI_LoadNonIngame() {
+void UI_LoadNonIngame(void)
+{
 	const char *menuSet = UI_Cvar_VariableString("ui_menuFilesMP");
 	if (menuSet == NULL || menuSet[0] == '\0') {
 		menuSet = "ui/jampmenus.txt";

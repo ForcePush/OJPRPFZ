@@ -7,6 +7,7 @@
 
 #include "g_local.h"
 #include "g_adminshared.h"
+extern int StandardSetBodyAnim(gentity_t *, animNumber_t, int);//VOLGARENOK: added protorype
 void runEmote( animNumber_t emote, gentity_t *ent,int freeze) {
    if(freeze) {
       if(ent->client->ps.legsAnim == emote) {

@@ -1188,9 +1188,9 @@ void CG_GetCTFMessageEvent(entityState_t *es)
 	CG_PrintCTFMessage(ci, teamName, es->eventParm);
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean BG_InKnockDownOnly( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 void DoFall(centity_t *cent, entityState_t *es, int clientNum)
 {
@@ -4057,7 +4057,6 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		cg_entities[es->number].weapons = es->eventParm;
 		break;
 	//[/VisualWeapons]
-
 
 	default:
 		DEBUGNAME("UNKNOWN");

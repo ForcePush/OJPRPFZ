@@ -7,7 +7,7 @@
 
 static int (QDECL *syscall)( int arg, ... ) = (int (QDECL *)( int, ...))-1;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void dllEntry( int (QDECL *syscallptr)( int arg,... ) ) {
 	syscall = syscallptr;
 }
@@ -291,19 +291,23 @@ int trap_LAN_ServerStatus( const char *serverAddress, char *serverStatus, int ma
 	return syscall( UI_LAN_SERVERSTATUS, serverAddress, serverStatus, maxLen );
 }
 
-void trap_LAN_SaveCachedServers() {
+void trap_LAN_SaveCachedServers(void)
+{
 	syscall( UI_LAN_SAVECACHEDSERVERS );
 }
 
-void trap_LAN_LoadCachedServers() {
+void trap_LAN_LoadCachedServers(void)
+{
 	syscall( UI_LAN_LOADCACHEDSERVERS );
 }
 
-void trap_LAN_ResetPings(int n) {
+void trap_LAN_ResetPings(int n)
+{
 	syscall( UI_LAN_RESETPINGS, n );
 }
 
-void trap_LAN_ClearPing( int n ) {
+void trap_LAN_ClearPing( int n )
+{
 	syscall( UI_LAN_CLEARPING, n );
 }
 
@@ -666,4 +670,4 @@ qboolean trap_G2API_AttachG2Model(void *ghoul2From, int modelIndexFrom, void *gh
 Ghoul2 Insert End
 */
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated

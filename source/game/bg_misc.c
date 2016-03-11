@@ -24,7 +24,7 @@
 extern void Q3_SetParm (int entID, int parmNum, const char *parmValue);
 #endif
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 const char *bgToggleableSurfaces[BG_NUM_TOGGLEABLE_SURFACES] = 
 {
@@ -279,7 +279,7 @@ int forcePowerDarkLight[NUM_FORCE_POWERS] = //0 == neutral
 	FORCE_DARKSIDE,//FP_LIGHTNING,//hold/duration
 	FORCE_DARKSIDE,//FP_RAGE,//duration
 	FORCE_LIGHTSIDE,//FP_PROTECT,//duration
-	FORCE_LIGHTSIDE,//FP_ABSORB,//duration
+	0,//FP_ABSORB,//duration
 	FORCE_LIGHTSIDE,//FP_TEAM_HEAL,//instant
 	FORCE_DARKSIDE,//FP_TEAM_FORCE,//instant
 	FORCE_DARKSIDE,//FP_DRAIN,//hold/duration
@@ -439,7 +439,7 @@ qboolean BG_FileExists(const char *fileName)
 
 // Following functions don't need to be in namespace, they're already
 // different per-module
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 #ifdef QAGAME
 char *G_NewString( const char *string );
@@ -447,7 +447,7 @@ char *G_NewString( const char *string );
 char *CG_NewString( const char *string );
 #endif
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 /*
 ===============
@@ -3744,4 +3744,4 @@ qboolean BG_IsUsingHeavyWeap (playerState_t *ps)
 	};
 }
 //[/ForceSys]
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated

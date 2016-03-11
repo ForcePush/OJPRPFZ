@@ -162,7 +162,7 @@ char *showPowersName[] =
 };
 
 //Called from UI shared code. For now we'll just redirect to the normal anim load function.
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 
 int UI_ParseAnimationFile(const char *filename, animation_t *animset, qboolean isHumanoid) 
@@ -184,7 +184,7 @@ int MenuFontToHandle(int iMenuFont)
 	return cgDC.Assets.qhMediumFont;
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 int CG_Text_Width(const char *text, float scale, int iMenuFont) 
 {
@@ -661,7 +661,7 @@ void CG_DrawFlagModel( float x, float y, float w, float h, int team, qboolean fo
 DrawAmmo
 ================
 */
-void DrawAmmo()
+void DrawAmmo(void)
 {
 	int x, y;
 
@@ -2069,7 +2069,7 @@ void CG_DrawForceSelect( void )
 	i = BG_ProperForceIndex(cg.forceSelect) - 1;
 	if (i < 0)
 	{
-		i = MAX_SHOWPOWERS;
+		i = MAX_SHOWPOWERS - 1;
 	}
 
 	trap_R_SetColor(NULL);
@@ -2079,7 +2079,7 @@ void CG_DrawForceSelect( void )
 	{
 		if (i < 0)
 		{
-			i = MAX_SHOWPOWERS;
+			i = MAX_SHOWPOWERS - 1;
 		}
 
 		if (!ForcePower_Valid(forcePowerSorted[i]))	// Does he have this power?
@@ -2106,7 +2106,7 @@ void CG_DrawForceSelect( void )
 	}
 
 	i = BG_ProperForceIndex(cg.forceSelect) + 1;
-	if (i>MAX_SHOWPOWERS)
+	if (i >= MAX_SHOWPOWERS)
 	{
 		i = 0;
 	}
@@ -2115,7 +2115,7 @@ void CG_DrawForceSelect( void )
 	holdX = x + (bigIconSize/2) + pad;
 	for (iconCnt=1;iconCnt<(sideRightIconCnt+1);i++)
 	{
-		if (i>MAX_SHOWPOWERS)
+		if (i >= MAX_SHOWPOWERS)
 		{
 			i = 0;
 		}
@@ -7398,7 +7398,8 @@ static void CG_DrawTeamVote(void) {
 	CG_DrawSmallString( 4, 90, s, 1.0F );
 }
 
-static qboolean CG_DrawScoreboard() {
+static qboolean CG_DrawScoreboard(void)
+{
 	return CG_DrawOldScoreboard();
 #if 0
 	static qboolean firstTime = qtrue;
@@ -7751,7 +7752,8 @@ static void CG_DrawWarmup( void ) {
 CG_DrawTimedMenus
 =================
 */
-void CG_DrawTimedMenus() {
+void CG_DrawTimedMenus(void)
+{
 	if (cg.voiceTime) {
 		int t = cg.time - cg.voiceTime;
 		if ( t > 2500 ) {
@@ -7762,7 +7764,7 @@ void CG_DrawTimedMenus() {
 	}
 }
 
-void CG_DrawFlagStatus()
+void CG_DrawFlagStatus(void)
 {
 	int myFlagTakenShader = 0;
 	int theirFlagShader = 0;
@@ -9218,7 +9220,8 @@ static void CG_Draw2D( void ) {
 }
 
 
-static void CG_DrawTourneyScoreboard() {
+static void CG_DrawTourneyScoreboard(void)
+{
 }
 
 /*

@@ -4134,9 +4134,9 @@ void misc_weapon_shooter_aim( gentity_t *self )
 }
 
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern stringID_table_t WPTable[];
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 void SP_misc_weapon_shooter( gentity_t *self )
 {

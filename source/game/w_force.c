@@ -24,9 +24,9 @@ extern qboolean GAME_INLINE WalkCheck( gentity_t * self );
 
 extern vmCvar_t		g_saberRestrictForce;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_FullBodyTauntAnim( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 extern bot_state_t *botstates[MAX_CLIENTS];
 
@@ -663,12 +663,14 @@ void WP_InitForcePowers( gentity_t *ent )
 					if (!g_teamAutoJoin.integer)
 					{
 						//Make them a spectator so they can set their powerups up without being bothered.
-						ent->client->sess.sessionTeam = TEAM_SPECTATOR;
+
+                        // Skinpack: rww: removed cause of bugs.
+/*						ent->client->sess.sessionTeam = TEAM_SPECTATOR;
 						ent->client->sess.spectatorState = SPECTATOR_FREE;
 						ent->client->sess.spectatorClient = 0;
 
 						ent->client->pers.teamState.state = TEAM_BEGIN;
-						trap_SendServerCommand(ent-g_entities, "spc");	// Fire up the profile menu
+						trap_SendServerCommand(ent-g_entities, "spc");	// Fire up the profile menu*/
 					}
 				}
 
@@ -677,7 +679,7 @@ void WP_InitForcePowers( gentity_t *ent )
 #else
 				//Event isn't very reliable, I made it a string. This way I can send it to just one
 				//client also, as opposed to making a broadcast event.
-				trap_SendServerCommand(ent->s.number, va("nfr %i %i %i", maxRank, 1, ent->client->sess.sessionTeam));
+				trap_SendServerCommand(ent->s.number, va("nfr %i %i %i", maxRank, 0, ent->client->sess.sessionTeam));
 				//Arg1 is new max rank, arg2 is non-0 if force menu should be shown, arg3 is the current team
 #endif
 			}
@@ -928,9 +930,9 @@ void WP_SpawnInitForcePowers( gentity_t *ent )
 	//[/CoOp]
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_InKnockDown( int anim ); //bg_pmove.c
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 qboolean IsMerc(gentity_t*ent)
 {
@@ -1115,7 +1117,9 @@ int ForcePowerUsableOn(gentity_t *attacker, gentity_t *other, forcePowers_t forc
 	{
 		if (BG_InKnockDown(other->client->ps.legsAnim))
 		{
-			return 0;
+            // Skinpack: why so? Fixed.
+//			return 0;
+            return 1;
 		}
 	}
 

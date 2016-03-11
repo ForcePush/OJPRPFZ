@@ -11,9 +11,9 @@
 #define MIN_DISTANCE		24
 #define MIN_DISTANCE_SQR	( MIN_DISTANCE * MIN_DISTANCE )
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern gitem_t	*BG_FindItemForAmmo( ammo_t ammo );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //Local state enums
 enum

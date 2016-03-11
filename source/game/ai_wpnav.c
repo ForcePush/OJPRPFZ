@@ -8,10 +8,10 @@ float gDeactivated = 0;
 float gBotEdit = 0;
 int gWPRenderedFrame = 0;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 wpobject_t *gWPArray[MAX_WPARRAY_SIZE];
 int gWPNum = 0;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 int gLastPrintedIndex = -1;
 
@@ -256,8 +256,8 @@ void G_TestLine(vec3_t start, vec3_t end, int color, int time)
 extern vmCvar_t bot_wp_editornumber;
 //[/BotTweaks]
 //[CoOpEditor]
-void AutosaveRender();
-void SpawnPointRender();
+void AutosaveRender(void);
+void SpawnPointRender(void);
 //[/CoOpEditor]
 void BotWaypointRender(void)
 {

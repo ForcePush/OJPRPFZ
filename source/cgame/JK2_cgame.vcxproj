@@ -210,6 +210,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4464;4255</DisableSpecificWarnings>
+      <AdditionalOptions>/W3 /Wall %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_Debug;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -321,6 +323,7 @@
     <ClCompile Include="cg_weaponinit.c" />
     <ClCompile Include="cg_weapons.c" />
     <ClCompile Include="..\game\FighterNPC.c" />
+    <ClCompile Include="crashlog\cg_crash.c" />
     <ClCompile Include="fx_blaster.c" />
     <ClCompile Include="fx_bowcaster.c" />
     <ClCompile Include="fx_bryarpistol.c" />
@@ -350,6 +353,7 @@
     <ClInclude Include="cg_local.h" />
     <ClInclude Include="cg_public.h" />
     <ClInclude Include="..\qcommon\disablewarnings.h" />
+    <ClInclude Include="crashlog\cg_crash.h" />
     <ClInclude Include="fx_local.h" />
     <ClInclude Include="..\ghoul2\G2.h" />
     <ClInclude Include="holocronicons.h" />

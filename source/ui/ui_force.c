@@ -25,9 +25,9 @@ extern const char *UI_TeamName(int team);
 qboolean gTouchedForce = qfalse;
 vmCvar_t	ui_freeSaber, ui_forcePowerDisable;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void Menu_ShowItemByName(menuDef_t *menu, const char *p, qboolean bShow);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 int uiForceStarShaders[NUM_FORCE_STAR_IMAGES][2];
 int uiSaberColorShaders[NUM_SABER_COLORS];
@@ -192,7 +192,7 @@ int UI_TranslateFCFIndex(int index)
 	return index-uiInfo.forceConfigDarkIndexBegin;
 }
 
-void UI_SaveForceTemplate()
+void UI_SaveForceTemplate(void)
 {
 	char *selectedName = UI_Cvar_VariableString("ui_SaveFCF");
 	char fcfString[512];
@@ -272,7 +272,7 @@ void UI_SaveForceTemplate()
 uiRank_t prevRank[42];
 // 
 extern qboolean UI_TrueJediEnabled( void );
-void UpdateForceUsed()
+void UpdateForceUsed(void)
 {//racc - updates the current force powers setup based on current powers selected.
 	int curpower, currank,spentInForce=0,i;
 	menuDef_t *menu;
@@ -915,7 +915,7 @@ void UI_ReadLegalForce(void)
 	}
 }
 
-void UI_UpdateForcePowers()
+void UI_UpdateForcePowers(void)
 {
 	char *forcePowers = UI_Cvar_VariableString("forcepowers");
 	char readBuf[256];

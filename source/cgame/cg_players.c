@@ -1339,10 +1339,10 @@ qboolean	trueviewwarning = qfalse;
 CG_RegisterClientModelname
 ==========================
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean BG_IsValidCharacterModel(const char *modelName, const char *skinName);
 qboolean BG_ValidateSkinForTeam( const char *modelName, char *skinName, int team, float *colors );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelName, const char *skinName, const char *teamName, int clientNum ) {
 	int handle;
@@ -2176,14 +2176,14 @@ static void CG_InitG2SaberData(int saberNum, clientInfo_t *ci)
 
 					if (tagBolt == -1)
 					{
-						assert(0);
+//						assert(0);
 					}
 					break;
 				}
 
 				if (tagBolt == -1)
 				{
-					assert(0);
+//					assert(0);
 					break;
 				}
 			}
@@ -2565,9 +2565,9 @@ void ParseRGBSaber(char * str, vec3_t c);
 void CG_ParseScriptedSaber(char *script, clientInfo_t *ci, int snum);
 //[/RGBSabers]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void WP_SetSaber( int entNum, saberInfo_t *sabers, int saberNum, const char *saberName );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 extern void *CG_G2WeaponInstance2(centity_t *cent, int weapon);
 
 void CG_NewClientInfo( int clientNum, qboolean entitiesInitialized ) {
@@ -4008,10 +4008,10 @@ qboolean CG_InRollAnim( centity_t *cent )
 CG_SetLerpFrameAnimation
 ===============
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean BG_SaberStanceAnim( int anim );
 qboolean PM_RunningAnim( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 static void CG_SetLerpFrameAnimation( centity_t *cent, clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float animSpeedMult, qboolean torsoOnly, qboolean flipState) {
 	animation_t	*anim;
 	float animSpeed;
@@ -4512,9 +4512,9 @@ static void CG_ClearLerpFrame( centity_t *cent, clientInfo_t *ci, lerpFrame_t *l
 CG_PlayerAnimation
 ===============
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean PM_WalkingAnim( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static void CG_PlayerAnimation( centity_t *cent, int *legsOld, int *legs, float *legsBackLerp,
 						int *torsoOld, int *torso, float *torsoBackLerp ) {
@@ -10116,7 +10116,7 @@ void CG_GetTagWorldPosition( refEntity_t *model, char *tag, vec3_t pos, vec3_t a
 
 #define	MAX_MARK_FRAGMENTS	128
 #define	MAX_MARK_POINTS		384
-extern markPoly_t *CG_AllocMark();
+extern markPoly_t *CG_AllocMark(void);
 
 void CG_CreateSaberMarks( vec3_t start, vec3_t end, vec3_t normal )
 {
@@ -10655,9 +10655,9 @@ void CG_SaberCompWork(vec3_t start, vec3_t end, centity_t *owner, int saberNum, 
 #define SABER_TRAIL_TIME	40.0f
 #define FX_USE_ALPHA		0x08000000
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean BG_SuperBreakWinAnim( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 void CG_AddSaberBlade( centity_t *cent, centity_t *scent, refEntity_t *saber, int renderfx, int modelIndex, int saberNum, int bladeNum, vec3_t origin, vec3_t angles, qboolean fromSaber, qboolean dontDraw)
 {
@@ -11908,10 +11908,10 @@ int CG_HandleAppendedSkin(char *modelName)
 }
 
 //Create a temporary ghoul2 instance and get the gla name so we can try loading animation data and sounds.
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void BG_GetVehicleModelName(char *modelname);
 void BG_GetVehicleSkinName(char *skinname);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 void CG_CacheG2AnimInfo(char *modelName)
 {
@@ -12032,12 +12032,12 @@ static void CG_RegisterVehicleAssets( Vehicle_t *pVeh )
 
 extern void CG_HandleNPCSounds(centity_t *cent);
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern void G_CreateAnimalNPC( Vehicle_t **pVeh, const char *strAnimalType );
 extern void G_CreateSpeederNPC( Vehicle_t **pVeh, const char *strType );
 extern void G_CreateWalkerNPC( Vehicle_t **pVeh, const char *strAnimalType );
 extern void G_CreateFighterNPC( Vehicle_t **pVeh, const char *strType );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 extern playerState_t *cgSendPS[MAX_GENTITIES];
 void CG_G2AnimEntModelLoad(centity_t *cent)
@@ -13467,9 +13467,9 @@ static CGAME_INLINE void CG_VehicleEffects(centity_t *cent)
 CG_Player
 ===============
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float constraint);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 float CG_RadiusForCent( centity_t *cent )
 {
@@ -16928,7 +16928,7 @@ stillDoSaber:
 							if (tagBolt == -1)
 							{
 								return; // 1.3 fix
-								assert(0);
+								//assert(0);
 								break;
 							}
 						}
@@ -18096,7 +18096,7 @@ void CG_ResetPlayerEntity( centity_t *cent )
 
 			if (!cent->npcClient)
 			{
-				assert(0);
+//				assert(0);
 				return;
 			}
 

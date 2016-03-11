@@ -204,6 +204,8 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4464;4255</DisableSpecificWarnings>
+      <AdditionalOptions>/W3 /Wall %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_Debug;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -268,6 +270,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="accounts\ac_admin.c" />
+    <ClCompile Include="accounts\ac_client.c" />
+    <ClCompile Include="accounts\ac_cmds.c" />
+    <ClCompile Include="accounts\ac_file_format.c" />
+    <ClCompile Include="accounts\ac_main.c" />
     <ClCompile Include="ai_aotc.c" />
     <ClCompile Include="ai_hybrid.c" />
     <ClCompile Include="ai_main.c" />
@@ -383,6 +390,12 @@
     <ClCompile Include="WalkerNPC.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="accounts\ac_admin.h" />
+    <ClInclude Include="accounts\ac_client.h" />
+    <ClInclude Include="accounts\ac_cmds.h" />
+    <ClInclude Include="accounts\ac_file_format.h" />
+    <ClInclude Include="accounts\ac_main.h" />
+    <ClInclude Include="accounts\ac_public.h" />
     <ClInclude Include="ai.h" />
     <ClInclude Include="ai_main.h" />
     <ClInclude Include="anims.h" />

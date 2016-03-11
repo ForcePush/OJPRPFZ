@@ -45,9 +45,9 @@ typedef enum
 //ROP VEHICLE_IMP END
 
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern stringID_table_t VehicleTable[VH_NUM_VEHICLES+1];
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //===========================================================================================================
 //START VEHICLE WEAPONS
@@ -95,10 +95,10 @@ typedef struct
 #define VEH_WEAPON_BASE	0
 #define VEH_WEAPON_NONE	-1
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern vehWeaponInfo_t g_vehWeaponInfo[MAX_VEH_WEAPONS];
 extern int	numVehicleWeapons;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //===========================================================================================================
 //END VEHICLE WEAPONS
@@ -414,10 +414,10 @@ typedef struct
 #define VEHICLE_BASE	0
 #define VEHICLE_NONE	-1
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern vehicleInfo_t g_vehicleInfo[MAX_VEHICLES];
 extern int	numVehicles;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 #define VEH_DEFAULT_SPEED_MAX		800.0f
 #define VEH_DEFAULT_ACCEL			10.0f
@@ -705,8 +705,8 @@ struct Vehicle_s
 #endif
 //[/Linux]//[/Mac]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern int BG_VehicleGetIndex( const char *vehicleName );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 #endif	// __BG_VEHICLES_H
