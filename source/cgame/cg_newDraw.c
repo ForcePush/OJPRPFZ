@@ -4,10 +4,8 @@
 extern displayContextDef_t cgDC;
 
 
-int CG_GetSelectedPlayer(void)
-{
-	if (cg_currentSelectedPlayer.integer < 0 || cg_currentSelectedPlayer.integer >= numSortedTeamPlayers)
-	{
+int CG_GetSelectedPlayer() {
+	if (cg_currentSelectedPlayer.integer < 0 || cg_currentSelectedPlayer.integer >= numSortedTeamPlayers) {
 		cg_currentSelectedPlayer.integer = 0;
 	}
 	return cg_currentSelectedPlayer.integer;
@@ -266,9 +264,9 @@ const char *CG_GameTypeString(void) {
 	return "";
 }
 						 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern int MenuFontToHandle(int iMenuFont);
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 // maxX param is initially an X limit, but is also used as feedback. 0 = text was clipped to fit within, else maxX = next pos
 //
@@ -794,8 +792,7 @@ CG_HideTeamMenus
 ==================
 
 */
-void CG_HideTeamMenu(void)
-{
+void CG_HideTeamMenu() {
   Menus_CloseByName("teamMenu");
   Menus_CloseByName("getMenu");
 }
@@ -806,8 +803,7 @@ CG_ShowTeamMenus
 ==================
 
 */
-void CG_ShowTeamMenu(void)
-{
+void CG_ShowTeamMenu() {
   Menus_OpenByName("teamMenu");
 }
 

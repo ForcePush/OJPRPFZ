@@ -11,8 +11,6 @@ displayContextDef_t cgDC;
 	#include "cg_lights.h"
 #endif
 
-#include "crashlog/cg_crash.h"
-
 extern int cgSiegeRoundState;
 extern int cgSiegeRoundTime;
 /*
@@ -122,9 +120,9 @@ void CG_Shutdown( void );
 void CG_CalcEntityLerpPositions( centity_t *cent );
 void CG_ROFF_NotetrackCallback( centity_t *cent, const char *notetrack);
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 void UI_CleanupGhoul2(void);
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 static int	C_PointContents(void);
 static void C_GetLerpOrigin(void);
@@ -184,16 +182,14 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  ) {
 
 	switch ( command ) {
 	case CG_INIT:
-        EnableStackTrace();
 		CG_Init( arg0, arg1, arg2 );
 		return 0;
 	case CG_SHUTDOWN:
-        DisableStackTrace();
 		CG_Shutdown();
 		return 0;
 	case CG_CONSOLE_COMMAND:
@@ -357,7 +353,7 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 	}
 	return -1;
 }
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 static int C_PointContents(void)
 {
@@ -856,13 +852,13 @@ vmCvar_t 	cg_smoothClients;
 vmCvar_t	ojp_sabermelee;
 //[/MELEE]
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 vmCvar_t	pmove_fixed;
 //vmCvar_t	cg_pmove_fixed;
 vmCvar_t	pmove_msec;
 // nmckenzie: DUEL_HEALTH
 vmCvar_t	g_showDuelHealths;
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 vmCvar_t	cg_pmove_msec;
 vmCvar_t	cg_cameraMode;
@@ -1438,12 +1434,12 @@ const char *CG_Argv( int arg ) {
 //========================================================================
 
 //so shared code can get the local time depending on the side it's executed on
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 int BG_GetTime(void)
 {
 	return cg.time;
 }
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 /*
 =================
@@ -3426,7 +3422,7 @@ CG_LoadHudMenu();
 
 =================
 */
-void CG_LoadHudMenu(void)
+void CG_LoadHudMenu() 
 {
 	const char *hudSet;
 
@@ -3502,8 +3498,7 @@ void CG_LoadHudMenu(void)
 
 }
 
-void CG_AssetCache(void)
-{
+void CG_AssetCache() {
 	//if (Assets.textFont == NULL) {
 	//  trap_R_RegisterFont("fonts/arial.ttf", 72, &Assets.textFont);
 	//}
@@ -3885,9 +3880,9 @@ CG_SpawnCGameEntFromVars
 See if we should do something for this ent cgame-side -rww
 ==============
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 void BG_ParseField( BG_field_t *l_fields, const char *key, const char *value, byte *ent );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 extern float cg_linearFogOverride; //cg_view.c
 extern float cg_radarRange;//cg_draw.c
@@ -3972,15 +3967,15 @@ Ghoul2 Insert End
 */
 
 extern playerState_t *cgSendPS[MAX_GENTITIES]; //is not MAX_CLIENTS because NPCs exceed MAX_CLIENTS
-void CG_PmoveClientPointerUpdate(void);
+void CG_PmoveClientPointerUpdate();
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 void WP_SaberLoadParms( void );
 void BG_VehicleLoadParms( void );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 //[WEAPONSDAT]
-extern void BG_LoadWeaponsData(void);
+extern void BG_LoadWeaponsData();
 //[/WEAPONSDAT]
 /*
 =================

@@ -4835,13 +4835,12 @@ int SkillLevelforWeapon(gentity_t *ent, int weapon)
 FireWeapon
 ===============
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float constraint);
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 //[WeapAccuracy]
 extern void G_AddMercBalance(gentity_t *self, int amount);
-extern int PM_inKnockDown(playerState_t);
 //[/WeapAccuracy]
 void FireWeapon( gentity_t *ent, qboolean altFire ) 
 {

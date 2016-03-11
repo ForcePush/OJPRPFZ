@@ -144,8 +144,7 @@ void UI_LoadBestScores(const char *map, int game) {
 UI_ClearScores
 ===============
 */
-void UI_ClearScores(void)
-{
+void UI_ClearScores() {
 	char	gameList[4096];
 	char *gameFile;
 	int		i, len, count, size;
@@ -176,8 +175,7 @@ void UI_ClearScores(void)
 
 
 
-static void	UI_Cache_f(void)
-{
+static void	UI_Cache_f() {
 	int i;
 	Display_CacheAll();
 	if (trap_Argc() == 2) {
@@ -193,8 +191,7 @@ static void	UI_Cache_f(void)
 UI_CalcPostGameStats
 =======================
 */
-static void UI_CalcPostGameStats(void)
-{
+static void UI_CalcPostGameStats() {
 	char		map[MAX_QPATH];
 	char		fileName[MAX_QPATH];
 	char		info[MAX_INFO_STRING];

@@ -13,8 +13,6 @@
 #include "g_roff.h"
 //[/ROFF]
 
-#include "accounts/ac_public.h"
-
 //[Experimental]
 #define SUN 0
 #define DEADBODYSPHYSICS 0
@@ -228,10 +226,10 @@ vmCvar_t	g_debugRight;
 vmCvar_t	g_debugUp;
 vmCvar_t	g_smoothClients;
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 vmCvar_t	pmove_fixed;
 vmCvar_t	pmove_msec;
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 vmCvar_t	g_listEntity;
 //vmCvar_t	g_redteam;
@@ -1178,8 +1176,6 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &roar_spectate_keep_score,			"cm_spectate_keep_score",			"1",		CVAR_ARCHIVE,					0, qfalse },
 	{ &gsess,								"gsess",							"",			CVAR_INTERNAL | CVAR_ROM | CVAR_NORESTART, 0, qfalse},
 	//RoAR mod END
-    // Skinpack: accounts system
-    { &ac_adminPassword,         "ac_adminPassword",         "", CVAR_ARCHIVE | CVAR_INTERNAL, 0, qfalse },
 };
 
 // bk001129 - made static to avoid aliasing
@@ -1217,7 +1213,7 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 //[Linux]
 /*
 #ifdef __linux__
@@ -1421,7 +1417,7 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 #endif
 */
 //[/Linux]
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 
 void QDECL G_Printf( const char *fmt, ... ) {
@@ -1589,10 +1585,10 @@ void G_UpdateCvars( void ) {
 
 char gSharedBuffer[MAX_G_SHARED_BUFFER_SIZE];
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 void WP_SaberLoadParms( void );
 void BG_VehicleLoadParms( void );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 /*
 ============
@@ -1943,9 +1939,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 #endif
 	//[/Experimental]
-
-    // Skinpack: accounts system
-    AC_Init();
 }
 
 
@@ -1968,9 +1961,6 @@ void G_ShutdownGame( int restart ) {
 	gentity_t *ent;
 
 //	G_Printf ("==== ShutdownGame ====\n");
-
-    // Skinpack: accounts system
-    AC_Shutdown();
 
 	//[AdminCommands]
 	G_SaveBanIP();
@@ -4686,12 +4676,12 @@ void NAV_CheckCalcPaths( void )
 }
 
 //so shared code can get the local time depending on the side it's executed on
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 int BG_GetTime(void)
 {
 	return level.time;
 }
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 /*
 ================
@@ -4746,9 +4736,6 @@ void G_RunFrame( int levelTime ) {
 		return;
 	}
 	//[/ROQFILES]
-
-    // Skinpack: accounts system: save accounts if needed
-    AC_SaveAccounts(qfalse);
 
 	if (g_gametype.integer == GT_SIEGE &&
 		g_siegeRespawn.integer &&

@@ -404,8 +404,7 @@
 		SetUnhandledExceptionFilter(win32_exception_handler);
 	}
 
-	void win32_deinitialize_handler(void)
-	{
+	void win32_deinitialize_handler(void) {
 		// Deinstall exception handler
 		SetUnhandledExceptionFilter(NULL);
 		pfnSymInitialize = NULL;
@@ -422,8 +421,7 @@
 //FIXME: Get rich, buy a mac, figure out how to do this on OSX.
 #endif
 
-void EnableCoreDumps(void)
-{
+void EnableCoreDumps() {
 	#if defined __linux__
 
 	#elif defined WIN32
@@ -433,8 +431,7 @@ void EnableCoreDumps(void)
 	#endif
 }
 
-void DisableCoreDump(void)
-{
+void DisableCoreDump() {
 	#if defined __linux__
 
 	#elif defined WIN32
@@ -444,8 +441,7 @@ void DisableCoreDump(void)
 	#endif
 }
 
-void EnableStackTrace(void)
-{
+void EnableStackTrace() {
 	#if defined __linux__ && !defined GNUC && !defined(__GNUC__)
 		installcrashhandler();
 	#elif defined WIN32	
@@ -455,8 +451,7 @@ void EnableStackTrace(void)
 	#endif
 }
 
-void DisableStackTrace(void)
-{
+void DisableStackTrace() {
 	#if defined __linux__ && !defined GNUC && !defined(__GNUC__)
 		restorecrashhandler();
 	#elif defined WIN32 && !defined(__GNUC__)

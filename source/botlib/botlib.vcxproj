@@ -129,8 +129,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalOptions>/W3 /Wall %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4464;4255</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_Debug;%(PreprocessorDefinitions)</PreprocessorDefinitions>

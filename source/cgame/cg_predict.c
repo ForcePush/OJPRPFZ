@@ -208,11 +208,11 @@ CG_ClipMoveToEntities
 
 ====================
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern void BG_VehicleAdjustBBoxForOrientation( Vehicle_t *veh, vec3_t origin, vec3_t mins, vec3_t maxs,
 										int clientNum, int tracemask,
 										void (*localTrace)(trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask)); // bg_pmove.c
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 static void CG_ClipMoveToEntities ( const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end,
 							int skipNumber, int mask, trace_t *tr, qboolean g2Check ) {
 	int			i, x, zd, zu;
@@ -855,7 +855,7 @@ int g_cgEStoPSTime = 0;
 //Assign all the entity playerstate pointers to the corresponding one
 //so that we can access playerstate stuff in bg code (and then translate
 //it back to entitystate data)
-void CG_PmoveClientPointerUpdate(void)
+void CG_PmoveClientPointerUpdate()
 {
 	int i;
 

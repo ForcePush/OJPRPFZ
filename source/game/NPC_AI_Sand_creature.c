@@ -741,7 +741,7 @@ void SandCreature_Sleep( void )
 	*/
 }
 
-void	SandCreature_PushEnts(void)
+void	SandCreature_PushEnts()
 {
   	int			numEnts;
 	gentity_t*	radiusEnts[128];

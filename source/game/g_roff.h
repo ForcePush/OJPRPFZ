@@ -89,8 +89,8 @@ extern int num_roffs;
 //-------------------------
 int		G_LoadRoff( const char *fileName );
 void	G_Roff( gentity_t *ent );
-void	G_SaveCachedRoffs(void);
-void	G_LoadCachedRoffs(void);
+void	G_SaveCachedRoffs();
+void	G_LoadCachedRoffs();
 
 #endif
 //[/ROFF]

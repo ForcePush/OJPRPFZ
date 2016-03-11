@@ -5,8 +5,6 @@
 #include "bg_saga.h"
 #include "g_adminshared.h"
 
-#include "accounts/ac_public.h"
-
 // g_client.c -- client functions that don't happen every frame
 
 static vec3_t	playerMins = {-15, -15, DEFAULT_MINS_2};
@@ -1658,11 +1656,11 @@ is used for determining where the lightsaber should be, and for per-poly collisi
 */
 void *g2SaberInstance = NULL;
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 qboolean BG_IsValidCharacterModel(const char *modelName, const char *skinName);
 qboolean BG_ValidateSkinForTeam( const char *modelName, char *skinName, int team, float *colors );
 void BG_GetVehicleModelName(char *modelname);
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 void SetupGameGhoul2Model(gentity_t *ent, char *modelname, char *skinName)
 {
@@ -2362,7 +2360,6 @@ void ClientUserinfoChanged( int clientNum ) {
 		maxHealth = 100;
 		health = 100; //atoi( Info_ValueForKey( userinfo, "handicap" ) );
 	}
-
 	client->pers.maxHealth = health;
 	if ( client->pers.maxHealth < 1 || client->pers.maxHealth > maxHealth ) {
 		client->pers.maxHealth = 100;
@@ -2489,10 +2486,6 @@ void ClientUserinfoChanged( int clientNum ) {
 	{
 		G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s );
 	}
-
-    // Skinpack: accounts system: set player's stats again
-    // they may change because of userinfo_change
-    AC_SetPlayerStats(ent);
 }
 
 
@@ -2601,12 +2594,6 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	}
 	G_ReadSessionData( client );
 
-    // Skinpack: prevent autojoin
-    if (!g_teamAutoJoin.integer)
-    {
-        client->sess.sessionTeam = TEAM_SPECTATOR;
-    }
-
 	//[AdminSys]
 	client->sess.IPstring[0] = 0;
 	Q_strncpyz(client->sess.IPstring, IPstring, sizeof(client->sess.IPstring) );
@@ -2695,9 +2682,9 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 
 void G_WriteClientSessionData( gclient_t *client );
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 void WP_SetSaber( int entNum, saberInfo_t *sabers, int saberNum, const char *saberName );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 /*
 ===========
@@ -3049,10 +3036,10 @@ void G_BreakArm(gentity_t *ent, int arm)
 }
 
 //Update the ghoul2 instance anims based on the playerstate values
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 qboolean BG_SaberStanceAnim( int anim );
 qboolean PM_RunningAnim( int anim );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 //[SaberLockSys]
 extern stringID_table_t animTable [MAX_ANIMATIONS+1];
 //[/SaberLockSys]
@@ -3367,43 +3354,34 @@ void player_touch(gentity_t *self, gentity_t *other, trace_t *trace )
 		float speed = (vec_t)sqrt (other->client->ps.velocity[0]*
 			other->client->ps.velocity[0] + other->client->ps.velocity[1]*
 			other->client->ps.velocity[1])/2;
+		G_Printf("Speed %f\n",speed);
 		if(speed > 50)
 		{
 			int damage = (speed >= 100 ? 35 : 10);
 			gentity_t *gripper = NULL;
 			int i=0;
 
-			// rww: Skinpack: FIXME! need a less complicated way to do this.
-			if ((other->client->ps.otherKillerTime < level.time ||              // we are not pushing the other
-				other->client->ps.otherKiller != self->client->ps.clientNum) && 
-				(self->client->ps.fd.forceGripEntityNum != other->client->ps.clientNum)) // and we are not gripping the other
-			{
-				G_Knockdown(self, other, other->client->ps.velocity, 100, qfalse);
-				self->client->ps.velocity[1] = other->client->ps.velocity[1] * 5.5f;
-				self->client->ps.velocity[0] = other->client->ps.velocity[0] * 5.5f;
-			}
+			G_Knockdown(self,other,other->client->ps.velocity,100,qfalse);
+			self->client->ps.velocity[1] = other->client->ps.velocity[1]*5.5f;
+			self->client->ps.velocity[0] = other->client->ps.velocity[0]*5.5f;
 
-			for (i = 0; i < MAX_CLIENTS; i++)
+			for(i=0;i<1024;i++)
 			{
 				gripper = &g_entities[i];
-				if (gripper && gripper->client)
+				if(gripper && gripper->client)
 				{
-					if (gripper->client->ps.fd.forceGripEntityNum == other->client->ps.clientNum)
+					if(gripper->client->ps.fd.forceGripEntityNum == other->client->ps.clientNum)
 						break;
 				}
 			}
 
-			if (gripper == NULL)
+			if(gripper == NULL)
 				return;
 
-			// rww: Skinpack: FIXME! need a less complicated way to do this.
-			if ((other->client->ps.otherKillerTime < level.time ||              // we are not pushing the other
-				other->client->ps.otherKiller != self->client->ps.clientNum) &&
-				(self->client->ps.fd.forceGripEntityNum != other->client->ps.clientNum)) // and we are not gripping the other
-			{
-				G_Damage(self, other, other, NULL, NULL, damage, DAMAGE_NO_ARMOR, 0);
-				G_Damage(other, gripper, gripper, NULL, NULL, damage, DAMAGE_NO_ARMOR, MOD_FORCE_DARK);
-			}
+			G_Printf("Damage: %i\n",damage);
+			//G_Damage(gripEnt, self, self, NULL, NULL, 2, DAMAGE_NO_ARMOR, MOD_FORCE_DARK);
+			G_Damage(other,gripper,gripper,NULL,NULL,damage,DAMAGE_NO_ARMOR,MOD_FORCE_DARK);
+			G_Damage(self,other,other,NULL,NULL,damage,DAMAGE_NO_ARMOR,0);
 		}
 	}
 }
@@ -3983,9 +3961,6 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.clientNum = index;
 	//give default weapons
 	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_NONE );
-
-    // Skinpack: accounts system: set player's stats to give him weapons/hp
-    AC_SetPlayerStats(ent);
 
 	if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL)
 	{
@@ -4799,10 +4774,6 @@ void ClientSpawn(gentity_t *ent) {
 	*/
 	//Disabled. At least for now. Not sure if I'll want to do it or not eventually.
 
-    // Skinpack: accounts system: set player's stats if he's logged on
-    // in ClientSpawn it's called twice
-    AC_SetPlayerStats(ent);
-
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
 	client->ps.commandTime = level.time - 100;
@@ -4868,9 +4839,6 @@ void ClientDisconnect( int clientNum ) {
 	// cleanup if we are kicking a bot that
 	// hasn't spawned yet
 	G_RemoveQueuedBotBegin( clientNum );
-
-    // Skinpack: accounts system
-    AC_PlayerLeaving(clientNum);
 
 	ent = g_entities + clientNum;
 	if ( !ent->client ) {
@@ -5298,7 +5266,7 @@ qboolean OJP_AllPlayersHaveClientPlugin(void)
 
 
 //[LastManStanding]
-qboolean LMS_EnoughPlayers(void)
+qboolean LMS_EnoughPlayers()
 {//checks to see if there's enough players in game to enable LMS rules
 	if(level.numNonSpectatorClients < 2)
 	{//definitely not enough.

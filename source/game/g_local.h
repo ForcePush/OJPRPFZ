@@ -2,8 +2,6 @@
 //
 // g_local.h -- local definitions for game module
 
-#pragma once
-
 //testing
 #include "q_shared.h"
 #include "bg_public.h"
@@ -1397,7 +1395,7 @@ Ghoul2 Insert Start
 */
 int G_BoneIndex( const char *name );
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 qhandle_t	trap_R_RegisterSkin( const char *name );
 
@@ -1472,7 +1470,7 @@ void		trap_G2API_ClearAttachedInstance(int entityNum);
 void		trap_G2API_CleanEntAttachments(void);
 qboolean	trap_G2API_OverrideServer(void *serverInstance);
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 /*
 Ghoul2 Insert End
@@ -1637,7 +1635,7 @@ void AddScore( gentity_t *ent, vec3_t origin, int score );
 void CalculateRanks( void );
 qboolean SpotWouldTelefrag( gentity_t *spot );
 //[LastManStanding]
-qboolean LMS_EnoughPlayers(void);
+qboolean LMS_EnoughPlayers();
 //[/LastManStanding]
 
 extern gentity_t *gJMSaberEnt;
@@ -2090,10 +2088,10 @@ extern	vmCvar_t	g_debugUp;
 //extern	vmCvar_t	g_blueteam;
 extern	vmCvar_t	g_smoothClients;
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern	vmCvar_t	pmove_fixed;
 extern	vmCvar_t	pmove_msec;
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 extern	vmCvar_t	g_enableBreath;
 extern	vmCvar_t	g_singlePlayer;
@@ -2330,9 +2328,6 @@ extern int Tforce[MAX_CLIENTS];
 extern int Tsplat[MAX_CLIENTS];
 //RoAR mod END
 
-// Skinpack: accounts system
-extern vmCvar_t ac_adminPassword;
-
 //[AotCAI]
 extern	vmCvar_t	bot_thinklevel;
 //[/AotCAI]
@@ -2369,7 +2364,7 @@ extern vmCvar_t		ojp_truebalance;//[TrueBalance]
 
 extern vmCvar_t ojp_modelscaleEnabled;//[Modelscale]
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
@@ -2716,4 +2711,4 @@ void G_ShutdownGame( int restart );
 //[/CrashLog]
 
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"

@@ -46,7 +46,7 @@ extern void UI_CacheSaberGlowGraphics( void );
 
 #endif //
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 #ifdef CGAME
 
@@ -197,14 +197,12 @@ void *UI_Alloc( int size ) {
 UI_InitMemory
 ===============
 */
-void UI_InitMemory(void)
-{
+void UI_InitMemory( void ) {
 	allocPoint = 0;
 	outOfMemory = qfalse;
 }
 
-qboolean UI_OutOfMemory(void)
-{
+qboolean UI_OutOfMemory() {
 	return outOfMemory;
 }
 
@@ -305,8 +303,7 @@ const char *String_Alloc(const char *p) {
 	return NULL;
 }
 
-void String_Report(void)
-{
+void String_Report() {
 	float f;
 	Com_Printf("Memory/String Pool Info\n");
 	Com_Printf("----------------\n");
@@ -325,8 +322,7 @@ void String_Report(void)
 String_Init
 =================
 */
-void String_Init(void)
-{
+void String_Init() {
 	int i;
 	for (i = 0; i < HASH_TABLE_SIZE; i++) {
 		strHandle[i] = 0;
@@ -1538,7 +1534,7 @@ void Menus_CloseByName ( const char *p )
 //int FPMessageTime = 0;
 //[/UITweaks]
 
-void Menus_CloseAll(void)
+void Menus_CloseAll() 
 {
 	int i;
 	
@@ -4211,36 +4207,29 @@ itemDef_t *Menu_SetNextCursorItem(menuDef_t *menu) {
 	return NULL;
 }
 
-static void Window_CloseCinematic(windowDef_t *window)
-{
+static void Window_CloseCinematic(windowDef_t *window) {
 	if (window->style == WINDOW_STYLE_CINEMATIC && window->cinematic >= 0) {
 		DC->stopCinematic(window->cinematic);
 		window->cinematic = -1;
 	}
 }
 
-static void Menu_CloseCinematics(menuDef_t *menu)
-{
-	if (menu)
-	{
+static void Menu_CloseCinematics(menuDef_t *menu) {
+	if (menu) {
 		int i;
 		Window_CloseCinematic(&menu->window);
-	  for (i = 0; i < menu->itemCount; i++)
-	  {
+	  for (i = 0; i < menu->itemCount; i++) {
 		  Window_CloseCinematic(&menu->items[i]->window);
-			if (menu->items[i]->type == ITEM_TYPE_OWNERDRAW)
-			{
+			if (menu->items[i]->type == ITEM_TYPE_OWNERDRAW) {
 				DC->stopCinematic(0-menu->items[i]->window.ownerDraw);
 			}
 	  }
 	}
 }
 
-static void Display_CloseCinematics(void)
-{
+static void Display_CloseCinematics() {
 	int i;
-	for (i = 0; i < menuCount; i++)
-	{
+	for (i = 0; i < menuCount; i++) {
 		Menu_CloseCinematics(&Menus[i]);
 	}
 }
@@ -4263,14 +4252,11 @@ void  Menus_Activate(menuDef_t *menu) {
 
 }
 
-int Display_VisibleMenuCount(void)
-{
+int Display_VisibleMenuCount() {
 	int i, count;
 	count = 0;
-	for (i = 0; i < menuCount; i++)
-	{
-		if (Menus[i].window.flags & (WINDOW_FORCED | WINDOW_VISIBLE))
-		{
+	for (i = 0; i < menuCount; i++) {
+		if (Menus[i].window.flags & (WINDOW_FORCED | WINDOW_VISIBLE)) {
 			count++;
 		}
 	}
@@ -5327,8 +5313,7 @@ void Item_Bind_Paint(itemDef_t *item)
 	}
 }
 
-qboolean Display_KeyBindPending(void)
-{
+qboolean Display_KeyBindPending() {
 	return g_waitingForKey;
 }
 
@@ -5469,9 +5454,9 @@ void UI_ScaleModelAxis(refEntity_t	*ent)
 }
 
 #ifndef CGAME
-//#include "../namespace_end.h" //VOLGARENOK: deprecated	// Yes, these are inverted. The whole file is in the namespace.
+#include "../namespace_end.h"	// Yes, these are inverted. The whole file is in the namespace.
 extern void UI_SaberAttachToChar( itemDef_t *item );
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 #endif
 
 void Item_Model_Paint(itemDef_t *item) 
@@ -6773,13 +6758,10 @@ itemDef_t *Menu_GetFocusedItem(menuDef_t *menu) {
   return NULL;
 }
 
-menuDef_t *Menu_GetFocused(void)
-{
+menuDef_t *Menu_GetFocused() {
   int i;
-  for (i = 0; i < menuCount; i++)
-  {
-    if (Menus[i].window.flags & WINDOW_HASFOCUS && Menus[i].window.flags & WINDOW_VISIBLE)
-	{
+  for (i = 0; i < menuCount; i++) {
+    if (Menus[i].window.flags & WINDOW_HASFOCUS && Menus[i].window.flags & WINDOW_VISIBLE) {
       return &Menus[i];
     }
   }
@@ -6826,13 +6808,10 @@ void Menu_SetFeederSelection(menuDef_t *menu, int feeder, int index, const char 
 	}
 }
 
-qboolean Menus_AnyFullScreenVisible(void)
-{
+qboolean Menus_AnyFullScreenVisible() {
   int i;
-  for (i = 0; i < menuCount; i++)
-  {
-    if (Menus[i].window.flags & WINDOW_VISIBLE && Menus[i].fullScreen)
-	{
+  for (i = 0; i < menuCount; i++) {
+    if (Menus[i].window.flags & WINDOW_VISIBLE && Menus[i].fullScreen) {
 			return qtrue;
     }
   }
@@ -9618,39 +9597,32 @@ void Menu_New(int handle) {
 	}
 }
 
-int Menu_Count(void)
-{
+int Menu_Count() {
 	return menuCount;
 }
 
-void Menu_PaintAll(void)
-{
+void Menu_PaintAll() {
 	int i;
-	if (captureFunc)
-	{
+	if (captureFunc) {
 		captureFunc(captureData);
 	}
 
-	for (i = 0; i < Menu_Count(); i++)
-	{
+	for (i = 0; i < Menu_Count(); i++) {
 		Menu_Paint(&Menus[i], qfalse);
 	}
 
-	if (debugMode)
-	{
+	if (debugMode) {
 		vec4_t v = {1, 1, 1, 1};
 		DC->drawText(5, 25, .75, v, va("fps: %f", DC->FPS), 0, 0, 0, 0);
 		DC->drawText(5, 45, .75, v, va("x: %d  y:%d", DC->cursorx,DC->cursory), 0, 0, 0, 0);
 	}
 }
 
-void Menu_Reset(void)
-{
+void Menu_Reset() {
 	menuCount = 0;
 }
 
-displayContextDef_t *Display_GetContext(void)
-{
+displayContextDef_t *Display_GetContext() {
 	return DC;
 }
  
@@ -9751,11 +9723,9 @@ static void Menu_CacheContents(menuDef_t *menu) {
 
 }
 
-void Display_CacheAll(void)
-{
+void Display_CacheAll() {
 	int i;
-	for (i = 0; i < menuCount; i++)
-	{
+	for (i = 0; i < menuCount; i++) {
 		Menu_CacheContents(&Menus[i]);
 	}
 }
@@ -9796,4 +9766,4 @@ static qboolean Menu_OverActiveItem(menuDef_t *menu, float x, float y) {
 	return qfalse;
 }
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"

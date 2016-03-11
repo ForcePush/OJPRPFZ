@@ -314,13 +314,13 @@ extern sfxHandle_t	MenuField_Key( menufield_s* m, int* key );
 // ui_main.c
 //
 qboolean UI_FeederSelection( float feederID, int index, itemDef_t *item );
-void UI_Report(void);
-void UI_Load(void);
+void UI_Report();
+void UI_Load();
 void UI_LoadMenus(const char *menuFile, qboolean reset);
 void _UI_SetActiveMenu( uiMenuCommand_t menu );
 int UI_AdjustTimeByGame(int time);
 void UI_ShowPostGame(qboolean newHigh);
-void UI_ClearScores(void);
+void UI_ClearScores();
 void UI_LoadArenas(void);
 void UI_LoadForceConfig_List( void );
 
@@ -919,7 +919,7 @@ void UI_SPSkillMenu_Cache( void );
 // ui_syscalls.c
 //
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 void			trap_Print( const char *string );
 void			trap_Error( const char *string );
@@ -978,8 +978,8 @@ int				trap_LAN_GetPingQueueCount( void );
 void			trap_LAN_ClearPing( int n );
 void			trap_LAN_GetPing( int n, char *buf, int buflen, int *pingtime );
 void			trap_LAN_GetPingInfo( int n, char *buf, int buflen );
-void			trap_LAN_LoadCachedServers(void);
-void			trap_LAN_SaveCachedServers(void);
+void			trap_LAN_LoadCachedServers();
+void			trap_LAN_SaveCachedServers();
 void			trap_LAN_MarkServerVisible(int source, int n, qboolean visible);
 int				trap_LAN_ServerIsVisible( int source, int n);
 qboolean		trap_LAN_UpdateVisiblePings( int source );
@@ -1016,7 +1016,7 @@ void			trap_CIN_SetExtents (int handle, int x, int y, int w, int h);
 int				trap_RealTime(qtime_t *qtime);
 void			trap_R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 //
 // ui_addbots.c

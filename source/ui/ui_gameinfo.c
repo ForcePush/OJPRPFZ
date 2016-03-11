@@ -342,8 +342,7 @@ char *UI_GetBotInfoByName( const char *name ) {
 	return NULL;
 }
 
-int UI_GetNumBots(void)
-{
+int UI_GetNumBots() {
 	return ui_numBots;
 }
 

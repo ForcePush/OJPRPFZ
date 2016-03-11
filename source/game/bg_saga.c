@@ -13,7 +13,7 @@
 #define SIEGECHAR_TAB 9 //perhaps a bit hacky, but I don't think there's any define existing for "tab"
 
 //Could use strap stuff but I don't particularly care at the moment anyway.
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 extern int	trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode );
 extern void	trap_FS_Read( void *buffer, int len, fileHandle_t f );
@@ -1558,4 +1558,4 @@ int BG_SiegeFindClassIndexByName(const char *classname)
 //End misc/utility functions
 //======================================
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"

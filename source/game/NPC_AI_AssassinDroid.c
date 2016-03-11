@@ -78,7 +78,7 @@ void BubbleShield_PushEnt(gentity_t* pushed, vec3_t smackDir)
 ////////////////////////////////////////////////////////////////////////////////////////
 // Go Through All The Ents Within The Radius Of The Shield And Push Them
 ////////////////////////////////////////////////////////////////////////////////////////
-void BubbleShield_PushRadiusEnts(void)
+void BubbleShield_PushRadiusEnts()
 {
 	int			numEnts, i;
 	int entityList[MAX_GENTITIES];

@@ -1703,12 +1703,12 @@ void NPC_DefaultScriptFlags( gentity_t *ent )
 NPC_Spawn_Go
 -------------------------
 */
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern void G_CreateAnimalNPC( Vehicle_t **pVeh, const char *strAnimalType );
 extern void G_CreateSpeederNPC( Vehicle_t **pVeh, const char *strType );
 extern void G_CreateWalkerNPC( Vehicle_t **pVeh, const char *strAnimalType );
 extern void G_CreateFighterNPC( Vehicle_t **pVeh, const char *strType );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 //[CoOp]
 #define TURN_ON				0x00000000

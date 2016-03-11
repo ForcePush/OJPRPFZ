@@ -597,10 +597,10 @@ extern float gDeactivated;
 extern float gBotEdit;
 extern int gWPRenderedFrame;
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern wpobject_t *gWPArray[MAX_WPARRAY_SIZE];
 extern int gWPNum;
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 extern int gLastPrintedIndex;
 extern nodeobject_t nodetable[MAX_NODETABLE_SIZE];

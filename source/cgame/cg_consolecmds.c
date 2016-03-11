@@ -93,12 +93,10 @@ static void CG_ScoresUp_f( void ) {
 }
 
 extern menuDef_t *menuScoreboard;
-void Menu_Reset(void);			// FIXME: add to right include file
+void Menu_Reset();			// FIXME: add to right include file
 
-static void CG_scrollScoresDown_f(void)
-{
-	if (menuScoreboard && cg.scoreBoardShowing)
-	{
+static void CG_scrollScoresDown_f( void) {
+	if (menuScoreboard && cg.scoreBoardShowing) {
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_SCOREBOARD, qtrue);
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_REDTEAM_LIST, qtrue);
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_BLUETEAM_LIST, qtrue);
@@ -269,12 +267,6 @@ typedef struct {
 extern void siegecvarlist(void);
 //[/SIEGECVARFIX]
 
-void CG_TestCrashlog(void)
-{
-    char *str = NULL;
-    strcpy(str, "boom");
-}
-
 static consoleCommand_t	commands[] = {
 	{ "testgun", CG_TestGun_f },
 	{ "testmodel", CG_TestModel_f },
@@ -309,9 +301,8 @@ static consoleCommand_t	commands[] = {
 	{ "siegeCvarUpdate", CG_SiegeCvarUpdate_f },
 	{ "siegeCompleteCvarUpdate", CG_SiegeCompleteCvarUpdate_f },
 	//[SIEGECVARFIX]
-	{ "siegeCvarList", siegecvarlist },
+	{ "siegeCvarList", siegecvarlist},
 	//[/SIEGECVARFIX]
-    { "testCrash", CG_TestCrashlog },
 };
 
 

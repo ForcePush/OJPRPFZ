@@ -19,12 +19,12 @@ extern int GetTime ( int lastTime );
 navInfo_t	frameNavInfo;
 extern qboolean FlyingCreature( gentity_t *ent );
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern qboolean PM_InKnockDown( playerState_t *ps );
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 //[CoOp]
-static qboolean NPC_TryJump_Final(void);
+static qboolean NPC_TryJump_Final();
 extern void G_DrawEdge( vec3_t start, vec3_t end, int type );
 
 static qboolean NPC_Jump( vec3_t dest, int goalEntNum )
@@ -234,7 +234,7 @@ static qboolean NPC_Jump( vec3_t dest, int goalEntNum )
 
 trace_t		mJumpTrace;
 
-qboolean NPC_CanTryJump(void)
+qboolean NPC_CanTryJump()
 {
 	if (!(NPCInfo->scriptFlags&SCF_NAV_CAN_JUMP)	||		// Can't Jump
 		(NPCInfo->scriptFlags&SCF_NO_ACROBATICS)	||		// If Can't Jump At All
@@ -309,8 +309,8 @@ qboolean NPC_TryJump2(gentity_t *goal, float max_xy_dist, float max_z_diff)
 	return qfalse;
 }
 
-void	 NPC_JumpSound(void);
-void	 NPC_JumpAnimation(void);
+void	 NPC_JumpSound();
+void	 NPC_JumpAnimation();
 qboolean NPC_TryJump(void)
 {//
 	vec3_t	targetDirection;
@@ -559,7 +559,7 @@ qboolean NPC_TryJump_Gent(gentity_t *goal,	float max_xy_dist, float max_z_diff)
 
 
 //do animation for jump
-void	 NPC_JumpAnimation(void)
+void	 NPC_JumpAnimation()
 {
 	int	jumpAnim = BOTH_JUMP1;
 
@@ -589,7 +589,7 @@ void	 NPC_JumpAnimation(void)
 
 //make sound for jump
 extern void G_SoundOnEnt( gentity_t *ent, soundChannel_t channel, const char *soundPath );
-void	 NPC_JumpSound(void)
+void	 NPC_JumpSound()
 {
 	if ( NPC->client->NPC_class == CLASS_HOWLER )
 	{
@@ -610,7 +610,7 @@ void	 NPC_JumpSound(void)
 
 
 //[CoOp]
-qboolean NPC_Jumping(void)
+qboolean NPC_Jumping()
 {//checks to see if we're jumping
 	if ( NPCInfo->jumpTime )
 	{
@@ -633,7 +633,7 @@ qboolean NPC_Jumping(void)
 
 
 //[SPPortComplete]
-qboolean NPC_JumpBackingUp(void)
+qboolean NPC_JumpBackingUp()
 {//check for and back up before a large jump if we're supposed to.
 	if (NPCInfo->jumpBackupTime)
 	{
@@ -658,7 +658,7 @@ qboolean NPC_JumpBackingUp(void)
 //[/CoOp]
 
 
-qboolean NPC_TryJump_Final(void)
+qboolean NPC_TryJump_Final()
 {
 	vec3_t	targetDirection;
 	float	targetDistanceXY;

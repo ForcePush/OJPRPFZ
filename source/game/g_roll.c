@@ -1,7 +1,7 @@
 #include "g_local.h"
 #include "g_roll.h"
 
-extern int G_Say(gentity_t *, void*, int, char *); //VOLGARENOK: added prototype
+
 void Cmd_Roll_F(gentity_t *ent)
 {
 	char maxNumTemp[10] = { 0 };

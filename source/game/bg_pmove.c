@@ -21,7 +21,7 @@ extern qboolean TryGrapple(gentity_t *ent); //g_cmds.c
 extern void trap_FX_PlayEffect( const char *file, vec3_t org, vec3_t fwd, int vol, int rad );
 #endif
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 extern qboolean BG_FullBodyTauntAnim( int anim );
 extern float PM_WalkableGroundDistance(void);
 extern qboolean PM_GroundSlideOkay( float zNormal );
@@ -840,7 +840,7 @@ void BG_VehicleTurnRateForSpeed( Vehicle_t *pVeh, float speed, float *mPitchOver
 	}
 }
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 // Following couple things don't belong in the DLL namespace!
 #ifdef QAGAME
@@ -853,7 +853,7 @@ gentity_t *G_PlayEffectID(const int fxID, vec3_t org, vec3_t ang);
 #endif
 
 
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 static void PM_GroundTraceMissed( void );
 void PM_HoverTrace( void )
@@ -2287,7 +2287,7 @@ int ForceFallBrakeRate[NUM_FORCE_POWER_LEVELS] =
 //time between Force Fall braking actions.
 #define FORCEFALLDEBOUNCE		100
 
-qboolean PM_CanForceFall(void)
+qboolean PM_CanForceFall()
 {	
 	return (!BG_InRoll(pm->ps, pm->ps->legsAnim) // not rolling
 		&& !PM_InKnockDown(pm->ps) // not knocked down
@@ -2305,7 +2305,7 @@ qboolean PM_CanForceFall(void)
 		&& pm->ps->gravity > 0); // not in zero-g
 }
 
-qboolean PM_InForceFall(void)
+qboolean PM_InForceFall()
 {
 	int ForceManaModifier = 0;
 	int FFDebounce = pm->ps->fd.forcePowerDebounce[FP_LEVITATION] - (pm->ps->fd.forcePowerLevel[FP_LEVITATION] * 100);
@@ -6403,8 +6403,6 @@ PM_Footsteps
 */
 //[SaberSys]
 extern qboolean PM_SaberInBrokenParry( int move );
-extern int BG_CrouchAnim(int); //VOLGARENOK: added prototype
-
 //[/SaberSys]
 static void PM_Footsteps( void ) {
 	float		bobmove;
@@ -9835,7 +9833,7 @@ static void PM_DropTimers( void ) {
 // which includes files that are also compiled in SP. We do need to make
 // sure we only get one copy in the linker, though.
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
 
 extern	vmCvar_t	bg_fighterAltControl;
 qboolean BG_UnrestrainedPitchRoll( playerState_t *ps, Vehicle_t *pVeh )
@@ -9853,7 +9851,7 @@ qboolean BG_UnrestrainedPitchRoll( playerState_t *ps, Vehicle_t *pVeh )
 	}
 	return qfalse;
 }
-//#include "../namespace_begin.h" //VOLGARENOK: deprecated
+#include "../namespace_begin.h"
 
 /*
 ================
@@ -14619,4 +14617,4 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 }
 //[/KnockdownSys]
 
-//#include "../namespace_end.h" //VOLGARENOK: deprecated
+#include "../namespace_end.h"
