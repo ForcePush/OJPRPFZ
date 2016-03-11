@@ -2043,7 +2043,7 @@ static void CG_PlayBufferedSounds( void ) {
 	}
 }
 
-void CG_UpdateSoundTrackers()
+void CG_UpdateSoundTrackers(void)
 {
 	int num;
 	centity_t *cent;

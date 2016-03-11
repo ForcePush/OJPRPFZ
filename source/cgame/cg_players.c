@@ -10116,7 +10116,7 @@ void CG_GetTagWorldPosition( refEntity_t *model, char *tag, vec3_t pos, vec3_t a
 
 #define	MAX_MARK_FRAGMENTS	128
 #define	MAX_MARK_POINTS		384
-extern markPoly_t *CG_AllocMark();
+extern markPoly_t *CG_AllocMark(void);
 
 void CG_CreateSaberMarks( vec3_t start, vec3_t end, vec3_t normal )
 {

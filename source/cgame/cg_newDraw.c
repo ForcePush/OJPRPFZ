@@ -4,8 +4,10 @@
 extern displayContextDef_t cgDC;
 
 
-int CG_GetSelectedPlayer() {
-	if (cg_currentSelectedPlayer.integer < 0 || cg_currentSelectedPlayer.integer >= numSortedTeamPlayers) {
+int CG_GetSelectedPlayer(void)
+{
+	if (cg_currentSelectedPlayer.integer < 0 || cg_currentSelectedPlayer.integer >= numSortedTeamPlayers)
+	{
 		cg_currentSelectedPlayer.integer = 0;
 	}
 	return cg_currentSelectedPlayer.integer;
@@ -792,7 +794,8 @@ CG_HideTeamMenus
 ==================
 
 */
-void CG_HideTeamMenu() {
+void CG_HideTeamMenu(void)
+{
   Menus_CloseByName("teamMenu");
   Menus_CloseByName("getMenu");
 }
@@ -803,7 +806,8 @@ CG_ShowTeamMenus
 ==================
 
 */
-void CG_ShowTeamMenu() {
+void CG_ShowTeamMenu(void)
+{
   Menus_OpenByName("teamMenu");
 }
 

@@ -80,7 +80,7 @@ void AC_AddAccount(ac_account_t *acc)
     ac_modified = qtrue;
 }
 
-void AC_InitAccounts()
+void AC_InitAccounts(void)
 {
     if (ac_accountsList)
     {
@@ -194,13 +194,13 @@ qboolean AC_CheckPassword(const ac_account_t *acc, const char *password)
     return (strcmp(acc->password, password) == 0);
 }
 
-void AC_Init()
+void AC_Init(void)
 {
     AC_InitCommands();
     AC_InitAccounts();
 }
 
-void AC_Shutdown()
+void AC_Shutdown(void)
 {
     if (ac_accountsFile)  // G_Error happened while parsing accounts file
     {

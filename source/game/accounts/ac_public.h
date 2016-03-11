@@ -6,10 +6,10 @@
 
 qboolean AC_ExecuteCommand(const char *cmd, gentity_t *ent);
 
-void AC_Init();
-void AC_Shutdown();
+void AC_Init(void);
+void AC_Shutdown(void);
 
-void AC_ReadAccounts();
+void AC_ReadAccounts(void);
 void AC_SaveAccounts(qboolean shutdown);
 
 // called after player's respawn

@@ -376,7 +376,7 @@ ac_account_t *AC_ParseField(char *name, char *value, ac_account_t *currentAcc, i
     }
 }
 
-void AC_ReadAccounts()
+void AC_ReadAccounts(void)
 {
     FILE *accountsFile = fopen(AC_ACCOUNTS_FILENAME, "r");
 

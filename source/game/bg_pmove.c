@@ -2287,7 +2287,7 @@ int ForceFallBrakeRate[NUM_FORCE_POWER_LEVELS] =
 //time between Force Fall braking actions.
 #define FORCEFALLDEBOUNCE		100
 
-qboolean PM_CanForceFall()
+qboolean PM_CanForceFall(void)
 {	
 	return (!BG_InRoll(pm->ps, pm->ps->legsAnim) // not rolling
 		&& !PM_InKnockDown(pm->ps) // not knocked down
@@ -2305,7 +2305,7 @@ qboolean PM_CanForceFall()
 		&& pm->ps->gravity > 0); // not in zero-g
 }
 
-qboolean PM_InForceFall()
+qboolean PM_InForceFall(void)
 {
 	int ForceManaModifier = 0;
 	int FFDebounce = pm->ps->fd.forcePowerDebounce[FP_LEVITATION] - (pm->ps->fd.forcePowerLevel[FP_LEVITATION] * 100);
@@ -6403,6 +6403,8 @@ PM_Footsteps
 */
 //[SaberSys]
 extern qboolean PM_SaberInBrokenParry( int move );
+extern int BG_CrouchAnim(int); //VOLGARENOK: added prototype
+
 //[/SaberSys]
 static void PM_Footsteps( void ) {
 	float		bobmove;

@@ -93,10 +93,12 @@ static void CG_ScoresUp_f( void ) {
 }
 
 extern menuDef_t *menuScoreboard;
-void Menu_Reset();			// FIXME: add to right include file
+void Menu_Reset(void);			// FIXME: add to right include file
 
-static void CG_scrollScoresDown_f( void) {
-	if (menuScoreboard && cg.scoreBoardShowing) {
+static void CG_scrollScoresDown_f(void)
+{
+	if (menuScoreboard && cg.scoreBoardShowing)
+	{
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_SCOREBOARD, qtrue);
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_REDTEAM_LIST, qtrue);
 		Menu_ScrollFeeder(menuScoreboard, FEEDER_BLUETEAM_LIST, qtrue);

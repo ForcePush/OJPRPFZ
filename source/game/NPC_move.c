@@ -24,7 +24,7 @@ extern qboolean PM_InKnockDown( playerState_t *ps );
 //#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[CoOp]
-static qboolean NPC_TryJump_Final();
+static qboolean NPC_TryJump_Final(void);
 extern void G_DrawEdge( vec3_t start, vec3_t end, int type );
 
 static qboolean NPC_Jump( vec3_t dest, int goalEntNum )
@@ -234,7 +234,7 @@ static qboolean NPC_Jump( vec3_t dest, int goalEntNum )
 
 trace_t		mJumpTrace;
 
-qboolean NPC_CanTryJump()
+qboolean NPC_CanTryJump(void)
 {
 	if (!(NPCInfo->scriptFlags&SCF_NAV_CAN_JUMP)	||		// Can't Jump
 		(NPCInfo->scriptFlags&SCF_NO_ACROBATICS)	||		// If Can't Jump At All
@@ -309,8 +309,8 @@ qboolean NPC_TryJump2(gentity_t *goal, float max_xy_dist, float max_z_diff)
 	return qfalse;
 }
 
-void	 NPC_JumpSound();
-void	 NPC_JumpAnimation();
+void	 NPC_JumpSound(void);
+void	 NPC_JumpAnimation(void);
 qboolean NPC_TryJump(void)
 {//
 	vec3_t	targetDirection;
@@ -559,7 +559,7 @@ qboolean NPC_TryJump_Gent(gentity_t *goal,	float max_xy_dist, float max_z_diff)
 
 
 //do animation for jump
-void	 NPC_JumpAnimation()
+void	 NPC_JumpAnimation(void)
 {
 	int	jumpAnim = BOTH_JUMP1;
 
@@ -589,7 +589,7 @@ void	 NPC_JumpAnimation()
 
 //make sound for jump
 extern void G_SoundOnEnt( gentity_t *ent, soundChannel_t channel, const char *soundPath );
-void	 NPC_JumpSound()
+void	 NPC_JumpSound(void)
 {
 	if ( NPC->client->NPC_class == CLASS_HOWLER )
 	{
@@ -610,7 +610,7 @@ void	 NPC_JumpSound()
 
 
 //[CoOp]
-qboolean NPC_Jumping()
+qboolean NPC_Jumping(void)
 {//checks to see if we're jumping
 	if ( NPCInfo->jumpTime )
 	{
@@ -633,7 +633,7 @@ qboolean NPC_Jumping()
 
 
 //[SPPortComplete]
-qboolean NPC_JumpBackingUp()
+qboolean NPC_JumpBackingUp(void)
 {//check for and back up before a large jump if we're supposed to.
 	if (NPCInfo->jumpBackupTime)
 	{
@@ -658,7 +658,7 @@ qboolean NPC_JumpBackingUp()
 //[/CoOp]
 
 
-qboolean NPC_TryJump_Final()
+qboolean NPC_TryJump_Final(void)
 {
 	vec3_t	targetDirection;
 	float	targetDistanceXY;
