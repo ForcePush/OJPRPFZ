@@ -22,7 +22,13 @@ qboolean AC_Cmd_AdminCheck(gentity_t *ent)
 // commands section
 void AC_Cmd_Test(gentity_t *ent)
 {
-    trap_SendServerCommand(ent->playerState->clientNum, "print \"^2Coming soon!\n\"");
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
+
+    trap_SendServerCommand(playerNum, "print \"^2Coming soon!\n\"");
 }
 
 void AC_Cmd_Register(gentity_t *ent)
@@ -34,7 +40,6 @@ void AC_Cmd_Register(gentity_t *ent)
     }
 
     int argc = trap_Argc();
-
     if (argc < 4)
     {
         AC_Print(ent, "^3ac_register: usage: /ac_register <login> <password> <name>");
@@ -104,7 +109,12 @@ void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
     }
 
     int argc = trap_Argc();
-    int selfNum = ent->playerState->clientNum;
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
+
     if (argc < 4)
     {
         if (overwrite)
@@ -161,7 +171,7 @@ void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
         {
             memset(acc->skills, 0, sizeof(acc->skills)*sizeof(acc->skills[0]));
         }
-        AC_ParseSkills(((unsigned char *)acc + field->offset), buffer, -1, selfNum);
+        AC_ParseSkills(((unsigned char *)acc + field->offset), buffer, -1, playerNum);
 
         break;
     }
@@ -171,7 +181,7 @@ void AC_Cmd_SetFieldHelper(gentity_t *ent, qboolean overwrite)
         {
             memset(acc->forces, 0, sizeof(acc->forces)*sizeof(acc->forces[0]));
         }
-        AC_ParseForces(((unsigned char *)acc + field->offset), buffer, -1, selfNum);
+        AC_ParseForces(((unsigned char *)acc + field->offset), buffer, -1, playerNum);
 
         break;
     }
@@ -434,6 +444,11 @@ void AC_Cmd_Login(gentity_t *ent)
 {
     // /ac_login <login> <password>
     int argc = trap_Argc();
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
 
     if (argc < 3)
     {
@@ -441,9 +456,9 @@ void AC_Cmd_Login(gentity_t *ent)
         return;
     }
 
-    if (ac_loggedPlayers[ent->playerState->clientNum] != NULL)
+    if (ac_loggedPlayers[playerNum] != NULL)
     {
-        AC_Print(ent, va("^3You're already logged on, ^7%s^3!", ac_loggedPlayers[ent->playerState->clientNum]->name));
+        AC_Print(ent, va("^3You're already logged on, ^7%s^3!", ac_loggedPlayers[playerNum]->name));
         return;
     }
 
@@ -464,10 +479,13 @@ void AC_Cmd_Login(gentity_t *ent)
         return;
     }
 
-    ac_loggedPlayers[ent->playerState->clientNum] = acc;
-    // Skinpack: TODO: maybe copy/paste force/weapon code
-    // from ClientSpawn instead of just respawning client?
-    ClientSpawn(ent);
+    ac_loggedPlayers[playerNum] = acc;
+    if (ent->client->sess.sessionTeam != TEAM_SPECTATOR)
+    {
+        // Skinpack: TODO: maybe copy/paste force/weapon code
+        // from ClientSpawn instead of just respawning client?
+        ClientSpawn(ent);
+    }
 
     AC_Print(ent, va("^2You're logged on! Hello, ^7%s^7!", acc->name));
     AC_PrintBroadcast(va("^7%s ^2is logged on as ^7%s!", ent->client->pers.netname, acc->name));

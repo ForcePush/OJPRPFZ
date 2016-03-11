@@ -2601,6 +2601,12 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	}
 	G_ReadSessionData( client );
 
+    // Skinpack: prevent autojoin
+    if (!g_teamAutoJoin.integer)
+    {
+        client->sess.sessionTeam = TEAM_SPECTATOR;
+    }
+
 	//[AdminSys]
 	client->sess.IPstring[0] = 0;
 	Q_strncpyz(client->sess.IPstring, IPstring, sizeof(client->sess.IPstring) );

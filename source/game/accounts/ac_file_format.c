@@ -85,7 +85,7 @@ qboolean ac_modified;
 
 const ac_fileField_t *AC_GetFieldFromName(const char *name)
 {
-    for (int i = AC_FIELD_LOGIN + 1; i < AC_FIELD_MAX; i++)
+    for (int i = 0; i < AC_FIELD_MAX; i++)
     {
         if (strcmp(name, ac_fileFields[i].name) == 0)
         {

@@ -36,6 +36,8 @@ extern qboolean ac_modified;
 
 void AC_InitAccounts();
 
+int AC_ClientNumFromEnt(gentity_t *ent);
+
 void AC_AddAccount(ac_account_t *acc);
 qboolean AC_RemoveAccount(const char *login);
 void AC_FreeAccount(ac_account_t *acc);

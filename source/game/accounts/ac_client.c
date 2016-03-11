@@ -9,15 +9,19 @@ ac_account_t *ac_loggedPlayers[MAX_CLIENTS];
 
 void AC_SetPlayerStats(gentity_t *ent)
 {
-    if (!ent->playerState ||
-        !ent->client ||
-        ent->playerState->clientNum < 0 ||
-        ent->playerState->clientNum >= MAX_CLIENTS)
+    if (!ent->client ||
+        ent->client->sess.sessionTeam == TEAM_SPECTATOR)
     {
         return;
     }
 
-    ac_account_t *acc = ac_loggedPlayers[ent->playerState->clientNum];
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
+
+    ac_account_t *acc = ac_loggedPlayers[playerNum];
     if (!acc)  // not logged in
     {
         return;
@@ -33,6 +37,10 @@ void AC_SetPlayerStats(gentity_t *ent)
     for (int i = 0; i < NUM_FORCE_POWERS; i++)
     {
         ent->playerState->fd.forcePowerLevel[i] = acc->forces[i];
+        if (acc->forces[i])
+        {
+            ent->playerState->fd.forcePowersKnown |= (1 << i);
+        }
     }
 
     for (int i = 0; i < NUM_SKILLS; i++)
@@ -43,21 +51,27 @@ void AC_SetPlayerStats(gentity_t *ent)
 
 void AC_PlayerLogout(gentity_t *ent)
 {
-    if (!ent->playerState ||
-        ent->playerState->clientNum < 0 ||
-        ent->playerState->clientNum >= MAX_CLIENTS ||
-        !ac_loggedPlayers[ent->playerState->clientNum])
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
+
+    if (!ac_loggedPlayers[playerNum])
     {
         AC_Print(ent, "^3You are not logged in.");
         return;
     }
 
-    ac_loggedPlayers[ent->playerState->clientNum] = NULL;
+    ac_loggedPlayers[playerNum] = NULL;
 
-    // Skinpack: TODO: FIXME: this is bad. Need to find a better way
-    // of resetting player's stats.
-    ent->playerState->fd.forcePower = ent->playerState->fd.forcePowerMax = 100;
-    SetTeam(ent, "s");
+    if (ent->client->sess.sessionTeam != TEAM_SPECTATOR)
+    {
+        // Skinpack: TODO: FIXME: this is bad. Need to find a better way
+        // of resetting player's stats.
+        ent->playerState->fd.forcePower = ent->playerState->fd.forcePowerMax = 100;
+        SetTeam(ent, "s");
+    }
 
     AC_Print(ent, "^2Logged out!");
 }

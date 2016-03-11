@@ -5,7 +5,13 @@ vmCvar_t ac_adminPassword;
 
 void AC_Cmd_AdminLogin(gentity_t *ent)
 {
-    if (!ent || !ent->playerState)
+    if (!ent || !ent->client)
+    {
+        return;
+    }
+
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
     {
         return;
     }
@@ -31,13 +37,19 @@ void AC_Cmd_AdminLogin(gentity_t *ent)
         return;
     }
 
-    ac_adminLoggedOn[ent->playerState->clientNum] = qtrue;
+    ac_adminLoggedOn[playerNum] = qtrue;
     AC_Print(ent, "^2Logged on!");
 }
 
 void AC_Cmd_AdminLogout(gentity_t *ent)
 {
-    if (!ent || !ent->playerState)
+    if (!ent || !ent->client)
+    {
+        return;
+    }
+
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
     {
         return;
     }
@@ -48,16 +60,22 @@ void AC_Cmd_AdminLogout(gentity_t *ent)
         return;
     }
 
-    ac_adminLoggedOn[ent->playerState->clientNum] = qfalse;
+    ac_adminLoggedOn[playerNum] = qfalse;
     AC_Print(ent, "^2Logged out.");
 }
 
 qboolean AC_CheckAdmin(gentity_t *ent)
 {
-    if (!ent || !ent->playerState)
+    if (!ent)
     {
         return qfalse;
     }
 
-    return ac_adminLoggedOn[ent->playerState->clientNum];
+    int playerNum = AC_ClientNumFromEnt(ent);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return qfalse;
+    }
+
+    return ac_adminLoggedOn[playerNum];
 }

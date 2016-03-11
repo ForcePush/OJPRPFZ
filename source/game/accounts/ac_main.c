@@ -8,12 +8,18 @@ ac_account_list_t *ac_accountsList;
 
 void AC_Print(gentity_t *to, const char *text)
 {
-    if (!to->playerState)
+    if (!to->client)
     {
         return;
     }
 
-    trap_SendServerCommand(to->playerState->clientNum, va("print \"%s\n\"", text));
+    int playerNum = AC_ClientNumFromEnt(to);
+    if (playerNum < 0 || playerNum >= MAX_CLIENTS)
+    {
+        return;
+    }
+
+    trap_SendServerCommand(playerNum, va("print \"%s\n\"", text));
 }
 
 void AC_PrintBroadcast(const char *text)
@@ -175,6 +181,11 @@ qboolean AC_RemoveAccount(const char *login)
     {
         return qfalse;
     }
+}
+
+int AC_ClientNumFromEnt(gentity_t *ent)
+{
+    return ent - g_entities;
 }
 
 // Skinpack: TODO: add some password hashing/encryption
