@@ -279,7 +279,7 @@ int forcePowerDarkLight[NUM_FORCE_POWERS] = //0 == neutral
 	FORCE_DARKSIDE,//FP_LIGHTNING,//hold/duration
 	FORCE_DARKSIDE,//FP_RAGE,//duration
 	FORCE_LIGHTSIDE,//FP_PROTECT,//duration
-	FORCE_LIGHTSIDE,//FP_ABSORB,//duration
+	0,//FP_ABSORB,//duration
 	FORCE_LIGHTSIDE,//FP_TEAM_HEAL,//instant
 	FORCE_DARKSIDE,//FP_TEAM_FORCE,//instant
 	FORCE_DARKSIDE,//FP_DRAIN,//hold/duration

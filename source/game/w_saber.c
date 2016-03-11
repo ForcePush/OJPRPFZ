@@ -187,7 +187,7 @@ int BasicDodgeCosts[MOD_MAX] =
 {
 	-1,		//MOD_UNKNOWN,
 	-1,		//MOD_STUN_BATON,
-	-1,		//MOD_MELEE,
+	5,		//MOD_MELEE,
 	40,		//MOD_SABER,
 	20,		//MOD_BRYAR_PISTOL,
 	-1,		//MOD_BRYAR_PISTOL_ALT,
@@ -5829,12 +5829,8 @@ if( !ojp_allowBodyDodge.integer )
 	}
 
 	if(mod == MOD_MELEE)
-	{//don't dodge melee attacks for now.
-		if(g_debugdodge.integer)
-		{
-			G_Printf("%i: Client %i Can't dodge melee damage\n", level.time, self->s.number);
-		}
-		return qfalse;
+	{
+        dpcost = 5;
 	}
 
 	if(self->client->ps.legsAnim == BOTH_MEDITATE)
@@ -5879,7 +5875,7 @@ if( !ojp_allowBodyDodge.integer )
 		}
 	}
 
-	if( *dmg <= DODGE_MINDAM && mod != MOD_REPEATER )
+	if( *dmg <= DODGE_MINDAM && mod != MOD_REPEATER && mod != MOD_MELEE )
 	{
 		dpcost = (int)(dpcost * ((float) *dmg/DODGE_MINDAM));
 		NoAction = qtrue;
@@ -10195,6 +10191,24 @@ static void G_PunchSomeMofos(gentity_t *ent)
 					return;
 				}
 			}
+
+            int dmg = MELEE_SWING1_DAMAGE;
+
+            if (ent->client && ent->client->ps.torsoAnim == BOTH_MELEE2)
+            { //do a tad bit more damage on the second swing
+                dmg = MELEE_SWING2_DAMAGE;
+            }
+
+            if (G_HeavyMelee(ent))
+            { //2x damage for heavy melee class
+                dmg *= 2;
+            }
+
+            if (G_DoDodge(tr_ent, ent, forward, -1, &dmg, MOD_MELEE))
+            {
+                return;
+            }
+
 			ent->client->jediKickIndex = tr.entityNum;
 			ent->client->jediKickTime = level.time + ent->client->ps.torsoTimer;
 			
@@ -10227,18 +10241,6 @@ static void G_PunchSomeMofos(gentity_t *ent)
 
 			if ( tr_ent->takedamage )
 			{ //damage them, do more damage if we're in the second right hook
-				int dmg = MELEE_SWING1_DAMAGE;
-
-				if (ent->client && ent->client->ps.torsoAnim == BOTH_MELEE2)
-				{ //do a tad bit more damage on the second swing
-					dmg = MELEE_SWING2_DAMAGE;
-				}
-
-				if ( G_HeavyMelee( ent ) )
-				{ //2x damage for heavy melee class
-					dmg *= 2;
-				}
-
 				G_Damage( tr_ent, ent, ent, forward, tr.endpos, dmg, DAMAGE_NO_ARMOR, MOD_MELEE );
 			}
 		}
