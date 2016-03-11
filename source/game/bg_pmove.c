@@ -2800,7 +2800,7 @@ static qboolean PM_CheckJump( void )
 	{
 		qboolean allowWallRuns = qtrue;
 		qboolean allowWallFlips = qtrue;
-		qboolean allowFlips = qtrue;
+		allowFlips = qtrue;
 		qboolean allowWallGrabs = qtrue;
 		if ( pm->ps->weapon == WP_SABER )
 		{
@@ -6403,7 +6403,7 @@ PM_Footsteps
 */
 //[SaberSys]
 extern qboolean PM_SaberInBrokenParry( int move );
-extern int BG_CrouchAnim(int); //VOLGARENOK: added prototype
+extern qboolean BG_CrouchAnim(int); //VOLGARENOK: added prototype
 
 //[/SaberSys]
 static void PM_Footsteps( void ) {
@@ -8449,22 +8449,22 @@ static void PM_Weapon( void )
 		pm->ps->weapon == WP_EMPLACED_GUN)
 	{ //oh no!
 		int i = 0;
-		int weap = -1;
+		int newWeap = -1;
 
 		while (i < WP_NUM_WEAPONS)
 		{
 			if ((pm->ps->stats[STAT_WEAPONS] & (1 << i)) && i != WP_NONE)
 			{ //this one's good
-				weap = i;
+                newWeap = i;
 				break;
 			}
 			i++;
 		}
 
-		if (weap != -1)
+		if (newWeap != -1)
 		{
-			pm->cmd.weapon = weap;
-			pm->ps->weapon = weap;
+			pm->cmd.weapon = newWeap;
+			pm->ps->weapon = newWeap;
 			return;
 		}
 	}
@@ -10150,198 +10150,198 @@ void PM_UpdateViewAngles( playerState_t *ps, const usercmd_t *cmd ) {
 */
 
 //-------------------------------------------
-void PM_AdjustAttackStates( pmove_t *pm )
+void PM_AdjustAttackStates(pmove_t *argPm)
 //-------------------------------------------
 {
-	int amount;
+    int amount;
 
-	if (pm_entSelf->s.NPC_class!=CLASS_VEHICLE
-		&&pm->ps->m_iVehicleNum)
-	{ //riding a vehicle
-		bgEntity_t *veh = pm_entVeh;
-		if ( veh && veh->m_pVehicle && (veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER || veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER) )
-		{//riding a walker/fighter
-			//not firing, ever
-			pm->ps->eFlags &= ~(EF_FIRING|EF_ALT_FIRING);
-			return;
-		}
-	}
-	// get ammo usage
-	if ( pm->cmd.buttons & BUTTON_ALT_ATTACK )
-	{
-		amount = pm->ps->ammo[weaponData[ pm->ps->weapon ].ammoIndex] - weaponData[pm->ps->weapon].altEnergyPerShot;
-	}
-	else
-	{
-		amount = pm->ps->ammo[weaponData[ pm->ps->weapon ].ammoIndex] - weaponData[pm->ps->weapon].energyPerShot;
-	}
+    if (pm_entSelf->s.NPC_class != CLASS_VEHICLE
+        &&argPm->ps->m_iVehicleNum)
+    { //riding a vehicle
+        bgEntity_t *veh = pm_entVeh;
+        if (veh && veh->m_pVehicle && (veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER || veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER))
+        {//riding a walker/fighter
+         //not firing, ever
+            argPm->ps->eFlags &= ~(EF_FIRING | EF_ALT_FIRING);
+            return;
+        }
+    }
+    // get ammo usage
+    if (argPm->cmd.buttons & BUTTON_ALT_ATTACK)
+    {
+        amount = argPm->ps->ammo[weaponData[argPm->ps->weapon].ammoIndex] - weaponData[argPm->ps->weapon].altEnergyPerShot;
+    }
+    else
+    {
+        amount = argPm->ps->ammo[weaponData[argPm->ps->weapon].ammoIndex] - weaponData[argPm->ps->weapon].energyPerShot;
+    }
 
-	// disruptor alt-fire should toggle the zoom mode, but only bother doing this for the player?
-	if ( pm->ps->weapon == WP_BOWCASTER && pm->ps->weaponstate == WEAPON_READY && (pm->ps->eFlags2 & EF2_BOWCASTERSCOPE))
-	{
+    // disruptor alt-fire should toggle the zoom mode, but only bother doing this for the player?
+    if (argPm->ps->weapon == WP_BOWCASTER && argPm->ps->weaponstate == WEAPON_READY && (argPm->ps->eFlags2 & EF2_BOWCASTERSCOPE))
+    {
 
-		if ( !(pm->ps->eFlags & EF_ALT_FIRING) && (pm->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
-			pm->cmd.upmove <= 0 && !pm->cmd.forwardmove && !pm->cmd.rightmove*/)
-		{
-			// We just pressed the alt-fire key
-			if ( !pm->ps->zoomMode && pm->ps->pm_type != PM_DEAD )
-			{
-				pm->ps->zoomMode=5;
-				pm->ps->zoomLocked=qtrue;
-				pm->ps->zoomFov=30;
-				
-			}
-			else if (pm->ps->zoomMode == 5 && pm->ps->zoomLockTime < pm->cmd.serverTime)
-			{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
-				// already zooming, so must be wanting to turn it off
-				pm->ps->zoomMode=0;
-				pm->ps->userInt3=0;
-				pm->ps->zoomLocked=qfalse;
-			}
-		}
-	}
+        if (!(argPm->ps->eFlags & EF_ALT_FIRING) && (argPm->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
+                                                                                             argPm->cmd.upmove <= 0 && !argPm->cmd.forwardmove && !argPm->cmd.rightmove*/)
+        {
+            // We just pressed the alt-fire key
+            if (!argPm->ps->zoomMode && argPm->ps->pm_type != PM_DEAD)
+            {
+                argPm->ps->zoomMode = 5;
+                argPm->ps->zoomLocked = qtrue;
+                argPm->ps->zoomFov = 30;
 
-	// disruptor alt-fire should toggle the zoom mode, but only bother doing this for the player?
-	if ( pm->ps->weapon == WP_DISRUPTOR && pm->ps->weaponstate == WEAPON_READY )
-	{
-		if ( !(pm->ps->eFlags & EF_ALT_FIRING) && (pm->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
-			pm->cmd.upmove <= 0 && !pm->cmd.forwardmove && !pm->cmd.rightmove*/)
-		{
-			// We just pressed the alt-fire key
-			if ( !pm->ps->zoomMode && pm->ps->pm_type != PM_DEAD )
-			{
-				// not already zooming, so do it now
-				pm->ps->zoomMode = 1;
-				pm->ps->zoomLocked = qfalse;
-				pm->ps->zoomFov = 80.0f;//cg_fov.value;
-				pm->ps->zoomLockTime = pm->cmd.serverTime + 50;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-			}
-			else if (pm->ps->zoomMode == 1 && pm->ps->zoomLockTime < pm->cmd.serverTime)
-			{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
-				// already zooming, so must be wanting to turn it off
-				pm->ps->zoomMode = 0;
-				pm->ps->zoomTime = pm->ps->commandTime;
-				pm->ps->zoomLocked = qfalse;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-				pm->ps->weaponTime = 1000;
-			}
-		}
-		else if ( !(pm->cmd.buttons & BUTTON_ALT_ATTACK ) && pm->ps->zoomLockTime < pm->cmd.serverTime)
-		{
-			// Not pressing zoom any more
-			if ( pm->ps->zoomMode )
-			{
-				if (pm->ps->zoomMode == 1 && !pm->ps->zoomLocked)
-				{ //approximate what level the client should be zoomed at based on how long zoom was held
-					pm->ps->zoomFov = ((pm->cmd.serverTime+50) - pm->ps->zoomLockTime) * 0.035f;
-					if (pm->ps->zoomFov > 50)
-					{
-						pm->ps->zoomFov = 50;
-					}
-					if (pm->ps->zoomFov < 1)
-					{
-						pm->ps->zoomFov = 1;
-					}
-				}
-				// were zooming in, so now lock the zoom
-				pm->ps->zoomLocked = qtrue;
-			}
-		}
-		//This seemed like a good idea, but apparently it confuses people. So disabled for now.
-		/*
-		else if (!(pm->ps->eFlags & EF_ALT_FIRING) && (pm->cmd.buttons & BUTTON_ALT_ATTACK) &&
-			(pm->cmd.upmove > 0 || pm->cmd.forwardmove || pm->cmd.rightmove))
-		{ //if you try to zoom while moving, just convert it into a primary attack
-			pm->cmd.buttons &= ~BUTTON_ALT_ATTACK;
-			pm->cmd.buttons |= BUTTON_ATTACK;
-		}
-		*/
+            }
+            else if (argPm->ps->zoomMode == 5 && argPm->ps->zoomLockTime < argPm->cmd.serverTime)
+            { //check for == 1 so we can't turn binoculars off with disruptor alt fire
+              // already zooming, so must be wanting to turn it off
+                argPm->ps->zoomMode = 0;
+                argPm->ps->userInt3 = 0;
+                argPm->ps->zoomLocked = qfalse;
+            }
+        }
+    }
 
-		/*
-		if (pm->cmd.upmove > 0 || pm->cmd.forwardmove || pm->cmd.rightmove)
-		{
-			if (pm->ps->zoomMode == 1 && pm->ps->zoomLockTime < pm->cmd.serverTime)
-			{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
-				pm->ps->zoomMode = 0;
-				pm->ps->zoomTime = pm->ps->commandTime;
-				pm->ps->zoomLocked = qfalse;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-			}
-		}
-		*/
+    // disruptor alt-fire should toggle the zoom mode, but only bother doing this for the player?
+    if (argPm->ps->weapon == WP_DISRUPTOR && argPm->ps->weaponstate == WEAPON_READY)
+    {
+        if (!(argPm->ps->eFlags & EF_ALT_FIRING) && (argPm->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
+                                                                                             argPm->cmd.upmove <= 0 && !argPm->cmd.forwardmove && !argPm->cmd.rightmove*/)
+        {
+            // We just pressed the alt-fire key
+            if (!argPm->ps->zoomMode && argPm->ps->pm_type != PM_DEAD)
+            {
+                // not already zooming, so do it now
+                argPm->ps->zoomMode = 1;
+                argPm->ps->zoomLocked = qfalse;
+                argPm->ps->zoomFov = 80.0f;//cg_fov.value;
+                argPm->ps->zoomLockTime = argPm->cmd.serverTime + 50;
+                PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+            }
+            else if (argPm->ps->zoomMode == 1 && argPm->ps->zoomLockTime < argPm->cmd.serverTime)
+            { //check for == 1 so we can't turn binoculars off with disruptor alt fire
+              // already zooming, so must be wanting to turn it off
+                argPm->ps->zoomMode = 0;
+                argPm->ps->zoomTime = argPm->ps->commandTime;
+                argPm->ps->zoomLocked = qfalse;
+                PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+                argPm->ps->weaponTime = 1000;
+            }
+        }
+        else if (!(argPm->cmd.buttons & BUTTON_ALT_ATTACK) && argPm->ps->zoomLockTime < argPm->cmd.serverTime)
+        {
+            // Not pressing zoom any more
+            if (argPm->ps->zoomMode)
+            {
+                if (argPm->ps->zoomMode == 1 && !argPm->ps->zoomLocked)
+                { //approximate what level the client should be zoomed at based on how long zoom was held
+                    argPm->ps->zoomFov = ((argPm->cmd.serverTime + 50) - argPm->ps->zoomLockTime) * 0.035f;
+                    if (argPm->ps->zoomFov > 50)
+                    {
+                        argPm->ps->zoomFov = 50;
+                    }
+                    if (argPm->ps->zoomFov < 1)
+                    {
+                        argPm->ps->zoomFov = 1;
+                    }
+                }
+                // were zooming in, so now lock the zoom
+                argPm->ps->zoomLocked = qtrue;
+            }
+        }
+        //This seemed like a good idea, but apparently it confuses people. So disabled for now.
+        /*
+        else if (!(argPm->ps->eFlags & EF_ALT_FIRING) && (argPm->cmd.buttons & BUTTON_ALT_ATTACK) &&
+        (argPm->cmd.upmove > 0 || argPm->cmd.forwardmove || argPm->cmd.rightmove))
+        { //if you try to zoom while moving, just convert it into a primary attack
+        argPm->cmd.buttons &= ~BUTTON_ALT_ATTACK;
+        argPm->cmd.buttons |= BUTTON_ATTACK;
+        }
+        */
 
-		if ( pm->cmd.buttons & BUTTON_ATTACK )
-		{
-			// If we are zoomed, we should switch the ammo usage to the alt-fire, otherwise, we'll
-			//	just use whatever ammo was selected from above
-			if ( pm->ps->zoomMode )
-			{
-				amount = pm->ps->ammo[weaponData[ pm->ps->weapon ].ammoIndex] - 
-							weaponData[pm->ps->weapon].altEnergyPerShot;
-			}
-		}
-		else
-		{
-			// alt-fire button pressing doesn't use any ammo
-			amount = 0;
-		}
-	}
-	/*
-	else if (pm->ps->weapon == WP_DISRUPTOR) //still perform certain checks, even if the weapon is not ready
-	{
-		if (pm->cmd.upmove > 0 || pm->cmd.forwardmove || pm->cmd.rightmove)
-		{
-			if (pm->ps->zoomMode == 1 && pm->ps->zoomLockTime < pm->cmd.serverTime)
-			{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
-				pm->ps->zoomMode = 0;
-				pm->ps->zoomTime = pm->ps->commandTime;
-				pm->ps->zoomLocked = qfalse;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-			}
-		}
-	}
-	*/
+        /*
+        if (argPm->cmd.upmove > 0 || argPm->cmd.forwardmove || argPm->cmd.rightmove)
+        {
+        if (argPm->ps->zoomMode == 1 && argPm->ps->zoomLockTime < argPm->cmd.serverTime)
+        { //check for == 1 so we can't turn binoculars off with disruptor alt fire
+        argPm->ps->zoomMode = 0;
+        argPm->ps->zoomTime = argPm->ps->commandTime;
+        argPm->ps->zoomLocked = qfalse;
+        PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+        }
+        }
+        */
 
-	// set the firing flag for continuous beam weapons, saber will fire even if out of ammo
-	if ( !(pm->ps->pm_flags & PMF_RESPAWNED) && 
-			pm->ps->pm_type != PM_INTERMISSION && 
-			( pm->cmd.buttons & (BUTTON_ATTACK|BUTTON_ALT_ATTACK)) && 
-			( amount >= 0 || pm->ps->weapon == WP_SABER ))
-	{
-		if ( pm->cmd.buttons & BUTTON_ALT_ATTACK )
-		{
-			pm->ps->eFlags |= EF_ALT_FIRING;
-		}
-		else
-		{
-			pm->ps->eFlags &= ~EF_ALT_FIRING;
-		}
+        if (argPm->cmd.buttons & BUTTON_ATTACK)
+        {
+            // If we are zoomed, we should switch the ammo usage to the alt-fire, otherwise, we'll
+            //	just use whatever ammo was selected from above
+            if (argPm->ps->zoomMode)
+            {
+                amount = argPm->ps->ammo[weaponData[argPm->ps->weapon].ammoIndex] -
+                    weaponData[argPm->ps->weapon].altEnergyPerShot;
+            }
+        }
+        else
+        {
+            // alt-fire button pressing doesn't use any ammo
+            amount = 0;
+        }
+    }
+    /*
+    else if (argPm->ps->weapon == WP_DISRUPTOR) //still perform certain checks, even if the weapon is not ready
+    {
+    if (argPm->cmd.upmove > 0 || argPm->cmd.forwardmove || argPm->cmd.rightmove)
+    {
+    if (argPm->ps->zoomMode == 1 && argPm->ps->zoomLockTime < argPm->cmd.serverTime)
+    { //check for == 1 so we can't turn binoculars off with disruptor alt fire
+    argPm->ps->zoomMode = 0;
+    argPm->ps->zoomTime = argPm->ps->commandTime;
+    argPm->ps->zoomLocked = qfalse;
+    PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+    }
+    }
+    }
+    */
 
-		// This flag should always get set, even when alt-firing
-		pm->ps->eFlags |= EF_FIRING;
-	} 
-	else 
-	{
-		// Clear 'em out
-		pm->ps->eFlags &= ~(EF_FIRING|EF_ALT_FIRING);
-	}
+    // set the firing flag for continuous beam weapons, saber will fire even if out of ammo
+    if (!(argPm->ps->pm_flags & PMF_RESPAWNED) &&
+        argPm->ps->pm_type != PM_INTERMISSION &&
+        (argPm->cmd.buttons & (BUTTON_ATTACK | BUTTON_ALT_ATTACK)) &&
+        (amount >= 0 || argPm->ps->weapon == WP_SABER))
+    {
+        if (argPm->cmd.buttons & BUTTON_ALT_ATTACK)
+        {
+            argPm->ps->eFlags |= EF_ALT_FIRING;
+        }
+        else
+        {
+            argPm->ps->eFlags &= ~EF_ALT_FIRING;
+        }
 
-	// disruptor should convert a main fire to an alt-fire if the gun is currently zoomed
-	if ( pm->ps->weapon == WP_DISRUPTOR)
-	{
-		if ( pm->cmd.buttons & BUTTON_ATTACK && pm->ps->zoomMode == 1 && pm->ps->zoomLocked)
-		{
-			// converting the main fire to an alt-fire
-			pm->cmd.buttons |= BUTTON_ALT_ATTACK;
-			pm->ps->eFlags |= EF_ALT_FIRING;
-		}
-		else if ( pm->cmd.buttons & BUTTON_ALT_ATTACK && pm->ps->zoomMode == 1 && pm->ps->zoomLocked)
-		{
-			pm->cmd.buttons &= ~BUTTON_ALT_ATTACK;
-			pm->ps->eFlags &= ~EF_ALT_FIRING;
-		}
-	}
+        // This flag should always get set, even when alt-firing
+        argPm->ps->eFlags |= EF_FIRING;
+    }
+    else
+    {
+        // Clear 'em out
+        argPm->ps->eFlags &= ~(EF_FIRING | EF_ALT_FIRING);
+    }
+
+    // disruptor should convert a main fire to an alt-fire if the gun is currently zoomed
+    if (argPm->ps->weapon == WP_DISRUPTOR)
+    {
+        if (argPm->cmd.buttons & BUTTON_ATTACK && argPm->ps->zoomMode == 1 && argPm->ps->zoomLocked)
+        {
+            // converting the main fire to an alt-fire
+            argPm->cmd.buttons |= BUTTON_ALT_ATTACK;
+            argPm->ps->eFlags |= EF_ALT_FIRING;
+        }
+        else if (argPm->cmd.buttons & BUTTON_ALT_ATTACK && argPm->ps->zoomMode == 1 && argPm->ps->zoomLocked)
+        {
+            argPm->cmd.buttons &= ~BUTTON_ALT_ATTACK;
+            argPm->ps->eFlags &= ~EF_ALT_FIRING;
+        }
+    }
 }
 
 
@@ -11923,7 +11923,7 @@ void BG_G2PlayerAngles(void *ghoul2, int motionBolt, entityState_t *cent, int ti
 		}
 		else
 		{ //misc emplaced
-			float dif = AngleSubtract(cent_lerpAngles[YAW], facingAngles[YAW]);
+			float local_dif = AngleSubtract(cent_lerpAngles[YAW], facingAngles[YAW]);
 
 			/*
 			if (emplaced->weapon == WP_NONE)
@@ -11932,7 +11932,7 @@ void BG_G2PlayerAngles(void *ghoul2, int motionBolt, entityState_t *cent, int ti
 			}
 			*/
 
-			VectorSet(facingAngles, -16.0f, -dif, 0.0f);
+			VectorSet(facingAngles, -16.0f, -local_dif, 0.0f);
 
 			if (cent->legsAnim == BOTH_STRAFE_LEFT1 || cent->legsAnim == BOTH_STRAFE_RIGHT1)
 			{ //try to adjust so it doesn't look wrong
@@ -11974,7 +11974,7 @@ void BG_G2PlayerAngles(void *ghoul2, int motionBolt, entityState_t *cent, int ti
 			strap_G2API_SetBoneAngles(ghoul2, 0, "thoracic", facingAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, time); 
 
 			//Now we want the head angled toward where we are facing
-			VectorSet(facingAngles, 0.0f, dif, 0.0f);
+			VectorSet(facingAngles, 0.0f, local_dif, 0.0f);
 			VectorScale(facingAngles, 0.6f, facingAngles);
 			strap_G2API_SetBoneAngles(ghoul2, 0, "cervical", facingAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, time); 
 

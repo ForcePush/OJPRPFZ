@@ -10182,7 +10182,7 @@ void CG_CreateSaberMarks( vec3_t start, vec3_t end, vec3_t normal )
 
 		if (cg_saberDynamicMarks.integer)
 		{
-			int i = 0;
+			i = 0;
 			int i_2 = 0;
 			addpolyArgStruct_t apArgs;
 			vec3_t x;
@@ -13384,7 +13384,7 @@ static CGAME_INLINE void CG_VehicleEffects(centity_t *cent)
 			{
 				if ( (cent->currentState.eFlags&EF_DEAD) )
 				{//just plain dead, use flames 
-					vec3_t	up ={0,0,1};
+					vec3_t	fxup ={0,0,1};
 					vec3_t boltOrg;
 
 					//if ( pVehNPC->m_iDriverTag == -1 )
@@ -13407,7 +13407,7 @@ static CGAME_INLINE void CG_VehicleEffects(centity_t *cent)
 
 					//	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, boltOrg);
 					//}
-					trap_FX_PlayEffectID( cgs.effects.mShipDestBurning, boltOrg, up, -1, -1 );
+					trap_FX_PlayEffectID( cgs.effects.mShipDestBurning, boltOrg, fxup, -1, -1 );
 				}
 			}
 			if ( cent->currentState.brokenLimbs )

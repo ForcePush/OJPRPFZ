@@ -88,7 +88,7 @@ void CG_BuildSolidList( void ) {
 	{
 		vec3_t	playerMins = {-15, -15, DEFAULT_MINS_2};
 		vec3_t	playerMaxs = {15, 15, DEFAULT_MAXS_2};
-		int i, j, k;
+		int j, k;
 
 		i = playerMaxs[0];
 		if (i<1)

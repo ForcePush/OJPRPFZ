@@ -7,6 +7,7 @@
 #include "q_shared.h"
 #include "bg_public.h"
 #include "b_local.h"
+#include "NPC_local.h"
 #include "../icarus/Q3_Interface.h"
 #include "../icarus/Q3_Registers.h"
 #include "g_nav.h"
@@ -370,7 +371,7 @@ void Q3_TaskIDClear( int *taskID )
 	*taskID = -1;
 }
 
-void G_DebugPrint( int level, const char *format, ... )
+void G_DebugPrint( int logLevel, const char *format, ... )
 {
 	va_list		argptr;
 	char		text[1024];
@@ -395,7 +396,7 @@ void G_DebugPrint( int level, const char *format, ... )
 	va_end (argptr);
 
 	//Add the color formatting
-	switch ( level )
+	switch (logLevel)
 	{
 		case WL_ERROR:
 			G_Printf ( S_COLOR_RED"ERROR: %s", text );

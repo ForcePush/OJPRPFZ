@@ -5,6 +5,7 @@
 #include "g_headers.h"
 
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 #include "anims.h"
 

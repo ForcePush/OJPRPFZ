@@ -4,6 +4,7 @@
 // AI code, and who's code resides in files with the AI_ prefix.
 
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 
 #define	MAX_RADIUS_ENTS		128

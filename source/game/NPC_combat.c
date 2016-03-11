@@ -1,5 +1,6 @@
 //NPC_combat.cpp
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 
 extern void G_AddVoiceEvent( gentity_t *self, int event, int speakDebounceTime );

@@ -1,6 +1,7 @@
 //b_spawn.cpp
 //added by MCG
 #include "b_local.h"
+#include "NPC_local.h"
 #include "anims.h"
 #include "w_saber.h"
 #include "bg_saga.h"

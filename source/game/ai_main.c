@@ -6694,7 +6694,8 @@ int BotWeaponBlockable(int weapon)
 	}
 }
 
-void Cmd_EngageDuel_f(gentity_t *ent, ...); //VOLGARENOK: reserve parameters
+// void Cmd_EngageDuel_f(gentity_t *ent, ...); //VOLGARENOK: reserve parameters
+void Cmd_EngageDuel_f(gentity_t *ent); // Skinpack: nope! We will add arguments later if needed.
 void Cmd_ToggleSaber_f(gentity_t *ent);
 
 //movement overrides

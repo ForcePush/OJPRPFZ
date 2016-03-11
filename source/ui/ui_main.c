@@ -99,7 +99,7 @@ char *forcepowerDesc[NUM_FORCE_POWERS] =
 };
 
 // Movedata Sounds
-typedef enum
+enum
 {
 	MDS_NONE = 0,
 	MDS_FORCE_JUMP,
@@ -108,7 +108,7 @@ typedef enum
 	MDS_MOVE_SOUNDS_MAX
 };
 
-typedef enum
+enum
 {
 	MD_ACROBATICS = 0,
 	MD_SINGLE_FAST,
@@ -413,12 +413,12 @@ replacement for the trap to reduce cvar usage
 void siege_Cvar_Set( const char *cvarName, const char *value )
 {
 	char **tmp;
-	char ui_siegeInfo[MAX_STRING_CHARS];
+	char siegeInfo[MAX_STRING_CHARS];
 	int i;
 	if(!ui_siegeStruct)
 	{
-		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", ui_siegeInfo, MAX_STRING_CHARS );
-		sscanf(ui_siegeInfo,"%p",&ui_siegeStruct);
+		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", siegeInfo, MAX_STRING_CHARS );
+		sscanf(siegeInfo,"%p",&ui_siegeStruct);
 		if(!ui_siegeStruct) return;
 	}
 	for(tmp=ui_siegeStruct;*tmp;tmp+=2)
@@ -440,11 +440,11 @@ void siege_Cvar_Set( const char *cvarName, const char *value )
 void siege_Cvar_VariableStringBuffer( char *var_name, char *buffer, int bufsize )
 {
 	char **tmp;
-	char ui_siegeInfo[MAX_STRING_CHARS];
+	char siegeInfo[MAX_STRING_CHARS];
 	if(!ui_siegeStruct)
 	{
-		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", ui_siegeInfo, MAX_STRING_CHARS );
-		sscanf(ui_siegeInfo,"%p",&ui_siegeStruct);
+		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", siegeInfo, MAX_STRING_CHARS );
+		sscanf(siegeInfo,"%p",&ui_siegeStruct);
 		if(!ui_siegeStruct) return;
 	}
 	for(tmp=ui_siegeStruct;*tmp;tmp+=2)
@@ -461,11 +461,11 @@ void siege_Cvar_VariableStringBuffer( char *var_name, char *buffer, int bufsize 
 int siege_Cvar_VariableValue( char *var_name )
 {
 	char **tmp;
-	char ui_siegeInfo[MAX_STRING_CHARS];
+	char siegeInfo[MAX_STRING_CHARS];
 	if(!ui_siegeStruct)
 	{
-		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", ui_siegeInfo, MAX_STRING_CHARS );
-		sscanf(ui_siegeInfo,"%p",&ui_siegeStruct);
+		trap_Cvar_VariableStringBuffer( "ui_siegeInfo", siegeInfo, MAX_STRING_CHARS );
+		sscanf(siegeInfo,"%p",&ui_siegeStruct);
 		if(!ui_siegeStruct) return trap_Cvar_VariableValue( var_name );
 	}
 	for(tmp=ui_siegeStruct;*tmp;tmp+=2)
@@ -5675,7 +5675,6 @@ void UI_FindCurrentSiegeTeamClass( void )
 	// If the player is on a team, 
 	if ( myTeam == TEAM_RED )
 	{			
-		itemDef_t *item;
 		item = (itemDef_t *) Menu_FindItemByName(menu, "onteam1" );
 		if (item)
 		{
@@ -5684,7 +5683,6 @@ void UI_FindCurrentSiegeTeamClass( void )
 	}
 	else if ( myTeam == TEAM_BLUE )
 	{			
-		itemDef_t *item;
 		item = (itemDef_t *) Menu_FindItemByName(menu, "onteam2" );
 		if (item)
 		{
@@ -6108,7 +6106,7 @@ static void UI_ResetCharacterListBoxes( void )
 		item = (itemDef_t *) Menu_FindItemByName((menuDef_t *) menu, "headlistbox");
 		if (item)
 		{
-			listBoxDef_t *listPtr = (listBoxDef_t*)item->typeData;
+			listPtr = (listBoxDef_t*)item->typeData;
 			if( listPtr )
 			{
 				listPtr->cursorPos = 0;
@@ -6561,17 +6559,17 @@ static void UI_RunMenuScript(char **args)
 		{
 			if (ui_netSource.integer != AS_FAVORITES) 
 			{
-				char name[MAX_NAME_LENGTH];
+				char servName[MAX_NAME_LENGTH];
 				char addr[MAX_NAME_LENGTH];
 				int res;
 
 				trap_LAN_GetServerInfo(ui_netSource.integer, uiInfo.serverStatus.displayServers[uiInfo.serverStatus.currentServer], buff, MAX_STRING_CHARS);
-				name[0] = addr[0] = '\0';
-				Q_strncpyz(name, 	Info_ValueForKey(buff, "hostname"), MAX_NAME_LENGTH);
+                servName[0] = addr[0] = '\0';
+				Q_strncpyz(servName, 	Info_ValueForKey(buff, "hostname"), MAX_NAME_LENGTH);
 				Q_strncpyz(addr, 	Info_ValueForKey(buff, "addr"), MAX_NAME_LENGTH);
-				if (strlen(name) > 0 && strlen(addr) > 0) 
+				if (strlen(servName) > 0 && strlen(addr) > 0)
 				{
-					res = trap_LAN_AddServer(AS_FAVORITES, name, addr);
+					res = trap_LAN_AddServer(AS_FAVORITES, servName, addr);
 					if (res == 0) 
 					{
 						// server already in the list
@@ -6614,15 +6612,15 @@ static void UI_RunMenuScript(char **args)
 		//	if (ui_netSource.integer == AS_FAVORITES) 
 		//rww - don't know why this check was here.. why would you want to only add new favorites when the filter was favorites?
 			{
-				char name[MAX_NAME_LENGTH];
+				char servName[MAX_NAME_LENGTH];
 				char addr[MAX_NAME_LENGTH];
 				int res;
 
-				name[0] = addr[0] = '\0';
-				Q_strncpyz(name, 	UI_Cvar_VariableString("ui_favoriteName"), MAX_NAME_LENGTH);
+                servName[0] = addr[0] = '\0';
+				Q_strncpyz(servName, 	UI_Cvar_VariableString("ui_favoriteName"), MAX_NAME_LENGTH);
 				Q_strncpyz(addr, 	UI_Cvar_VariableString("ui_favoriteAddress"), MAX_NAME_LENGTH);
 				if (/*strlen(name) > 0 &&*/ strlen(addr) > 0) {
-					res = trap_LAN_AddServer(AS_FAVORITES, name, addr);
+					res = trap_LAN_AddServer(AS_FAVORITES, servName, addr);
 					if (res == 0) {
 						// server already in the list
 						Com_Printf("Favorite already in list\n");
@@ -9213,43 +9211,43 @@ static qhandle_t UI_FeederItemImage(float feederID, int index) {
 			  //for storing shader names. I can't just replace q3HeadNames with the shader name, because we
 			  //print what's in q3HeadNames and the icon name would look funny.
 				char iconNameFromSkinName[256];
-				int i = 0;
+				int k = 0;
 				int skinPlace;
 
-				i = strlen(uiInfo.q3HeadNames[index]);
+				k = strlen(uiInfo.q3HeadNames[index]);
 
-				while (uiInfo.q3HeadNames[index][i] != '/')
+				while (uiInfo.q3HeadNames[index][k] != '/')
 				{
-					i--;
+					k--;
 				}
 
-				i++;
-				skinPlace = i; //remember that this is where the skin name begins
+				k++;
+				skinPlace = k; //remember that this is where the skin name begins
 
 				//now, build a full path out of what's in q3HeadNames, into iconNameFromSkinName
 				Com_sprintf(iconNameFromSkinName, sizeof(iconNameFromSkinName), "models/players/%s", uiInfo.q3HeadNames[index]);
 
-				i = strlen(iconNameFromSkinName);
+				k = strlen(iconNameFromSkinName);
 
-				while (iconNameFromSkinName[i] != '/')
+				while (iconNameFromSkinName[k] != '/')
 				{
-					i--;
+					k--;
 				}
 				
-				i++;
-				iconNameFromSkinName[i] = 0; //terminate, and append..
+				k++;
+				iconNameFromSkinName[k] = 0; //terminate, and append..
 				Q_strcat(iconNameFromSkinName, 256, "icon_");
 
 				//and now, for the final step, append the skin name from q3HeadNames onto the end of iconNameFromSkinName
-				i = strlen(iconNameFromSkinName);
+				k = strlen(iconNameFromSkinName);
 
 				while (uiInfo.q3HeadNames[index][skinPlace])
 				{
-					iconNameFromSkinName[i] = uiInfo.q3HeadNames[index][skinPlace];
-					i++;
+					iconNameFromSkinName[k] = uiInfo.q3HeadNames[index][skinPlace];
+					k++;
 					skinPlace++;
 				}
-				iconNameFromSkinName[i] = 0;
+				iconNameFromSkinName[k] = 0;
 
 				//and now we are ready to register (thankfully this will only happen once)
 				uiInfo.q3HeadIcons[index] = trap_R_RegisterShaderNoMip(iconNameFromSkinName);
@@ -9706,7 +9704,7 @@ void UI_UpdateCvarsForClass(const int team,const int baseClass,const int index)
 }
 
 
-qboolean UI_FeederSelection(float feederFloat, int index, itemDef_t *item) 
+qboolean UI_FeederSelection(float feederFloat, int index, itemDef_t *argItem) 
 {
 	static char info[MAX_STRING_CHARS];
 	const int feederID = feederFloat;
@@ -9971,7 +9969,7 @@ qboolean UI_FeederSelection(float feederFloat, int index, itemDef_t *item)
 	{
 		if (index >= 0 && index < uiInfo.playerSpecies[uiInfo.playerSpeciesIndex].ColorCount)
 		{
-			Item_RunScript(item, uiInfo.playerSpecies[uiInfo.playerSpeciesIndex].ColorActionText[index]);
+			Item_RunScript(argItem, uiInfo.playerSpecies[uiInfo.playerSpeciesIndex].ColorActionText[index]);
 		}
 	}
 	else if (feederID == FEEDER_PLAYER_SKIN_HEAD) 
@@ -10721,7 +10719,6 @@ UI_Init
 void _UI_Init( qboolean inGameLoad ) {
 	const char *menuSet;
 	int start;
-	int i=0;
 
 	//register this freakin thing now
 	vmCvar_t siegeTeamSwitch;

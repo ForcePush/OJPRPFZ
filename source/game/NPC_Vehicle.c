@@ -1,4 +1,5 @@
 #include "b_local.h"
+#include "NPC_local.h"
 
 extern qboolean FighterSuspended( Vehicle_t *pVeh, playerState_t *parentPS );
 extern qboolean FighterIsLanded( Vehicle_t *pVeh, playerState_t *parentPS );

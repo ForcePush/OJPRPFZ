@@ -291,13 +291,7 @@ typedef enum
 //for supplier class items
 #define TOSS_DEBOUNCE_TIME				5000
 
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	GT_FFA,				// free for all
 	GT_HOLOCRON,		// holocron ffa
 	GT_JEDIMASTER,		// jedi master
@@ -324,13 +318,7 @@ extern vec3_t WP_MuzzlePoint2[WP_NUM_WEAPONS];//[DualPistols]
 extern int forcePowerSorted[NUM_FORCE_POWERS];
 //#include "../namespace_end.h" //VOLGARENOK: deprecated
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
 enum
-#endif
-//[/Linux]
 {
 	SABERLOCK_TOP,
 	SABERLOCK_SIDE,
@@ -341,13 +329,8 @@ enum
 	SABERLOCK_LOSE
 };
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
+
 enum
-#endif
-//[/Linux]
 {
 	DIR_RIGHT,
 	DIR_LEFT,
@@ -525,13 +508,7 @@ typedef enum {
 } weaponstate_t;
 
 
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	FORCE_MASTERY_UNINITIATED,
 	FORCE_MASTERY_INITIATE,
 	FORCE_MASTERY_PADAWAN,
@@ -856,13 +833,7 @@ typedef enum {
 } effectTypes_t;
 
 // NOTE: may not have more than 16
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	PW_NONE,
 
 	PW_QUAD,
@@ -896,13 +867,7 @@ enum {
 };
 typedef int powerup_t;
 
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	HI_NONE,
 
 	HI_SEEKER,
@@ -1236,14 +1201,7 @@ typedef enum {
 	GTS_TEAMS_ARE_TIED
 } global_team_sound_t;
 
-
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	TEAM_FREE,
 	TEAM_RED,
 	TEAM_BLUE,
@@ -1343,14 +1301,7 @@ typedef enum {
 
 //---------------------------------------------------------
 
-// gitem_t->type
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	IT_BAD,
 	IT_WEAPON,				// EFX: rotate + upscale + minlight
 	IT_AMMO,				// EFX: rotate
@@ -1534,13 +1485,7 @@ typedef struct
 #undef LS_NONE
 #endif
 
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
 enum {
-#endif
-//[/Linux]
 	//totally invalid
 	LS_INVALID	= -1,
 	// Invalid, or saber not armed

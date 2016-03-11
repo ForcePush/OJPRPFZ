@@ -1,5 +1,6 @@
 //[SPPortComplete]
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 
 void Remote_Strafe( void );

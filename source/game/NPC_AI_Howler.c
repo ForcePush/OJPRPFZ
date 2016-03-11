@@ -1,4 +1,5 @@
 #include "b_local.h"
+#include "NPC_local.h"
 
 // These define the working combat range for these suckers
 #define MIN_DISTANCE		54

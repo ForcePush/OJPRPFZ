@@ -1,6 +1,7 @@
 //[CoOp]
 //ported from SP
 #include "b_local.h"
+#include "NPC_local.h"
 
 //custom anims:
 	//both_attack1 - running attack

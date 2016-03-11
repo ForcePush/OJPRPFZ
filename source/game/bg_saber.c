@@ -1394,14 +1394,14 @@ void PM_SaberLockBreak( playerState_t *genemy, qboolean victory, int strength )
 		vec3_t oppDir;
 
 		//[SaberLockSys]
-		int strength = 10;
+		int kickStrength = 10;
 		//int strength = 4;
 		//[/SaberLockSys]
 
 		VectorSubtract(genemy->origin, pm->ps->origin, oppDir);
 		VectorNormalize(oppDir);
-		genemy->velocity[0] = oppDir[0]*(strength*40);
-		genemy->velocity[1] = oppDir[1]*(strength*40);
+		genemy->velocity[0] = oppDir[0]*(kickStrength *40);
+		genemy->velocity[1] = oppDir[1]*(kickStrength *40);
 		//[SaberLockSys]
 		genemy->velocity[2] = 0;
 		//genemy->velocity[2] = 150;
@@ -1409,8 +1409,8 @@ void PM_SaberLockBreak( playerState_t *genemy, qboolean victory, int strength )
 
 		VectorSubtract(pm->ps->origin, genemy->origin, oppDir);
 		VectorNormalize(oppDir);
-		pm->ps->velocity[0] = oppDir[0]*(strength*40);
-		pm->ps->velocity[1] = oppDir[1]*(strength*40);
+		pm->ps->velocity[0] = oppDir[0]*(kickStrength *40);
+		pm->ps->velocity[1] = oppDir[1]*(kickStrength *40);
 		//[SaberLockSys]
 		pm->ps->velocity[2] = 0;
 		//pm->ps->velocity[2] = 150;

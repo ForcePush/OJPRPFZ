@@ -59,12 +59,6 @@ extern void Debug_Printf( vmCvar_t *cv, int level, char *fmt, ... );
 extern void Debug_NPCPrintf( gentity_t *printNPC, vmCvar_t *cv, int debugLevel, char *fmt, ... );
 
 //MCG - Begin============================================================
-//NPC_ai variables - shared by NPC.cpp andf the following modules
-extern gentity_t	*NPC;
-extern gNPC_t		*NPCInfo;
-extern gclient_t	*client;
-extern usercmd_t	ucmd;
-extern visibility_t	enemyVisibility;
 
 //AI_Default
 extern qboolean NPC_CheckInvestigate( int alertEventNum );

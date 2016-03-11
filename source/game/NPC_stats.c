@@ -1,5 +1,6 @@
 //NPC_stats.cpp
 #include "b_local.h"
+#include "NPC_local.h"
 #include "b_public.h"
 #include "anims.h"
 #include "../ghoul2/G2.h"

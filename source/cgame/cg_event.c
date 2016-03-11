@@ -31,7 +31,7 @@ extern int cg_vehicleAmmoWarning;
 extern int cg_vehicleAmmoWarningTime;
 
 //I know, not siege, but...
-typedef enum
+enum
 {
 	TAUNT_TAUNT = 0,
 	TAUNT_BOW,
@@ -2895,26 +2895,26 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	case EV_SABER_UNHOLSTER:
 		DEBUGNAME("EV_SABER_UNHOLSTER");
 		{
-			clientInfo_t *ci = NULL;
+			clientInfo_t *local_ci = NULL;
 
 			if (es->eType == ET_NPC)
 			{
-				ci = cg_entities[es->number].npcClient;
+                local_ci = cg_entities[es->number].npcClient;
 			}
 			else if (es->number < MAX_CLIENTS)
 			{
-				ci = &cgs.clientinfo[es->number];
+                local_ci = &cgs.clientinfo[es->number];
 			}
 
-			if (ci)
+			if (local_ci)
 			{
-				if (ci->saber[0].soundOn)
+				if (local_ci->saber[0].soundOn)
 				{
-					trap_S_StartSound (NULL, es->number, CHAN_AUTO, ci->saber[0].soundOn );
+					trap_S_StartSound (NULL, es->number, CHAN_AUTO, local_ci->saber[0].soundOn );
 				}
-				if (ci->saber[1].soundOn)
+				if (local_ci->saber[1].soundOn)
 				{
-					trap_S_StartSound (NULL, es->number, CHAN_AUTO, ci->saber[1].soundOn );
+					trap_S_StartSound (NULL, es->number, CHAN_AUTO, local_ci->saber[1].soundOn );
 				}
 			}
 		}
@@ -3695,7 +3695,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		{
 			sfxHandle_t sfx = cgs.gameSounds[ es->eventParm ];
-			clientInfo_t *ci = &cgs.clientinfo[es->groundEntityNum];
+			clientInfo_t *groundCi = &cgs.clientinfo[es->groundEntityNum];
 			centity_t *vChatEnt = &cg_entities[es->groundEntityNum];
 			char descr[1024];
 
@@ -3711,17 +3711,17 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			{
 				if (es->groundEntityNum != cg.predictedPlayerState.clientNum)
 				{ //play on the head as well to simulate hearing in radio and in world
-					if (ci->team == cg.predictedPlayerState.persistant[PERS_TEAM])
+					if (groundCi->team == cg.predictedPlayerState.persistant[PERS_TEAM])
 					{ //don't hear it if this person is on the other team, but they can still
 						//hear it in the world spot.
 						trap_S_StartSound (NULL, cg.snap->ps.clientNum, CHAN_MENU1, sfx);
 					}
 				}
-				if (ci->team == cg.predictedPlayerState.persistant[PERS_TEAM])
+				if (groundCi->team == cg.predictedPlayerState.persistant[PERS_TEAM])
 				{ //add to the chat box
 					//hear it in the world spot.
 					char vchatstr[1024];
-					strcpy(vchatstr, va("<%s: %s>\n", ci->name, descr));
+					strcpy(vchatstr, va("<%s: %s>\n", groundCi->name, descr));
 					CG_Printf(vchatstr);
 					CG_ChatBox_AddString(vchatstr);
 				}

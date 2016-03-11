@@ -1,4 +1,5 @@
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 
 extern qboolean G_EntIsUnlockedDoor( int entityNum );

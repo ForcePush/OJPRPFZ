@@ -3014,7 +3014,7 @@ int ForceShootDrain( gentity_t *self )
 //[/ForceSys]
 
 
-void ForceJumpCharge( gentity_t *self, usercmd_t *ucmd )
+void ForceJumpCharge( gentity_t *self, usercmd_t *argUcmd )
 { //I guess this is unused now. Was used for the "charge" jump type.
 	float forceJumpChargeInterval = forceJumpStrength[0] / (FORCE_JUMP_CHARGE_TIME/FRAMETIME);
 
@@ -3074,89 +3074,89 @@ void ForceJumpCharge( gentity_t *self, usercmd_t *ucmd )
 	//G_Printf("%f\n", self->client->ps.fd.forceJumpCharge);
 }
 
-int WP_GetVelocityForForceJump( gentity_t *self, vec3_t jumpVel, usercmd_t *ucmd )
+int WP_GetVelocityForForceJump(gentity_t *self, vec3_t jumpVel, usercmd_t *argUcmd)
 {
-	float pushFwd = 0, pushRt = 0;
-	vec3_t	view, forward, right;
-	VectorCopy( self->client->ps.viewangles, view );
-	view[0] = 0;
-	AngleVectors( view, forward, right, NULL );
-	if ( ucmd->forwardmove && ucmd->rightmove )
-	{
-		if ( ucmd->forwardmove > 0 )
-		{
-			pushFwd = 50;
-		}
-		else
-		{
-			pushFwd = -50;
-		}
-		if ( ucmd->rightmove > 0 )
-		{
-			pushRt = 50;
-		}
-		else
-		{
-			pushRt = -50;
-		}
-	}
-	else if ( ucmd->forwardmove || ucmd->rightmove )
-	{
-		if ( ucmd->forwardmove > 0 )
-		{
-			pushFwd = 100;
-		}
-		else if ( ucmd->forwardmove < 0 )
-		{
-			pushFwd = -100;
-		}
-		else if ( ucmd->rightmove > 0 )
-		{
-			pushRt = 100;
-		}
-		else if ( ucmd->rightmove < 0 )
-		{
-			pushRt = -100;
-		}
-	}
+    float pushFwd = 0, pushRt = 0;
+    vec3_t	view, forward, right;
+    VectorCopy(self->client->ps.viewangles, view);
+    view[0] = 0;
+    AngleVectors(view, forward, right, NULL);
+    if (argUcmd->forwardmove && argUcmd->rightmove)
+    {
+        if (argUcmd->forwardmove > 0)
+        {
+            pushFwd = 50;
+        }
+        else
+        {
+            pushFwd = -50;
+        }
+        if (argUcmd->rightmove > 0)
+        {
+            pushRt = 50;
+        }
+        else
+        {
+            pushRt = -50;
+        }
+    }
+    else if (argUcmd->forwardmove || argUcmd->rightmove)
+    {
+        if (argUcmd->forwardmove > 0)
+        {
+            pushFwd = 100;
+        }
+        else if (argUcmd->forwardmove < 0)
+        {
+            pushFwd = -100;
+        }
+        else if (argUcmd->rightmove > 0)
+        {
+            pushRt = 100;
+        }
+        else if (argUcmd->rightmove < 0)
+        {
+            pushRt = -100;
+        }
+    }
 
-	G_MuteSound(self->client->ps.fd.killSoundEntIndex[TRACK_CHANNEL_1-50], CHAN_VOICE);
+    G_MuteSound(self->client->ps.fd.killSoundEntIndex[TRACK_CHANNEL_1 - 50], CHAN_VOICE);
 
-	G_PreDefSound(self->client->ps.origin, PDSOUND_FORCEJUMP);
+    G_PreDefSound(self->client->ps.origin, PDSOUND_FORCEJUMP);
 
-	if (self->client->ps.fd.forceJumpCharge < JUMP_VELOCITY+40)
-	{ //give him at least a tiny boost from just a tap
-		self->client->ps.fd.forceJumpCharge = JUMP_VELOCITY+400;
-	}
+    if (self->client->ps.fd.forceJumpCharge < JUMP_VELOCITY + 40)
+    { //give him at least a tiny boost from just a tap
+        self->client->ps.fd.forceJumpCharge = JUMP_VELOCITY + 400;
+    }
 
-	if (self->client->ps.velocity[2] < -30)
-	{ //so that we can get a good boost when force jumping in a fall
-		self->client->ps.velocity[2] = -30;
-	}
+    if (self->client->ps.velocity[2] < -30)
+    { //so that we can get a good boost when force jumping in a fall
+        self->client->ps.velocity[2] = -30;
+    }
 
-	VectorMA( self->client->ps.velocity, pushFwd, forward, jumpVel );
-	VectorMA( self->client->ps.velocity, pushRt, right, jumpVel );
-	jumpVel[2] += self->client->ps.fd.forceJumpCharge;
-	if ( pushFwd > 0 && self->client->ps.fd.forceJumpCharge > 200 )
-	{
-		return FJ_FORWARD;
-	}
-	else if ( pushFwd < 0 && self->client->ps.fd.forceJumpCharge > 200 )
-	{
-		return FJ_BACKWARD;
-	}
-	else if ( pushRt > 0 && self->client->ps.fd.forceJumpCharge > 200 )
-	{
-		return FJ_RIGHT;
-	}
-	else if ( pushRt < 0 && self->client->ps.fd.forceJumpCharge > 200 )
-	{
-		return FJ_LEFT;
-	}
-	else
-	{
-		return FJ_UP;
-	}
+    VectorMA(self->client->ps.velocity, pushFwd, forward, jumpVel);
+    VectorMA(self->client->ps.velocity, pushRt, right, jumpVel);
+    jumpVel[2] += self->client->ps.fd.forceJumpCharge;
+    if (pushFwd > 0 && self->client->ps.fd.forceJumpCharge > 200)
+    {
+        return FJ_FORWARD;
+    }
+    else if (pushFwd < 0 && self->client->ps.fd.forceJumpCharge > 200)
+    {
+        return FJ_BACKWARD;
+    }
+    else if (pushRt > 0 && self->client->ps.fd.forceJumpCharge > 200)
+    {
+        return FJ_RIGHT;
+    }
+    else if (pushRt < 0 && self->client->ps.fd.forceJumpCharge > 200)
+    {
+        return FJ_LEFT;
+    }
+    else
+    {
+        return FJ_UP;
+    }
 }
 
 void ForceJump( gentity_t *self, usercmd_t *ucmd )

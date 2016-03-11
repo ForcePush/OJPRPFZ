@@ -2,6 +2,7 @@
 // NPC_misc.cpp
 //
 #include "b_local.h"
+#include "NPC_local.h"
 #include "q_shared.h"
 
 /*

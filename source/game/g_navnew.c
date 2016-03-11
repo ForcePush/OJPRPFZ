@@ -1,4 +1,5 @@
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 
 qboolean NAV_CheckAhead( gentity_t *self, vec3_t end, trace_t *trace, int clipmask );

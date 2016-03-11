@@ -1,6 +1,7 @@
 //NPC_utils.cpp
 
 #include "b_local.h"
+#include "NPC_local.h"
 #include "../icarus/Q3_Interface.h"
 #include "../ghoul2/G2.h"
 

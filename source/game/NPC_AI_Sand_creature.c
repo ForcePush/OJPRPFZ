@@ -3,6 +3,7 @@
 #include "g_headers.h"
    
 #include "b_local.h"
+#include "NPC_local.h"
 
 extern void G_Knockdown( gentity_t *self, gentity_t *attacker, const vec3_t pushDir, float strength, qboolean breakSaberLock );
 extern void G_SoundOnEnt(gentity_t *ent, int channel, const char *soundPath);

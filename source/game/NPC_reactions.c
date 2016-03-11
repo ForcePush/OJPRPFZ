@@ -1,5 +1,6 @@
 //NPC_reactions.cpp
 #include "b_local.h"
+#include "NPC_local.h"
 #include "anims.h"
 #include "w_saber.h"
 

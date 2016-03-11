@@ -1809,10 +1809,8 @@ void CG_DrawHUD(centity_t	*cent)
 	menuHUD = Menus_FindByName("lefthud");
 	if (menuHUD)
 	{
-		itemDef_t *focusItem;
-
 		// Print scanline
-		focusItem = Menu_FindItemByName(menuHUD, "scanline");
+        focusItem = Menu_FindItemByName(menuHUD, "scanline");
 		if (focusItem)
 		{
 			trap_R_SetColor( hudTintColor );	
@@ -1826,7 +1824,7 @@ void CG_DrawHUD(centity_t	*cent)
 		}
 
 		// Print frame
-		focusItem = Menu_FindItemByName(menuHUD, "frame");
+        focusItem = Menu_FindItemByName(menuHUD, "frame");
 		if (focusItem)
 		{
 			trap_R_SetColor( hudTintColor );	
@@ -2388,7 +2386,7 @@ qboolean CG_CheckTargetVehicle( centity_t **pTargetVeh, float *alpha )
     if ( targetNum < ENTITYNUM_WORLD 
 		&& targetNum >= MAX_CLIENTS )
 	{
-		centity_t *targetVeh = &cg_entities[targetNum];
+		targetVeh = &cg_entities[targetNum];
 		if ( targetVeh->currentState.NPC_class == CLASS_VEHICLE 
 			&& targetVeh->m_pVehicle
 			&& targetVeh->m_pVehicle->m_pVehicleInfo

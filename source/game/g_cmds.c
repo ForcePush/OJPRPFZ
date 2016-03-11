@@ -2371,9 +2371,7 @@ void BotOrderParser(gentity_t *ent, gentity_t *target, int mode, const char *cha
 #define DIST_SAY_LOW 100
 #define DIST_SAY_FORCE 0
 void G_Say(gentity_t *ent, gentity_t *target, int mode, const char *chatText) {
-    int			i, j, switcher, oldi, oldj;
-    int         dice_amount[3];
-    int         dice_sides[3];
+    int			j;
     gentity_t	*other;
     int			color;
     char		name[64];
@@ -4163,7 +4161,7 @@ extern void TAB_BotSaberDuelChallenged(gentity_t *bot, gentity_t *player);
 extern int FindBotType(int clientNum);
 //[/TABBots]
 
-void Cmd_EngageDuel_f(gentity_t *ent, ...)
+void Cmd_EngageDuel_f(gentity_t *ent)
 {
     trace_t tr;
     vec3_t forward, fwdOrg;
@@ -7255,7 +7253,7 @@ void ClientCommand(int clientNum) {
     {
         if (roar_enable_ForceDuel.integer == 1)
         {
-            Cmd_EngageDuel_f(ent, 1);
+            Cmd_EngageDuel_f(ent);
         }
         else {
             trap_SendServerCommand(ent - g_entities, va("print \"^7Force duels disabled on this server!\n\""));
@@ -7265,7 +7263,7 @@ void ClientCommand(int clientNum) {
     {
         if (roar_enable_TrainingDuel.integer == 1)
         {
-            Cmd_EngageDuel_f(ent, 2);
+            Cmd_EngageDuel_f(ent);
         }
         else {
             trap_SendServerCommand(ent - g_entities, va("print \"^7Training duels disabled on this server!\n\""));
@@ -7275,7 +7273,7 @@ void ClientCommand(int clientNum) {
     {
         if (roar_enable_MeleeDuel.integer == 1)
         {
-            Cmd_EngageDuel_f(ent, 3);
+            Cmd_EngageDuel_f(ent);
         }
         else {
             trap_SendServerCommand(ent - g_entities, va("print \"^7Melee duels disabled on this server!\n\""));
@@ -9148,7 +9146,6 @@ void ClientCommand(int clientNum) {
     else if ((Q_stricmp(cmd, "scale") == 0) || (Q_stricmp(cmd, "amscale") == 0)) {
         int TargetNum = -1;
         int TheScale = 0;
-        int i = 0;
         char arg1[MAX_STRING_CHARS];
         if (ent->r.svFlags & SVF_ADMIN1)
         {

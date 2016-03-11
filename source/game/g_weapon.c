@@ -351,7 +351,7 @@ static void WP_FireBryarPistolAlt(gentity_t*ent)
 	int count;
 
 	gentity_t	*missile = CreateMissile( muzzle, forward, BRYAR_PISTOL_VEL, 10000, ent, qtrue );
-	gentity_t   *missile2;
+    gentity_t   *missile2 = NULL;
 	float boxSize = 0;
 
 	//[DualPistols]

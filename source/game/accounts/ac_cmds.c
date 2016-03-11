@@ -341,20 +341,20 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
             sprintf(buffer, "%s^2:^7 ", field->name);
             currentPos = strlen(buffer);
 
-            for (int i = 0; i < NUM_FORCE_POWERS; i++)
+            for (int k = 0; k < NUM_FORCE_POWERS; k++)
             {
-                if (acc->forces[forcePowerStrings[i].fp])
+                if (acc->forces[forcePowerStrings[k].fp])
                 {
-                    if (currentPos + forcePowerStrings[i].nameLen + 1 >= sizeof(buffer))
+                    if (currentPos + forcePowerStrings[k].nameLen + 1 >= sizeof(buffer))
                     {
                         AC_Print(ent, "^1Too long forces string!\n");
                         return;
                     }
 
-                    strcpy(buffer + currentPos, forcePowerStrings[i].fpName);
-                    currentPos += forcePowerStrings[i].nameLen - 1;  // don't copy '\0'
+                    strcpy(buffer + currentPos, forcePowerStrings[k].fpName);
+                    currentPos += forcePowerStrings[k].nameLen - 1;  // don't copy '\0'
 
-                    buffer[currentPos++] = '0' + acc->forces[i];  // digit to ASCII char conversion
+                    buffer[currentPos++] = '0' + acc->forces[k];  // digit to ASCII char conversion
                     buffer[currentPos++] = ',';
                 }
             }
@@ -371,20 +371,20 @@ void AC_Cmd_AccountDetails(gentity_t *ent)
             sprintf(buffer, "%s^2:^7 ", field->name);
             currentPos = strlen(buffer);
 
-            for (int i = 0; i < NUM_SKILLS; i++)
+            for (int k = 0; k < NUM_SKILLS; k++)
             {
-                if (acc->skills[skillStrings[i].sk])
+                if (acc->skills[skillStrings[k].sk])
                 {
-                    if (currentPos + skillStrings[i].nameLen + 4 >= sizeof(buffer))  // need space for level, ',' '\n' and '\0'
+                    if (currentPos + skillStrings[k].nameLen + 4 >= sizeof(buffer))  // need space for level, ',' '\n' and '\0'
                     {
                         AC_Print(ent, "^1AC_WriteSkillsField: too long skills string!\n");
                         return;
                     }
 
-                    strcpy(buffer + currentPos, skillStrings[i].skName);
-                    currentPos += skillStrings[i].nameLen - 1;  // don't copy '\0'
+                    strcpy(buffer + currentPos, skillStrings[k].skName);
+                    currentPos += skillStrings[k].nameLen - 1;  // don't copy '\0'
 
-                    buffer[currentPos++] = '0' + acc->skills[i];  // digit to ASCII char conversion
+                    buffer[currentPos++] = '0' + acc->skills[k];  // digit to ASCII char conversion
                     buffer[currentPos++] = ',';
                 }
             }

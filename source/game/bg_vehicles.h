@@ -451,13 +451,7 @@ extern int	numVehicles;
 #define	VEH_MOUNT_THROW_RIGHT		-6
 
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
 enum
-#endif
-//[/Linux]
 {
 	VEH_EJECT_LEFT, 
 	VEH_EJECT_RIGHT, 

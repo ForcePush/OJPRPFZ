@@ -1,5 +1,6 @@
 //NPC_sounds.cpp
 #include "b_local.h"
+#include "NPC_local.h"
 #include "../icarus/Q3_Interface.h"
 
 /*

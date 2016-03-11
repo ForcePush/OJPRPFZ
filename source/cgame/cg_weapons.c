@@ -705,7 +705,6 @@ Ghoul2 Insert End
 	//[/TrueView]
 	{	// Make sure we don't do the thirdperson model effects for the local player if we're in first person
 		vec3_t flashorigin, flashdir;
-		refEntity_t	flash;
 
 		//[DualPistols]
 		int	wpmdlidx = 2;
@@ -1989,7 +1988,6 @@ void CG_FireWeapon( centity_t *cent, qboolean altFire ) {
 	entityState_t *ent;
 	int				c;
 	weaponInfo_t	*weap;
-	int mishap = cg.predictedPlayerState.saberAttackChainCount;
 	ent = &cent->currentState;
 	if ( ent->weapon == WP_NONE ) {
 		return;

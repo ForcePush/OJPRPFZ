@@ -157,7 +157,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalOptions>/W3 /Wall %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/W4</AdditionalOptions>
       <DisableSpecificWarnings>4464;4255</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>

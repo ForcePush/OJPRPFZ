@@ -3,6 +3,7 @@
 
 	    
 #include "b_local.h"
+#include "NPC_local.h"
 
 extern void G_GetBoltPosition( gentity_t *self, int boltIndex, vec3_t pos, int modelIndex );
 

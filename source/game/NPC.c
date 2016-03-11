@@ -3,6 +3,7 @@
 // NPC.cpp - generic functions
 //
 #include "b_local.h"
+#include "NPC_local.h"
 #include "anims.h"
 #include "say.h"
 #include "../icarus/Q3_Interface.h"

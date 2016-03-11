@@ -1,5 +1,6 @@
 //Rocket Trooper AI code
 #include "g_local.h"
+#include "NPC_local.h"
 
 void RT_FireDecide( void )
 {

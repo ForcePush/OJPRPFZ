@@ -8,6 +8,7 @@ we need it...
 */
 
 #include "b_local.h"
+#include "NPC_local.h"
 #include "g_nav.h"
 #include "../icarus/Q3_Interface.h"
 

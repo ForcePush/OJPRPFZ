@@ -2,6 +2,7 @@
 //NPC_senses.cpp
 
 #include "b_local.h"
+#include "NPC_local.h"
 
 extern int eventClearTime;
 /*
