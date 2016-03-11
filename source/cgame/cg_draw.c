@@ -162,7 +162,7 @@ char *showPowersName[] =
 };
 
 //Called from UI shared code. For now we'll just redirect to the normal anim load function.
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 
 int UI_ParseAnimationFile(const char *filename, animation_t *animset, qboolean isHumanoid) 
@@ -184,7 +184,7 @@ int MenuFontToHandle(int iMenuFont)
 	return cgDC.Assets.qhMediumFont;
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 int CG_Text_Width(const char *text, float scale, int iMenuFont) 
 {

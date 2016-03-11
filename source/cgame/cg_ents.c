@@ -843,9 +843,9 @@ void CG_G2ServerBoneAngles(centity_t *cent);
 extern void CG_BodyQueueCopy(centity_t *cent, int clientNum, int knownWeapon);
 //[/NOBODYQUE]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_GetRootSurfNameWithVariant( void *ghoul2, const char *rootSurfName, char *returnSurfName, int returnSize );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static void CG_General( centity_t *cent ) {
 	refEntity_t			ent;

@@ -24,9 +24,9 @@ extern qboolean GAME_INLINE WalkCheck( gentity_t * self );
 
 extern vmCvar_t		g_saberRestrictForce;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_FullBodyTauntAnim( int anim );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 extern bot_state_t *botstates[MAX_CLIENTS];
 
@@ -930,9 +930,9 @@ void WP_SpawnInitForcePowers( gentity_t *ent )
 	//[/CoOp]
 }
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_InKnockDown( int anim ); //bg_pmove.c
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 qboolean IsMerc(gentity_t*ent)
 {

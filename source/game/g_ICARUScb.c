@@ -20,7 +20,7 @@
 #include "g_camera.h"
 //[/CoOp]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean BG_SabersOff( playerState_t *ps );
 extern stringID_table_t WPTable[];
 extern stringID_table_t BSTable[];
@@ -28,7 +28,7 @@ extern stringID_table_t BSTable[];
 //[SuperDindon]
 extern stringID_table_t TeamTable[];
 //[/CoOp]
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[CoOp]
 qboolean skippingCutscene = qfalse;  //toggle for cutscene skipping

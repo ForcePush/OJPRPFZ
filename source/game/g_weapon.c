@@ -4835,9 +4835,9 @@ int SkillLevelforWeapon(gentity_t *ent, int weapon)
 FireWeapon
 ===============
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float constraint);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[WeapAccuracy]
 extern void G_AddMercBalance(gentity_t *self, int amount);

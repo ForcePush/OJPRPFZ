@@ -7,7 +7,7 @@
 
 static int (QDECL *syscall)( int arg, ... ) = (int (QDECL *)( int, ...))-1;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 //[Linux]
 /*
 #ifdef __linux__
@@ -1501,4 +1501,4 @@ void trap_Bot_CalculatePaths(int rmg)
 	syscall(G_BOT_CALCULATEPATHS, rmg);
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated

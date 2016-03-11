@@ -21,9 +21,9 @@ extern	qboolean		in_camera;
 int AcceptBotCommand(char *cmd, gentity_t *pl);
 //end rww
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void WP_SetSaber(int entNum, saberInfo_t *sabers, int saberNum, const char *saberName);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 void Cmd_NPC_f(gentity_t *ent);
 void SP_CreateSnow(gentity_t *ent);

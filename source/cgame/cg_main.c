@@ -122,9 +122,9 @@ void CG_Shutdown( void );
 void CG_CalcEntityLerpPositions( centity_t *cent );
 void CG_ROFF_NotetrackCallback( centity_t *cent, const char *notetrack);
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void UI_CleanupGhoul2(void);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static int	C_PointContents(void);
 static void C_GetLerpOrigin(void);
@@ -184,7 +184,7 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  ) {
 
 	switch ( command ) {
@@ -357,7 +357,7 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 	}
 	return -1;
 }
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 static int C_PointContents(void)
 {
@@ -856,13 +856,13 @@ vmCvar_t 	cg_smoothClients;
 vmCvar_t	ojp_sabermelee;
 //[/MELEE]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 vmCvar_t	pmove_fixed;
 //vmCvar_t	cg_pmove_fixed;
 vmCvar_t	pmove_msec;
 // nmckenzie: DUEL_HEALTH
 vmCvar_t	g_showDuelHealths;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 vmCvar_t	cg_pmove_msec;
 vmCvar_t	cg_cameraMode;
@@ -1438,12 +1438,12 @@ const char *CG_Argv( int arg ) {
 //========================================================================
 
 //so shared code can get the local time depending on the side it's executed on
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int BG_GetTime(void)
 {
 	return cg.time;
 }
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 /*
 =================
@@ -3884,9 +3884,9 @@ CG_SpawnCGameEntFromVars
 See if we should do something for this ent cgame-side -rww
 ==============
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void BG_ParseField( BG_field_t *l_fields, const char *key, const char *value, byte *ent );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 extern float cg_linearFogOverride; //cg_view.c
 extern float cg_radarRange;//cg_draw.c
@@ -3973,10 +3973,10 @@ Ghoul2 Insert End
 extern playerState_t *cgSendPS[MAX_GENTITIES]; //is not MAX_CLIENTS because NPCs exceed MAX_CLIENTS
 void CG_PmoveClientPointerUpdate();
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void WP_SaberLoadParms( void );
 void BG_VehicleLoadParms( void );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[WEAPONSDAT]
 extern void BG_LoadWeaponsData();

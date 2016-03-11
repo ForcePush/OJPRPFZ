@@ -12,7 +12,7 @@ extern stringID_table_t SaberMoveTable[];
 #endif
 //[/SaberLockSys]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_SabersOff( playerState_t *ps );
 saberInfo_t *BG_MySaber( int clientNum, int saberNum );
 
@@ -1024,7 +1024,7 @@ int PM_SaberLockWinAnim( qboolean victory, qboolean superBreak )
 }
 
 // Need to avoid nesting namespaces!
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[SaberSys]
 extern void PM_DoPunch(void);
@@ -1050,7 +1050,7 @@ extern gentity_t g_entities[];
 //[/Mac]
 
 #endif
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 int PM_SaberLockLoseAnim( playerState_t *genemy, qboolean victory, qboolean superBreak )
 { 
@@ -5645,7 +5645,7 @@ saberInfo_t *BG_MySaber( int clientNum, int saberNum )
 	return NULL;
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 
 //[MELEE]

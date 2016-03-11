@@ -472,7 +472,7 @@ typedef struct {
 
 } displayContextDef_t;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 const char *String_Alloc(const char *p);
 void String_Init();
@@ -612,7 +612,7 @@ qboolean	trap_G2API_IKMove(void *ghoul2, int time, sharedIKMoveParams_t *params)
 
 void		trap_G2API_GetSurfaceName(void *ghoul2, int surfNumber, int modelIndex, char *fillBuf);
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[NewUI]
 typedef struct
