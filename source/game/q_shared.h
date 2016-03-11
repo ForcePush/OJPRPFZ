@@ -357,13 +357,11 @@ static float LittleFloat (const float *l) { return FloatSwap(l); }
 
 typedef unsigned char 		byte;
 typedef unsigned short		word;
-//[Linux]
-#ifndef __linux__
-typedef unsigned long		ulong;
-#endif
-//[/Linux]
+typedef unsigned long		ulong;//deleted [Linux]
 
-typedef enum {qfalse, qtrue}	qboolean;
+typedef unsigned int qboolean; //VOLGARENOK: enum -> unsigned int.
+#define qtrue 1 //^^
+#define qfalse 0 //^^
 
 typedef int		qhandle_t;
 typedef int		thandle_t; //rwwRMG - inserted
@@ -412,7 +410,8 @@ typedef int		clipHandle_t;
 #define	MAX_SAY_TEXT	300
 
 // paramters for command buffer stuffing
-typedef enum {
+typedef enum cbufExec_e
+{
 	EXEC_NOW,			// don't return until completed, a VM should NEVER use this,
 						// because some commands might cause the VM to be unloaded...
 	EXEC_INSERT,		// insert at current position, but don't run yet
@@ -435,7 +434,8 @@ typedef enum {
 #endif
 
 //For system-wide prints
-enum WL_e {
+enum WL_e 
+{
 	WL_ERROR=1,
 	WL_WARNING,
 	WL_VERBOSE,
@@ -445,7 +445,8 @@ enum WL_e {
 extern float forceSpeedLevels[4];
 
 // print levels from renderer (FIXME: set up for game / cgame?)
-typedef enum {
+typedef enum printParm_e
+{
 	PRINT_ALL,
 	PRINT_DEVELOPER,		// only print when "developer 1"
 	PRINT_WARNING,
@@ -458,7 +459,8 @@ typedef enum {
 #endif
 
 // parameters to the main Error routine
-typedef enum {
+typedef enum errorParm_e
+{
 	ERR_FATAL,					// exit the entire game with a popup window
 	ERR_DROP,					// print to console and disconnect from game
 	ERR_SERVERDISCONNECT,		// don't kill server
@@ -511,7 +513,8 @@ typedef enum {
 	#define HUNK_DEBUG
 #endif
 
-typedef enum {
+typedef enum
+{
 	h_high,
 	h_low,
 	h_dontcare
@@ -559,13 +562,15 @@ typedef	int	fixed16_t;
 #endif
 
 
-typedef enum {
+typedef enum saberBlockType_e
+{
 	BLK_NO,
 	BLK_TIGHT,		// Block only attacks and shots around the saber itself, a bbox of around 12x12x12
 	BLK_WIDE		// Block all attacks in an area around the player in a rough arc of 180 degrees
 } saberBlockType_t;
 
-typedef enum {
+typedef enum saberBlockedType_e
+{
 	BLOCKED_NONE,
 	BLOCKED_BOUNCE_MOVE,	//[RACC] This is used for situations where you want to manually 
 							//set a animation (normally deflections.)  To use, set your 
@@ -588,13 +593,7 @@ typedef enum {
 } saberBlockedType_t;
 
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
-enum
-#endif
-//[/Linux]
+typedef enum saber_colors_e//deleted [Linux]
 {
 	SABER_RED,
 	SABER_ORANGE,
@@ -611,16 +610,9 @@ enum
 	//[/RGBSabers]
 	NUM_SABER_COLORS
 
-};
-typedef int saber_colors_t;
+} saber_colors_t;
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
-enum
-#endif
-//[/Linux]
+typedef enum forcePowers_e//deleted [Linux]
 {
 	FP_FIRST = 0,//marker
 	FP_HEAL = 0,//instant
@@ -642,11 +634,10 @@ enum
 	FP_SABER_DEFENSE,
 	FP_SABERTHROW,
 	NUM_FORCE_POWERS
-};
-typedef int forcePowers_t;
+} forcePowers_t;
 
 //[ExpSys]
-typedef enum
+typedef enum skills_e
 {
 	SK_JETPACK,		//jetpack skill
 	SK_PISTOL,		//blaster pistol
@@ -680,7 +671,7 @@ typedef enum
 #define NUM_TOTAL_SKILLS	(NUM_FORCE_POWERS+NUM_SKILLS)
 //[/ExpSys]
 
-typedef enum
+typedef enum saberType_e
 {
 	SABER_NONE = 0,
 	SABER_SINGLE,
@@ -737,7 +728,7 @@ typedef struct
 } bladeInfo_t;
 #define MAX_BLADES 8
 
-typedef enum
+typedef enum saber_styles_e
 {
 	SS_NONE = 0,
 	SS_FAST,
@@ -908,13 +899,7 @@ typedef struct
 } saberInfo_t;
 #define MAX_SABERS 2
 
-//[Linux]
-#ifndef __linux__
-typedef enum
-#else
-enum
-#endif
-//[/Linux]
+enum //deleted [Linux]
 {
 	FORCE_LEVEL_0,
 	FORCE_LEVEL_1,
@@ -1038,13 +1023,7 @@ enum sharedEIKMoveState
 };
 
 //material stuff needs to be shared
-//[Linux]
-#ifndef __linux__
-typedef enum //# material_e
-#else
-enum
-#endif
-//[/Linux]
+typedef enum material_e//deleted [Linux]
 {
 	MAT_METAL = 0,	// scorched blue-grey metal
 	MAT_GLASS,		// not a real chunk type, just plays an effect with glass sprites
@@ -1065,9 +1044,7 @@ enum
 	MAT_SNOWY_ROCK,	// gray & brown chunks
 
 	NUM_MATERIALS
-
-};
-typedef int material_t;
+} material_t;
 
 //rww - bot stuff that needs to be shared
 #define MAX_WPARRAY_SIZE 4096
@@ -1601,14 +1578,16 @@ void	QDECL Com_sprintf (char *dest, int size, const char *fmt, ...);
 
 
 // mode parm for FS_FOpenFile
-typedef enum {
+typedef enum fsMode_e
+{
 	FS_READ,
 	FS_WRITE,
 	FS_APPEND,
 	FS_APPEND_SYNC
 } fsMode_t;
 
-typedef enum {
+typedef enum fsOrigin_e
+{
 	FS_SEEK_CUR,
 	FS_SEEK_END,
 	FS_SEEK_SET
@@ -1735,7 +1714,8 @@ default values.
 #define	CVAR_PARENTAL		0x00001000		// lets cvar system know that parental stuff needs to be updated
 
 // nothing outside the Cvar_*() functions should modify these fields!
-typedef struct cvar_s {
+typedef struct cvar_s 
+{
 	char		*name;
 	char		*string;
 	char		*resetString;		// cvar_restart will reset to this value
@@ -1755,7 +1735,8 @@ typedef int	cvarHandle_t;
 
 // the modules that run in the virtual machine can't access the cvar_t directly,
 // so they must ask for structured updates
-typedef struct {
+typedef struct 
+{
 	cvarHandle_t	handle;
 	int			modificationCount;
 	float		value;
@@ -1791,7 +1772,8 @@ PlaneTypeForNormal
 
 // plane_t structure
 // !!! if this is changed, it must be changed in asm code too !!!
-typedef struct cplane_s {
+typedef struct cplane_s 
+{
 	vec3_t	normal;
 	float	dist;
 	byte	type;			// for fast side tests: 0,1,2 = axial, 3 = nonaxial
@@ -1815,7 +1797,7 @@ typedef struct
 	int			mLocation;
 	float		mBarycentricI; // two barycentic coodinates for the hit point
 	float		mBarycentricJ; // K = 1-I-J
-}CollisionRecord_t;
+} CollisionRecord_t;
 
 #define MAX_G2_COLLISIONS 16
 
@@ -1825,7 +1807,8 @@ typedef CollisionRecord_t G2Trace_t[MAX_G2_COLLISIONS];	// map that describes al
 Ghoul2 Insert End
 */
 // a trace is returned when a box is swept through the world
-typedef struct {
+typedef struct 
+{
 	byte		allsolid;	// if true, plane is not valid
 	byte		startsolid;	// if true, the initial point was in a solid area
 	short		entityNum;	// entity the contacted sirface is a part of
@@ -1850,14 +1833,16 @@ Ghoul2 Insert End
 
 
 // markfragments are returned by CM_MarkFragments()
-typedef struct {
+typedef struct 
+{
 	int		firstPoint;
 	int		numPoints;
 } markFragment_t;
 
 
 
-typedef struct {
+typedef struct 
+{
 	vec3_t		origin;
 	vec3_t		axis[3];
 } orientation_t;
@@ -1876,13 +1861,9 @@ typedef struct {
 // sound channels
 // channel 0 never willingly overrides
 // other channels will allways override a playing sound on that channel
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
-enum {
-#endif
-//[/Linux]
+
+typedef enum soundChannel_e//deleted [Linux]
+{
 	CHAN_AUTO,	//## %s !!"W:\game\base\!!sound\*.wav;*.mp3" # Auto-picks an empty channel to play sound on
 	CHAN_LOCAL,	//## %s !!"W:\game\base\!!sound\*.wav;*.mp3" # menu sounds, etc
 	CHAN_WEAPON,//## %s !!"W:\game\base\!!sound\*.wav;*.mp3" 
@@ -1897,8 +1878,7 @@ enum {
 	CHAN_MENU1,		//## %s !!"W:\game\base\!!sound\*.wav;*.mp3" #menu stuff, etc
 	CHAN_VOICE_GLOBAL,  //## %s !!"W:\game\base\!!sound\voice\*.wav;*.mp3" # Causes mouth animation and is broadcast, like announcer
 	CHAN_MUSIC,	//## %s !!"W:\game\base\!!sound\*.wav;*.mp3" #music played as a looping sound - added by BTO (VV)
-};
-typedef int soundChannel_t;
+} soundChannel_t;
 
 
 /*
@@ -1976,7 +1956,8 @@ Ghoul2 Insert End
 #define	RESERVED_CONFIGSTRINGS	2	// game can't modify below this, only the system can
 
 #define	MAX_GAMESTATE_CHARS	16000
-typedef struct {
+typedef struct
+{
 	int			stringOffsets[MAX_CONFIGSTRINGS];
 	char		stringData[MAX_GAMESTATE_CHARS];
 	int			dataCount;
@@ -1985,7 +1966,8 @@ typedef struct {
 //=========================================================
 
 // all the different tracking "channels"
-typedef enum {
+typedef enum trackchan_e
+{
 	TRACK_CHANNEL_NONE = 50,
 	TRACK_CHANNEL_1,
 	TRACK_CHANNEL_2,
@@ -1997,7 +1979,8 @@ typedef enum {
 
 #define TRACK_CHANNEL_MAX (NUM_TRACK_CHANNELS-50)
 
-typedef struct forcedata_s {
+typedef struct forcedata_s
+{
 	int			forcePowerDebounce[NUM_FORCE_POWERS];	//for effects that must have an interval
 	int			forcePowersKnown;
 	int			forcePowersActive;
@@ -2059,7 +2042,8 @@ typedef struct forcedata_s {
 } forcedata_t;
 
 
-typedef enum {
+typedef enum itemUseFail_e
+{
 	SENTRY_NOROOM = 1,
 	SENTRY_ALREADYPLACED,
 	SHIELD_NOROOM,
@@ -2102,7 +2086,8 @@ typedef enum {
 // playerState_t is a full superset of entityState_t as it is used by players,
 // so if a playerState_t is transmitted, the entityState_t can be fully derived
 // from it.
-typedef struct playerState_s {
+typedef struct playerState_s
+{
 	int			commandTime;	// cmd->serverTime of last executed command
 	int			pm_type;
 	int			bobCycle;		// for view bobbing and footstep generation
@@ -2553,7 +2538,7 @@ typedef struct siegePers_s
 
 
 
-typedef enum
+typedef enum genCmds_e
 {
 	GENCMD_SABERSWITCH = 1,
 	GENCMD_ENGAGE_DUEL,
@@ -2589,7 +2574,8 @@ typedef enum
 } genCmds_t;
 
 // usercmd_t is sent to the server each client frame
-typedef struct usercmd_s {
+typedef struct usercmd_s
+{
 	int				serverTime;
 	int				angles[3];
 	int 			buttons;
@@ -2604,7 +2590,8 @@ typedef struct usercmd_s {
 //===================================================================
 
 //rww - unsightly hack to allow us to make an FX call that takes a horrible amount of args
-typedef struct addpolyArgStruct_s {
+typedef struct addpolyArgStruct_s
+{
 	vec3_t				p[4];
 	vec2_t				ev[4];
 	int					numVerts;
@@ -2624,7 +2611,8 @@ typedef struct addpolyArgStruct_s {
 	int					flags;
 } addpolyArgStruct_t;
 
-typedef struct addbezierArgStruct_s {
+typedef struct addbezierArgStruct_s
+{
 	vec3_t start;
 	vec3_t end;
 	vec3_t control1;
@@ -2681,7 +2669,8 @@ typedef struct
 	float	curST[2];
 } effectTrailVertStruct_t;
 
-typedef struct effectTrailArgStruct_s {
+typedef struct effectTrailArgStruct_s
+{
 	effectTrailVertStruct_t		mVerts[4];
 	qhandle_t					mShader;
 	int							mSetFlags;
@@ -2710,7 +2699,8 @@ typedef struct
 // if entityState->solid == SOLID_BMODEL, modelindex is an inline model number
 #define	SOLID_BMODEL	0xffffff
 
-typedef enum {
+typedef enum
+{
 	TR_STATIONARY,
 	TR_INTERPOLATE,				// non-parametric, but interpolate between snapshots
 	TR_LINEAR,
@@ -2720,7 +2710,8 @@ typedef enum {
 	TR_GRAVITY
 } trType_t;
 
-typedef struct {
+typedef struct
+{
 	trType_t	trType;
 	int		trTime;
 	int		trDuration;			// if non 0, trTime + trDuration = stop time
@@ -2735,7 +2726,8 @@ typedef struct {
 // The messages are delta compressed, so it doesn't really matter if
 // the structure size is fairly large
 
-typedef struct entityState_s {
+typedef struct entityState_s
+{
 	int		number;			// entity index
 	int		eType;			// entityType_t
 	int		eFlags;
@@ -2900,7 +2892,8 @@ typedef struct entityState_s {
 	vec3_t		userVec2;
 } entityState_t;
 
-typedef enum {
+typedef enum connstate_e
+{
 	CA_UNINITIALIZED,
 	CA_DISCONNECTED, 	// not talking to a server
 	CA_AUTHORIZING,		// not used any more, was checking cd key 
@@ -2920,7 +2913,8 @@ typedef enum {
 //=============================================
 
 
-typedef struct qtime_s {
+typedef struct qtime_s 
+{
 	int tm_sec;     /* seconds after the minute - [0,59] */
 	int tm_min;     /* minutes after the hour - [0,59] */
 	int tm_hour;    /* hours since midnight - [0,23] */
@@ -2941,13 +2935,8 @@ typedef struct qtime_s {
 #define AS_MPLAYER			3 // (Obsolete)
 
 // cinematic states
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
-enum {
-#endif
-//[/Linux]
+enum //deleted [Linux]
+{
 	FMV_IDLE,
 	FMV_PLAY,		// play
 	FMV_EOF,		// all other conditions, i.e. stop/EOF/abort
@@ -2956,22 +2945,17 @@ enum {
 	FMV_LOOPED,
 	FMV_ID_WAIT
 };
-typedef int e_status;
+typedef int e_status; //VOLGARENOK: need fix
 
-//[Linux]
-#ifndef __linux__
-typedef enum _flag_status {
-#else
-enum _flag_status {
-#endif
-//[/Linux]
+enum _flag_status//deleted [Linux]
+{
 	FLAG_ATBASE = 0,
 	FLAG_TAKEN,			// CTF
 	FLAG_TAKEN_RED,		// One Flag CTF
 	FLAG_TAKEN_BLUE,	// One Flag CTF
 	FLAG_DROPPED
 };
-typedef int flagStatus_t;
+typedef int flagStatus_t; //VOLGARENOK: need fix
 
 
 #define	MAX_GLOBAL_SERVERS			2048
@@ -3001,19 +2985,14 @@ float VectorDistance(vec3_t v1, vec3_t v2);
 Ghoul2 Insert Start
 */
 
-typedef struct {
+typedef struct
+{
 	float		matrix[3][4];
 } mdxaBone_t;
 
 // For ghoul2 axis use
 
-//[Linux]
-#ifndef __linux__
-typedef enum Eorientations
-#else
-enum Eorientations
-#endif
-//[/Linux]
+enum Eorientations//deleted [Linux]
 {
 	ORIGIN = 0, 
 	POSITIVE_X,
@@ -3031,13 +3010,9 @@ Ghoul2 Insert End
 // define the new memory tags for the zone, used by all modules now
 //
 #define TAGDEF(blah) TAG_ ## blah
-//[Linux]
-#ifndef __linux__
-typedef enum {
-#else
-enum {
-#endif
-//[/Linux]
+
+enum//deleted [Linux]
+{
 	#include "../qcommon/tags.h"
 };
 typedef char memtag_t;
@@ -3087,6 +3062,13 @@ String ID Tables
 ========================================================================
 */
 #define ENUM2STRING(arg)   { #arg,arg }
+/*
+typedef struct stringID_table_s
+{
+	char	*name;
+	int		id;
+} stringID_table_t;
+*/
 typedef struct stringID_table_s
 {
 	char	*name;
@@ -3106,10 +3088,11 @@ typedef enum
 	eForceReload_MODELS,
 	eForceReload_ALL
 
-} ForceReload_e;
+} ForceReload_e; //VOLGARENOK: need fix
 
 
-enum {
+enum
+{
 	FONT_NONE,
 	FONT_SMALL=1,
 	FONT_MEDIUM,

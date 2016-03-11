@@ -13,13 +13,13 @@
 	#include "bg_weapons.h"
 
 	//Could use strap stuff but I don't particularly care at the moment anyway.
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 	extern int	trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode );
 	extern void	trap_FS_Read( void *buffer, int len, fileHandle_t f );
 	extern void	trap_FS_Write( const void *buffer, int len, fileHandle_t f );
 	extern void	trap_FS_FCloseFile( fileHandle_t f );
 	extern int	trap_FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 #else
 	#include "g_local.h"
 	#define QAGAME
@@ -47,7 +47,7 @@ extern int G_SoundIndex( const char *name );
 		extern int G_EffectIndex( const char *name );
 	#endif
 #elif CGAME
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qhandle_t	trap_R_RegisterModel( const char *name );			// returns rgb axis if not found
 extern qhandle_t	trap_R_RegisterSkin( const char *name );			// returns all white if not found
 extern qhandle_t	trap_R_RegisterShader( const char *name );
@@ -56,15 +56,15 @@ extern int			trap_FX_RegisterEffect(const char *file);
 extern sfxHandle_t	trap_S_RegisterSound( const char *sample);		// returns buzz if not found
 
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 #else//UI
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qhandle_t	trap_R_RegisterModel( const char *name );			// returns rgb axis if not found
 extern qhandle_t	trap_R_RegisterSkin( const char *name );			// returns all white if not found
 extern qhandle_t	trap_R_RegisterShader( const char *name );			// returns all white if not found
 extern qhandle_t	trap_R_RegisterShaderNoMip( const char *name );			// returns all white if not found
 extern sfxHandle_t	trap_S_RegisterSound( const char *sample);		// returns buzz if not found
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 #endif
 
 extern stringID_table_t animTable [MAX_ANIMATIONS+1];
@@ -133,7 +133,7 @@ void BG_ClearVehicleParseParms(void)
 }
 
 #ifdef _JK2MP
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 #endif
 
 #ifndef WE_ARE_IN_THE_UI
@@ -1841,7 +1841,7 @@ void AttachRidersGeneric( Vehicle_t *pVeh )
 #endif
 //[/DynamicMemory_Vehicles]
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 #endif // _JK2MP
 

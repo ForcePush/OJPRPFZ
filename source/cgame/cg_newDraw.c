@@ -264,9 +264,9 @@ const char *CG_GameTypeString(void) {
 	return "";
 }
 						 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern int MenuFontToHandle(int iMenuFont);
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 // maxX param is initially an X limit, but is also used as feedback. 0 = text was clipped to fit within, else maxX = next pos
 //

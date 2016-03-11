@@ -46,7 +46,7 @@ extern void UI_CacheSaberGlowGraphics( void );
 
 #endif //
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 #ifdef CGAME
 
@@ -5454,9 +5454,9 @@ void UI_ScaleModelAxis(refEntity_t	*ent)
 }
 
 #ifndef CGAME
-#include "../namespace_end.h"	// Yes, these are inverted. The whole file is in the namespace.
+//#include "../namespace_end.h" //VOLGARENOK: deprecated	// Yes, these are inverted. The whole file is in the namespace.
 extern void UI_SaberAttachToChar( itemDef_t *item );
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 #endif
 
 void Item_Model_Paint(itemDef_t *item) 
@@ -9766,4 +9766,4 @@ static qboolean Menu_OverActiveItem(menuDef_t *menu, float x, float y) {
 	return qfalse;
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated

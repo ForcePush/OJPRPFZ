@@ -228,10 +228,10 @@ vmCvar_t	g_debugRight;
 vmCvar_t	g_debugUp;
 vmCvar_t	g_smoothClients;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 vmCvar_t	pmove_fixed;
 vmCvar_t	pmove_msec;
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 vmCvar_t	g_listEntity;
 //vmCvar_t	g_redteam;
@@ -1217,7 +1217,7 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 //[Linux]
 /*
 #ifdef __linux__
@@ -1421,7 +1421,7 @@ int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int a
 #endif
 */
 //[/Linux]
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 
 void QDECL G_Printf( const char *fmt, ... ) {
@@ -1589,10 +1589,10 @@ void G_UpdateCvars( void ) {
 
 char gSharedBuffer[MAX_G_SHARED_BUFFER_SIZE];
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 void WP_SaberLoadParms( void );
 void BG_VehicleLoadParms( void );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 /*
 ============
@@ -4686,12 +4686,12 @@ void NAV_CheckCalcPaths( void )
 }
 
 //so shared code can get the local time depending on the side it's executed on
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 int BG_GetTime(void)
 {
 	return level.time;
 }
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 /*
 ================

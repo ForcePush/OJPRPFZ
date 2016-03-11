@@ -250,12 +250,12 @@ typedef enum {
 
 #define MAX_CUSTOM_SIEGE_SOUNDS 30
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern const char *bg_customSiegeSoundNames[MAX_CUSTOM_SIEGE_SOUNDS];
 
 extern const char *bgToggleableSurfaces[BG_NUM_TOGGLEABLE_SURFACES];
 extern const int bgToggleableSurfaceDebris[BG_NUM_TOGGLEABLE_SURFACES];
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 typedef enum {
 	HANDEXTEND_NONE = 0,
@@ -320,9 +320,9 @@ typedef enum { GENDER_MALE, GENDER_FEMALE, GENDER_NEUTER } gender_t;
 extern vec3_t WP_MuzzlePoint[WP_NUM_WEAPONS];
 extern vec3_t WP_MuzzlePoint2[WP_NUM_WEAPONS];//[DualPistols]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern int forcePowerSorted[NUM_FORCE_POWERS];
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[Linux]
 #ifndef __linux__
@@ -377,10 +377,10 @@ typedef struct animation_s {
 } animation_t;
 #pragma pack(pop)
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean			BGPAFtextLoaded;
 extern animation_t		bgHumanoidAnimations[MAX_TOTALANIMATIONS];
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[Asteroids]
 #define MAX_ANIM_FILES	64
@@ -482,7 +482,7 @@ typedef struct
 */
 //[/ANIMEVENTS]
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 extern bgLoadedAnim_t bgAllAnims[MAX_ANIM_FILES];
 
@@ -500,7 +500,7 @@ extern bgLoadedAnim_t bgAllAnims[MAX_ANIM_FILES];
 //[/ANIMEVENTS]
 #endif
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 typedef enum {
 	PM_NORMAL,		// can accelerate and turn
@@ -543,7 +543,7 @@ enum {
 	NUM_FORCE_MASTERY_LEVELS
 };
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern char *forceMasteryLevels[NUM_FORCE_MASTERY_LEVELS];
 extern int forceMasteryPoints[NUM_FORCE_MASTERY_LEVELS];
 
@@ -563,7 +563,7 @@ extern int forceMasteryPoints[NUM_FORCE_MASTERY_LEVELS];
 extern int bgForcePowerCost[NUM_TOTAL_SKILLS][NUM_FORCE_POWER_LEVELS];
 //extern int bgForcePowerCost[NUM_FORCE_POWERS][NUM_FORCE_POWER_LEVELS];
 //[/ExpSys]
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 // pmove->pm_flags
 #define	PMF_DUCKED			1
@@ -669,7 +669,7 @@ typedef struct {
 	int			entSize; //size of the struct (gentity_t or centity_t) so things can be dynamic
 } pmove_t;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 extern	pmove_t		*pm;
 
@@ -696,7 +696,7 @@ extern	pmove_t		*pm;
 void PM_UpdateViewAngles( playerState_t *ps, const usercmd_t *cmd );
 void Pmove (pmove_t *pmove);
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //===================================================================================
 
@@ -1386,7 +1386,7 @@ typedef struct gitem_s {
 } gitem_t;
 
 // included in both the game dll and the client
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 extern	gitem_t	bg_itemlist[];
 extern	int		bg_numItems;
@@ -1401,7 +1401,7 @@ gitem_t	*BG_FindItemForHoldable( holdable_t pw );
 
 qboolean	BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps );
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 
 #define SABER_BLOCK_DUR 150		// number of milliseconds a block animation should take.
@@ -1761,7 +1761,7 @@ typedef struct
 	qboolean trailLength;
 } saberMoveData_t;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 extern saberMoveData_t	saberMoveData[LS_MOVE_MAX];
 
@@ -1769,7 +1769,7 @@ bgEntity_t *PM_BGEntForNum( int num );
 qboolean BG_KnockDownable(playerState_t *ps);
 qboolean BG_LegalizedForcePowers(char *powerOut, int maxRank, qboolean freeSaber, int teamForce, int gametype, int fpDisabled);
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 #ifdef __LCC__ //can't inline it then, it is declared over in bg_misc in this case
 void BG_GiveMeVectorFromMatrix(mdxaBone_t *boltMatrix, int flags, vec3_t vec);
@@ -1818,7 +1818,7 @@ static ID_INLINE void BG_GiveMeVectorFromMatrix(mdxaBone_t *boltMatrix, int flag
 }
 #endif
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 void BG_IK_MoveArm(void *ghoul2, int lHandBolt, int time, entityState_t *ent, int basePose, vec3_t desiredPos, qboolean *ikInProgress,
 					 vec3_t origin, vec3_t angles, vec3_t scale, int blendTime, qboolean forceHalt);
@@ -1966,7 +1966,7 @@ extern int WeaponAttackAnim2[WP_NUM_WEAPONS];
 
 extern int forcePowerDarkLight[NUM_FORCE_POWERS];
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[KnockdownSys]
 //this is the default minimum time for a level 0 player to wait before they can attempt to get up.

@@ -30,7 +30,7 @@ typedef struct
 	int			previous_waterlevel;
 } pml_t;
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 extern	pml_t		pml;
 
@@ -58,10 +58,10 @@ int		trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode );
 void	trap_FS_Read( void *buffer, int len, fileHandle_t f );
 void	trap_FS_Write( const void *buffer, int len, fileHandle_t f );
 void	trap_FS_FCloseFile( fileHandle_t f );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //PM anim utility functions:
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 qboolean PM_SaberInParry( int move );
 qboolean PM_SaberInKnockaway( int move );
 
@@ -111,7 +111,7 @@ void PM_SetForceJumpZStart(float value);
 
 void BG_CycleInven(playerState_t *ps, int direction);
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[Melee]
 qboolean PM_DoKick(void); //pm function for performing kicks

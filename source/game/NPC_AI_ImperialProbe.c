@@ -1,9 +1,9 @@
 #include "b_local.h"
 #include "g_nav.h"
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 gitem_t	*BG_FindItemForAmmo( ammo_t ammo );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 extern void G_SoundOnEnt( gentity_t *ent, soundChannel_t channel, const char *soundPath );
 
 //Local state enums

@@ -21,7 +21,7 @@ extern qboolean TryGrapple(gentity_t *ent); //g_cmds.c
 extern void trap_FX_PlayEffect( const char *file, vec3_t org, vec3_t fwd, int vol, int rad );
 #endif
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean BG_FullBodyTauntAnim( int anim );
 extern float PM_WalkableGroundDistance(void);
 extern qboolean PM_GroundSlideOkay( float zNormal );
@@ -840,7 +840,7 @@ void BG_VehicleTurnRateForSpeed( Vehicle_t *pVeh, float speed, float *mPitchOver
 	}
 }
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 // Following couple things don't belong in the DLL namespace!
 #ifdef QAGAME
@@ -853,7 +853,7 @@ gentity_t *G_PlayEffectID(const int fxID, vec3_t org, vec3_t ang);
 #endif
 
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 static void PM_GroundTraceMissed( void );
 void PM_HoverTrace( void )
@@ -9833,7 +9833,7 @@ static void PM_DropTimers( void ) {
 // which includes files that are also compiled in SP. We do need to make
 // sure we only get one copy in the linker, though.
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 extern	vmCvar_t	bg_fighterAltControl;
 qboolean BG_UnrestrainedPitchRoll( playerState_t *ps, Vehicle_t *pVeh )
@@ -9851,7 +9851,7 @@ qboolean BG_UnrestrainedPitchRoll( playerState_t *ps, Vehicle_t *pVeh )
 	}
 	return qfalse;
 }
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 /*
 ================
@@ -14617,4 +14617,4 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 }
 //[/KnockdownSys]
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated

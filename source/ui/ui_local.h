@@ -919,7 +919,7 @@ void UI_SPSkillMenu_Cache( void );
 // ui_syscalls.c
 //
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 
 void			trap_Print( const char *string );
 void			trap_Error( const char *string );
@@ -1016,7 +1016,7 @@ void			trap_CIN_SetExtents (int handle, int x, int y, int w, int h);
 int				trap_RealTime(qtime_t *qtime);
 void			trap_R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
 
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //
 // ui_addbots.c

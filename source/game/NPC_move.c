@@ -19,9 +19,9 @@ extern int GetTime ( int lastTime );
 navInfo_t	frameNavInfo;
 extern qboolean FlyingCreature( gentity_t *ent );
 
-#include "../namespace_begin.h"
+//#include "../namespace_begin.h" //VOLGARENOK: deprecated
 extern qboolean PM_InKnockDown( playerState_t *ps );
-#include "../namespace_end.h"
+//#include "../namespace_end.h" //VOLGARENOK: deprecated
 
 //[CoOp]
 static qboolean NPC_TryJump_Final();
