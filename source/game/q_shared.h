@@ -1355,23 +1355,10 @@ typedef struct {
 //pitiful attempt to reduce _ftol2 calls -rww
 static ID_INLINE void SnapVector( float *v )
 {
-	static int i;
-	static float f;
-
-	f = *v;
-	__asm	fld		f;
-	__asm	fistp	i;
-	*v = i;
-	v++;
-	f = *v;
-	__asm	fld		f;
-	__asm	fistp	i;
-	*v = i;
-	v++;
-	f = *v;
-	__asm	fld		f;
-	__asm	fistp	i;
-	*v = i;
+	v[0] = roundf(v[0]);
+	v[1] = roundf(v[1]);
+	v[2] = roundf(v[2]);
+	return;
 }
 #else
 #define	SnapVector(v) {v[0]=((int)(v[0]));v[1]=((int)(v[1]));v[2]=((int)(v[2]));}
