@@ -473,11 +473,11 @@ static void Howler_Attack( float enemyDist, qboolean howl )
 		else if ( enemyDist > MIN_DISTANCE && Q_irand( 0, 1 ) )
 		{//lunge attack
 			//jump foward
-			vec3_t	fwd, yawAng;
+			vec3_t	fwd_, yawAng;
 			
 			VectorSet( yawAng, 0, NPC->client->ps.viewangles[YAW], 0 );
-			AngleVectors( yawAng, fwd, NULL, NULL );
-			VectorScale( fwd, (enemyDist*3.0f), NPC->client->ps.velocity );
+			AngleVectors( yawAng, fwd_, NULL, NULL );
+			VectorScale( fwd_, (enemyDist*3.0f), NPC->client->ps.velocity );
 			NPC->client->ps.velocity[2] = 200;
 			NPC->client->ps.groundEntityNum = ENTITYNUM_NONE;
 			

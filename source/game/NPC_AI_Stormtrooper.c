@@ -2376,7 +2376,7 @@ void ST_Commander( void )
 		//---------------------------------------------------------------------
 		if (TIMER_Done( NPC, "checkGrenadeTooCloseDebouncer" ))
 		{ 
-			int			i, e;
+			int			 e;
 			vec3_t		mins;
 			vec3_t		maxs;
 			int	numListedEntities;
@@ -2386,10 +2386,10 @@ void ST_Commander( void )
 
 			TIMER_Set (NPC, "checkGrenadeTooCloseDebouncer", Q_irand(300, 600));
 
-			for ( i = 0 ; i < 3 ; i++ ) 
+			for (int j = 0 ; j < 3 ; j++ ) 
 			{
-				mins[i] = NPC->r.currentOrigin[i] - 200;
-				maxs[i] = NPC->r.currentOrigin[i] + 200;
+				mins[j] = NPC->r.currentOrigin[j] - 200;
+				maxs[j] = NPC->r.currentOrigin[j] + 200;
 			}
 
 			numListedEntities = trap_EntitiesInBox( mins, maxs, entityList, MAX_GENTITIES );

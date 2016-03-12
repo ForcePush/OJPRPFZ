@@ -1062,23 +1062,23 @@ void BG_SiegeParseClassFile(const char *filename, siegeClassDesc_t *descBuffer)
 #endif
 		{
 			// Find the base player class based on the icon name - very bad, I know.
-			int titleLength,i,arrayTitleLength;
+			int titleLength,arrayTitleLength;
 			char *holdBuf;
 
 			titleLength = strlen(parseBuf);
-			for (i=0;i<SPC_MAX;i++)
+			for (short j = 0; j < SPC_MAX; j++)
 			{
 				// Back up 
-				arrayTitleLength = strlen(classTitles[i]);
+				arrayTitleLength = strlen(classTitles[j]);
 				if (arrayTitleLength>titleLength)	// Too long
 				{
 					break;
 				}
 
 				holdBuf = parseBuf + ( titleLength - arrayTitleLength);
-				if (!strcmp(holdBuf,classTitles[i]))
+				if (!strcmp(holdBuf,classTitles[j]))
 				{
-					bgSiegeClasses[bgNumSiegeClasses].playerClass = i;
+					bgSiegeClasses[bgNumSiegeClasses].playerClass = j;
 					break;
 				}
 			}

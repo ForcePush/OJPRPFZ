@@ -4053,7 +4053,6 @@ void ForceThrow( gentity_t *self, qboolean pull )
 
 		//now check for brush based force moveable objects.
 		{
-			int i;
 			int funcNum;
 			int	funcList[MAX_GENTITIES];
 			gentity_t *funcEnt = NULL;
@@ -4063,9 +4062,9 @@ void ForceThrow( gentity_t *self, qboolean pull )
 			if(numListedEntities <= 0)
 				return;
 
-			for(i = 0; i < funcNum; i++)
+			for(int j = 0; j < funcNum; j++)
 			{
-				funcEnt = &g_entities[funcList[i]];
+				funcEnt = &g_entities[funcList[j]];
 				if(!funcEnt->client && funcEnt->s.number != tr.entityNum)
 				{//we have one, add it to the actual push list.
 					entityList[numListedEntities] = funcEnt->s.number;

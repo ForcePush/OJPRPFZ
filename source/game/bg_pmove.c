@@ -12118,7 +12118,7 @@ static ID_INLINE void PM_CmdForSaberMoves(usercmd_t *ucmd)
 		}
 		else
 		{ //saberstaff attacks
-			int aLen = PM_AnimLength(0, (animNumber_t)pm->ps->legsAnim);
+			int aLen_ = PM_AnimLength(0, (animNumber_t)pm->ps->legsAnim);
 			float lenMin = 1700.0f;
 			float lenMax = 1800.0f;
 
@@ -12150,7 +12150,7 @@ static ID_INLINE void PM_CmdForSaberMoves(usercmd_t *ucmd)
 			else
 			{
 				if ( pm->ps->legsTimer >= 100 //not at end
-					&& aLen - pm->ps->legsTimer >= 250 )//not in beginning
+					&& aLen_ - pm->ps->legsTimer >= 250 )//not in beginning
 				{//middle of anim
 					//push forward
 					ucmd->forwardmove = 127;

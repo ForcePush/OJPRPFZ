@@ -1034,7 +1034,7 @@ void NPC_BuildRandom( gentity_t *NPC )
 #define TURN_OFF			0x00000100
 //[/CoOp]
 extern void SetupGameGhoul2Model(gentity_t *ent, char *modelname, char *skinName);
-qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC ) 
+qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC_ ) 
 {
 	const char	*token;
 	const char	*value;
@@ -1045,7 +1045,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 	char	sound[MAX_QPATH];
 	char	playerModel[MAX_QPATH];
 	char	customSkin[MAX_QPATH];
-	renderInfo_t	*ri = &NPC->client->renderInfo;
+	renderInfo_t	*ri = &NPC_->client->renderInfo;
 	gNPCstats_t		*stats = NULL;
 	qboolean	md3Model = qtrue;
 	char	surfOff[1024];
@@ -1065,14 +1065,14 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 		NPCName = "Player";
 	}
 
-	if ( !NPC->s.number && NPC->client != NULL )
+	if ( !NPC_->s.number && NPC_->client != NULL )
 	{//player, only want certain data
 		parsingPlayer = qtrue;
 	}
 
-	if ( NPC->NPC )
+	if ( NPC_->NPC )
 	{
-		stats = &NPC->NPC->stats;
+		stats = &NPC_->NPC->stats;
 /*
 	NPC->NPC->allWeaponOrder[0]	= WP_BRYAR_PISTOL;
 	NPC->NPC->allWeaponOrder[1]	= WP_SABER;
@@ -1138,10 +1138,10 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 	ri->torsoPitchRangeUp = 30;
 	ri->torsoPitchRangeDown = 50;
 
-	VectorCopy(playerMins, NPC->r.mins);
-	VectorCopy(playerMaxs, NPC->r.maxs);
-	NPC->client->ps.crouchheight = CROUCH_MAXS_2;
-	NPC->client->ps.standheight = DEFAULT_MAXS_2;
+	VectorCopy(playerMins, NPC_->r.mins);
+	VectorCopy(playerMaxs, NPC_->r.maxs);
+	NPC_->client->ps.crouchheight = CROUCH_MAXS_2;
+	NPC_->client->ps.standheight = DEFAULT_MAXS_2;
 
 	//rwwFIXMEFIXME: ...
 	/*
@@ -1156,10 +1156,10 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 	NPC->s.modelScale[0] = NPC->s.modelScale[1] = NPC->s.modelScale[2] = 1.0f;
 	*/
 
-	NPC->client->ps.customRGBA[0]=255;
-	NPC->client->ps.customRGBA[1]=255;
-	NPC->client->ps.customRGBA[2]=255;
-	NPC->client->ps.customRGBA[3]=255;
+	NPC_->client->ps.customRGBA[0]=255;
+	NPC_->client->ps.customRGBA[1]=255;
+	NPC_->client->ps.customRGBA[2]=255;
+	NPC_->client->ps.customRGBA[3]=255;
 
 	if ( !Q_stricmp( "random", NPCName ) )
 	{//Randomly assemble a starfleet guy
@@ -1224,361 +1224,361 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				if ( !Q_stricmp( value, "random") )
 				{
-					NPC->client->ps.customRGBA[0]=Q_irand(0,255);
-					NPC->client->ps.customRGBA[1]=Q_irand(0,255);
-					NPC->client->ps.customRGBA[2]=Q_irand(0,255);
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[0]=Q_irand(0,255);
+					NPC_->client->ps.customRGBA[1]=Q_irand(0,255);
+					NPC_->client->ps.customRGBA[2]=Q_irand(0,255);
+					NPC_->client->ps.customRGBA[3]=255;
 				} 
 				//[CoOp]
 				//custom color settings for NPCs from SP code
 				else if ( !Q_stricmp( value, "random1") )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,5))
 					{
 					default:
 					case 0:
-						NPC->client->ps.customRGBA[0]=127;
-						NPC->client->ps.customRGBA[1]=153;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=127;
+						NPC_->client->ps.customRGBA[1]=153;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 1:
-						NPC->client->ps.customRGBA[0]=177;
-						NPC->client->ps.customRGBA[1]=29;
-						NPC->client->ps.customRGBA[2]=13;
+						NPC_->client->ps.customRGBA[0]=177;
+						NPC_->client->ps.customRGBA[1]=29;
+						NPC_->client->ps.customRGBA[2]=13;
 						break;
 					case 2:
-						NPC->client->ps.customRGBA[0]=47;
-						NPC->client->ps.customRGBA[1]=90;
-						NPC->client->ps.customRGBA[2]=40;
+						NPC_->client->ps.customRGBA[0]=47;
+						NPC_->client->ps.customRGBA[1]=90;
+						NPC_->client->ps.customRGBA[2]=40;
 						break;
 					case 3:
-						NPC->client->ps.customRGBA[0]=181;
-						NPC->client->ps.customRGBA[1]=207;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=181;
+						NPC_->client->ps.customRGBA[1]=207;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 4:
-						NPC->client->ps.customRGBA[0]=138;
-						NPC->client->ps.customRGBA[1]=83;
-						NPC->client->ps.customRGBA[2]=0;
+						NPC_->client->ps.customRGBA[0]=138;
+						NPC_->client->ps.customRGBA[1]=83;
+						NPC_->client->ps.customRGBA[2]=0;
 						break;
 					case 5:
-						NPC->client->ps.customRGBA[0]=254;
-						NPC->client->ps.customRGBA[1]=199;
-						NPC->client->ps.customRGBA[2]=14;
+						NPC_->client->ps.customRGBA[0]=254;
+						NPC_->client->ps.customRGBA[1]=199;
+						NPC_->client->ps.customRGBA[2]=14;
 						break;
 					}
 				} 
 				else if ( !Q_stricmp( value, "jedi_hf" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,7))
 					{
 					default:
 					case 0://red1
-						NPC->client->ps.customRGBA[0]=165;
-						NPC->client->ps.customRGBA[1]=48;
-						NPC->client->ps.customRGBA[2]=21;
+						NPC_->client->ps.customRGBA[0]=165;
+						NPC_->client->ps.customRGBA[1]=48;
+						NPC_->client->ps.customRGBA[2]=21;
 						break;
 					case 1://yellow1
-						NPC->client->ps.customRGBA[0]=254;
-						NPC->client->ps.customRGBA[1]=230;
-						NPC->client->ps.customRGBA[2]=132;
+						NPC_->client->ps.customRGBA[0]=254;
+						NPC_->client->ps.customRGBA[1]=230;
+						NPC_->client->ps.customRGBA[2]=132;
 						break;
 					case 2://bluegray
-						NPC->client->ps.customRGBA[0]=181;
-						NPC->client->ps.customRGBA[1]=207;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=181;
+						NPC_->client->ps.customRGBA[1]=207;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 3://pink
-						NPC->client->ps.customRGBA[0]=233;
-						NPC->client->ps.customRGBA[1]=183;
-						NPC->client->ps.customRGBA[2]=208;
+						NPC_->client->ps.customRGBA[0]=233;
+						NPC_->client->ps.customRGBA[1]=183;
+						NPC_->client->ps.customRGBA[2]=208;
 						break;
 					case 4://lt blue
-						NPC->client->ps.customRGBA[0]=161;
-						NPC->client->ps.customRGBA[1]=226;
-						NPC->client->ps.customRGBA[2]=240;
+						NPC_->client->ps.customRGBA[0]=161;
+						NPC_->client->ps.customRGBA[1]=226;
+						NPC_->client->ps.customRGBA[2]=240;
 						break;
 					case 5://blue
-						NPC->client->ps.customRGBA[0]=101;
-						NPC->client->ps.customRGBA[1]=159;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=101;
+						NPC_->client->ps.customRGBA[1]=159;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 6://orange
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=157;
-						NPC->client->ps.customRGBA[2]=114;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=157;
+						NPC_->client->ps.customRGBA[2]=114;
 						break;
 					case 7://violet
-						NPC->client->ps.customRGBA[0]=216;
-						NPC->client->ps.customRGBA[1]=160;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=216;
+						NPC_->client->ps.customRGBA[1]=160;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					}
 				}
 				else if ( !Q_stricmp( value, "jedi_hm" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,7))
 					{
 					default:
 					case 0://yellow
-						NPC->client->ps.customRGBA[0]=252;
-						NPC->client->ps.customRGBA[1]=243;
-						NPC->client->ps.customRGBA[2]=180;
+						NPC_->client->ps.customRGBA[0]=252;
+						NPC_->client->ps.customRGBA[1]=243;
+						NPC_->client->ps.customRGBA[2]=180;
 						break;
 					case 1://blue
-						NPC->client->ps.customRGBA[0]=69;
-						NPC->client->ps.customRGBA[1]=109;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=69;
+						NPC_->client->ps.customRGBA[1]=109;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 2://gold
-						NPC->client->ps.customRGBA[0]=254;
-						NPC->client->ps.customRGBA[1]=197;
-						NPC->client->ps.customRGBA[2]=73;
+						NPC_->client->ps.customRGBA[0]=254;
+						NPC_->client->ps.customRGBA[1]=197;
+						NPC_->client->ps.customRGBA[2]=73;
 						break;
 					case 3://orange
-						NPC->client->ps.customRGBA[0]=178;
-						NPC->client->ps.customRGBA[1]=78;
-						NPC->client->ps.customRGBA[2]=18;
+						NPC_->client->ps.customRGBA[0]=178;
+						NPC_->client->ps.customRGBA[1]=78;
+						NPC_->client->ps.customRGBA[2]=18;
 						break;
 					case 4://bluegreen
-						NPC->client->ps.customRGBA[0]=112;
-						NPC->client->ps.customRGBA[1]=153;
-						NPC->client->ps.customRGBA[2]=161;
+						NPC_->client->ps.customRGBA[0]=112;
+						NPC_->client->ps.customRGBA[1]=153;
+						NPC_->client->ps.customRGBA[2]=161;
 						break;
 					case 5://blue2
-						NPC->client->ps.customRGBA[0]=123;
-						NPC->client->ps.customRGBA[1]=182;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=123;
+						NPC_->client->ps.customRGBA[1]=182;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 6://green2
-						NPC->client->ps.customRGBA[0]=0;
-						NPC->client->ps.customRGBA[1]=88;
-						NPC->client->ps.customRGBA[2]=105;
+						NPC_->client->ps.customRGBA[0]=0;
+						NPC_->client->ps.customRGBA[1]=88;
+						NPC_->client->ps.customRGBA[2]=105;
 						break;
 					case 7://violet
-						NPC->client->ps.customRGBA[0]=138;
-						NPC->client->ps.customRGBA[1]=0;
-						NPC->client->ps.customRGBA[2]=0;
+						NPC_->client->ps.customRGBA[0]=138;
+						NPC_->client->ps.customRGBA[1]=0;
+						NPC_->client->ps.customRGBA[2]=0;
 						break;
 					}
 				}
 				else if ( !Q_stricmp( value, "jedi_kdm" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,8))
 					{
 					default:
 					case 0://blue
-						NPC->client->ps.customRGBA[0]=85;
-						NPC->client->ps.customRGBA[1]=120;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=85;
+						NPC_->client->ps.customRGBA[1]=120;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 1://violet
-						NPC->client->ps.customRGBA[0]=173;
-						NPC->client->ps.customRGBA[1]=142;
-						NPC->client->ps.customRGBA[2]=219;
+						NPC_->client->ps.customRGBA[0]=173;
+						NPC_->client->ps.customRGBA[1]=142;
+						NPC_->client->ps.customRGBA[2]=219;
 						break;
 					case 2://brown1
-						NPC->client->ps.customRGBA[0]=254;
-						NPC->client->ps.customRGBA[1]=197;
-						NPC->client->ps.customRGBA[2]=73;
+						NPC_->client->ps.customRGBA[0]=254;
+						NPC_->client->ps.customRGBA[1]=197;
+						NPC_->client->ps.customRGBA[2]=73;
 						break;
 					case 3://orange
-						NPC->client->ps.customRGBA[0]=138;
-						NPC->client->ps.customRGBA[1]=83;
-						NPC->client->ps.customRGBA[2]=0;
+						NPC_->client->ps.customRGBA[0]=138;
+						NPC_->client->ps.customRGBA[1]=83;
+						NPC_->client->ps.customRGBA[2]=0;
 						break;
 					case 4://gold
-						NPC->client->ps.customRGBA[0]=254;
-						NPC->client->ps.customRGBA[1]=199;
-						NPC->client->ps.customRGBA[2]=14;
+						NPC_->client->ps.customRGBA[0]=254;
+						NPC_->client->ps.customRGBA[1]=199;
+						NPC_->client->ps.customRGBA[2]=14;
 						break;
 					case 5://blue2
-						NPC->client->ps.customRGBA[0]=68;
-						NPC->client->ps.customRGBA[1]=194;
-						NPC->client->ps.customRGBA[2]=217;
+						NPC_->client->ps.customRGBA[0]=68;
+						NPC_->client->ps.customRGBA[1]=194;
+						NPC_->client->ps.customRGBA[2]=217;
 						break;
 					case 6://red1
-						NPC->client->ps.customRGBA[0]=170;
-						NPC->client->ps.customRGBA[1]=3;
-						NPC->client->ps.customRGBA[2]=30;
+						NPC_->client->ps.customRGBA[0]=170;
+						NPC_->client->ps.customRGBA[1]=3;
+						NPC_->client->ps.customRGBA[2]=30;
 						break;
 					case 7://yellow1
-						NPC->client->ps.customRGBA[0]=225;
-						NPC->client->ps.customRGBA[1]=226;
-						NPC->client->ps.customRGBA[2]=144;
+						NPC_->client->ps.customRGBA[0]=225;
+						NPC_->client->ps.customRGBA[1]=226;
+						NPC_->client->ps.customRGBA[2]=144;
 						break;
 					case 8://violet2
-						NPC->client->ps.customRGBA[0]=167;
-						NPC->client->ps.customRGBA[1]=202;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=167;
+						NPC_->client->ps.customRGBA[1]=202;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					}
 				}
 				else if ( !Q_stricmp( value, "jedi_rm" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,8))
 					{
 					default:
 					case 0://blue
-						NPC->client->ps.customRGBA[0]=127;
-						NPC->client->ps.customRGBA[1]=153;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=127;
+						NPC_->client->ps.customRGBA[1]=153;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 1://green1
-						NPC->client->ps.customRGBA[0]=208;
-						NPC->client->ps.customRGBA[1]=249;
-						NPC->client->ps.customRGBA[2]=85;
+						NPC_->client->ps.customRGBA[0]=208;
+						NPC_->client->ps.customRGBA[1]=249;
+						NPC_->client->ps.customRGBA[2]=85;
 						break;
 					case 2://blue2
-						NPC->client->ps.customRGBA[0]=181;
-						NPC->client->ps.customRGBA[1]=207;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=181;
+						NPC_->client->ps.customRGBA[1]=207;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 3://gold
-						NPC->client->ps.customRGBA[0]=138;
-						NPC->client->ps.customRGBA[1]=83;
-						NPC->client->ps.customRGBA[2]=0;
+						NPC_->client->ps.customRGBA[0]=138;
+						NPC_->client->ps.customRGBA[1]=83;
+						NPC_->client->ps.customRGBA[2]=0;
 						break;
 					case 4://gold
-						NPC->client->ps.customRGBA[0]=224;
-						NPC->client->ps.customRGBA[1]=171;
-						NPC->client->ps.customRGBA[2]=44;
+						NPC_->client->ps.customRGBA[0]=224;
+						NPC_->client->ps.customRGBA[1]=171;
+						NPC_->client->ps.customRGBA[2]=44;
 						break;
 					case 5://green2
-						NPC->client->ps.customRGBA[0]=49;
-						NPC->client->ps.customRGBA[1]=155;
-						NPC->client->ps.customRGBA[2]=131;
+						NPC_->client->ps.customRGBA[0]=49;
+						NPC_->client->ps.customRGBA[1]=155;
+						NPC_->client->ps.customRGBA[2]=131;
 						break;
 					case 6://red1
-						NPC->client->ps.customRGBA[0]=163;
-						NPC->client->ps.customRGBA[1]=79;
-						NPC->client->ps.customRGBA[2]=17;
+						NPC_->client->ps.customRGBA[0]=163;
+						NPC_->client->ps.customRGBA[1]=79;
+						NPC_->client->ps.customRGBA[2]=17;
 						break;
 					case 7://violet2
-						NPC->client->ps.customRGBA[0]=148;
-						NPC->client->ps.customRGBA[1]=104;
-						NPC->client->ps.customRGBA[2]=228;
+						NPC_->client->ps.customRGBA[0]=148;
+						NPC_->client->ps.customRGBA[1]=104;
+						NPC_->client->ps.customRGBA[2]=228;
 						break;
 					case 8://green3
-						NPC->client->ps.customRGBA[0]=138;
-						NPC->client->ps.customRGBA[1]=136;
-						NPC->client->ps.customRGBA[2]=0;
+						NPC_->client->ps.customRGBA[0]=138;
+						NPC_->client->ps.customRGBA[1]=136;
+						NPC_->client->ps.customRGBA[2]=0;
 						break;
 					}
 				}
 				else if ( !Q_stricmp( value, "jedi_tf" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,5))
 					{
 					default:
 					case 0://green1
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=235;
-						NPC->client->ps.customRGBA[2]=100;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=235;
+						NPC_->client->ps.customRGBA[2]=100;
 						break;
 					case 1://blue1
-						NPC->client->ps.customRGBA[0]=62;
-						NPC->client->ps.customRGBA[1]=155;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=62;
+						NPC_->client->ps.customRGBA[1]=155;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 2://red1
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=110;
-						NPC->client->ps.customRGBA[2]=120;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=110;
+						NPC_->client->ps.customRGBA[2]=120;
 						break;
 					case 3://purple
-						NPC->client->ps.customRGBA[0]=180;
-						NPC->client->ps.customRGBA[1]=150;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=180;
+						NPC_->client->ps.customRGBA[1]=150;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 4://flesh
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=200;
-						NPC->client->ps.customRGBA[2]=212;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=200;
+						NPC_->client->ps.customRGBA[2]=212;
 						break;
 					case 5://base
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=255;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=255;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					}
 				}
 				else if ( !Q_stricmp( value, "jedi_zf" ) )
 				{
-					NPC->client->ps.customRGBA[3]=255;
+					NPC_->client->ps.customRGBA[3]=255;
 					switch (Q_irand(0,7))
 					{
 					default:
 					case 0://red1
-						NPC->client->ps.customRGBA[0]=204;
-						NPC->client->ps.customRGBA[1]=19;
-						NPC->client->ps.customRGBA[2]=21;
+						NPC_->client->ps.customRGBA[0]=204;
+						NPC_->client->ps.customRGBA[1]=19;
+						NPC_->client->ps.customRGBA[2]=21;
 						break;
 					case 1://orange1
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=107;
-						NPC->client->ps.customRGBA[2]=40;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=107;
+						NPC_->client->ps.customRGBA[2]=40;
 						break;
 					case 2://pink1
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=148;
-						NPC->client->ps.customRGBA[2]=155;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=148;
+						NPC_->client->ps.customRGBA[2]=155;
 						break;
 					case 3://gold
-						NPC->client->ps.customRGBA[0]=255;
-						NPC->client->ps.customRGBA[1]=164;
-						NPC->client->ps.customRGBA[2]=59;
+						NPC_->client->ps.customRGBA[0]=255;
+						NPC_->client->ps.customRGBA[1]=164;
+						NPC_->client->ps.customRGBA[2]=59;
 						break;
 					case 4://violet1
-						NPC->client->ps.customRGBA[0]=216;
-						NPC->client->ps.customRGBA[1]=160;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=216;
+						NPC_->client->ps.customRGBA[1]=160;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 5://blue1
-						NPC->client->ps.customRGBA[0]=101;
-						NPC->client->ps.customRGBA[1]=159;
-						NPC->client->ps.customRGBA[2]=255;
+						NPC_->client->ps.customRGBA[0]=101;
+						NPC_->client->ps.customRGBA[1]=159;
+						NPC_->client->ps.customRGBA[2]=255;
 						break;
 					case 6://blue2
-						NPC->client->ps.customRGBA[0]=161;
-						NPC->client->ps.customRGBA[1]=226;
-						NPC->client->ps.customRGBA[2]=240;
+						NPC_->client->ps.customRGBA[0]=161;
+						NPC_->client->ps.customRGBA[1]=226;
+						NPC_->client->ps.customRGBA[2]=240;
 						break;
 					case 7://blue3
-						NPC->client->ps.customRGBA[0]=37;
-						NPC->client->ps.customRGBA[1]=155;
-						NPC->client->ps.customRGBA[2]=181;
+						NPC_->client->ps.customRGBA[0]=37;
+						NPC_->client->ps.customRGBA[1]=155;
+						NPC_->client->ps.customRGBA[2]=181;
 						break;
 					}
 				}
 				//[/CoOp]
 				else 
 				{
-					NPC->client->ps.customRGBA[0]=atoi(value);
+					NPC_->client->ps.customRGBA[0]=atoi(value);
 					
 					if ( COM_ParseInt( &p, &n ) ) 
 					{
 						continue;
 					}
-					NPC->client->ps.customRGBA[1]=n;
+					NPC_->client->ps.customRGBA[1]=n;
 					
 					if ( COM_ParseInt( &p, &n ) ) 
 					{
 						continue;
 					}
-					NPC->client->ps.customRGBA[2]=n;
+					NPC_->client->ps.customRGBA[2]=n;
 					
 					if ( COM_ParseInt( &p, &n ) ) 
 					{
 						continue;
 					}
-					NPC->client->ps.customRGBA[3]=n;
+					NPC_->client->ps.customRGBA[3]=n;
 				}
 				continue;
 			}
@@ -1853,14 +1853,14 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				if (n != 100)
 				{
-					NPC->client->ps.iModelScale = n; //so the client knows
+					NPC_->client->ps.iModelScale = n; //so the client knows
 					if (n >= 1024)
 					{
 						Com_Printf("WARNING: MP does not support scaling up to or over 1024%\n");
 						n = 1023;
 					}
 
-					NPC->modelScale[0] = NPC->modelScale[1] = NPC->modelScale[2] = n/100.0f;
+					NPC_->modelScale[0] = NPC_->modelScale[1] = NPC_->modelScale[2] = n/100.0f;
 				}
 				continue;
 			}
@@ -1941,7 +1941,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->aggression = n;
 					}
@@ -1958,7 +1958,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->aim = n;
 					}
@@ -1976,7 +1976,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->earshot = f;
 					}
@@ -1996,7 +1996,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->evasion = n;
 					}
@@ -2013,7 +2013,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->hfov = n;// / 2;	//FIXME: Why was this being done?!
 					}
@@ -2030,7 +2030,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->intelligence = n;
 					}
@@ -2047,7 +2047,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->move = n;
 					}
@@ -2064,7 +2064,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->reactions = n;
 					}
@@ -2082,7 +2082,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->shootDistance = f;
 					}
@@ -2099,7 +2099,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->vfov = n / 2;
 					}
@@ -2117,7 +2117,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->vigilance = f;
 					}
@@ -2135,7 +2135,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->visrange = f;
 					}
@@ -2160,9 +2160,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					{
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
-						NPC->NPC->rank = TranslateRankName(value);
+						NPC_->NPC->rank = TranslateRankName(value);
 					}
 					continue;
 				}
@@ -2181,13 +2181,13 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 					stats->health = n;
 				}
 				else if ( parsingPlayer )
 				{
-					NPC->client->ps.stats[STAT_MAX_HEALTH] = NPC->client->pers.maxHealth = n;
+					NPC_->client->ps.stats[STAT_MAX_HEALTH] = NPC_->client->pers.maxHealth = n;
 				}
 				continue;
 			}
@@ -2199,7 +2199,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				NPC->fullName = G_NewString(value);
+				NPC_->fullName = G_NewString(value);
 				continue;
 			}
 
@@ -2213,7 +2213,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					continue;
 				}
 				Com_sprintf(tk, sizeof(tk), "NPC%s", token);
-				NPC->client->playerTeam = NPC->s.teamowner = (team_t)GetIDForString( TeamTable, tk );//TranslateTeamName(value);
+				NPC_->client->playerTeam = NPC_->s.teamowner = (team_t)GetIDForString( TeamTable, tk );//TranslateTeamName(value);
 				continue;
 			}
 
@@ -2227,7 +2227,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					continue;
 				}
 				Com_sprintf(tk, sizeof(tk), "NPC%s", token);
-				NPC->client->enemyTeam = (team_t)GetIDForString( TeamTable, tk );//TranslateTeamName(value);
+				NPC_->client->enemyTeam = (team_t)GetIDForString( TeamTable, tk );//TranslateTeamName(value);
 				continue;
 			}
 
@@ -2238,13 +2238,13 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				NPC->client->NPC_class = (class_t)GetIDForString( ClassTable, value );
-				NPC->s.NPC_class = NPC->client->NPC_class; //we actually only need this value now, but at the moment I don't feel like changing the 200+ references to client->NPC_class.
+				NPC_->client->NPC_class = (class_t)GetIDForString( ClassTable, value );
+				NPC_->s.NPC_class = NPC_->client->NPC_class; //we actually only need this value now, but at the moment I don't feel like changing the 200+ references to client->NPC_class.
 
 				// No md3's for vehicles.
-				if ( NPC->client->NPC_class == CLASS_VEHICLE )
+				if ( NPC_->client->NPC_class == CLASS_VEHICLE )
 				{
-					if ( !NPC->m_pVehicle )
+					if ( !NPC_->m_pVehicle )
 					{//you didn't spawn this guy right!
 						Com_Printf ( S_COLOR_RED "ERROR: Tried to spawn a vehicle NPC (%s) without using NPC_Vehicle or 'NPC spawn vehicle <vehiclename>'!!!  Bad, bad, bad!  Shame on you!\n", NPCName );
 						return qfalse;
@@ -2266,7 +2266,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 				//	NPC->client->dismemberProbHead = n;
 					//rwwFIXMEFIXME: support for this?
@@ -2285,7 +2285,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 				//	NPC->client->dismemberProbArms = n;
 				}
@@ -2303,7 +2303,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 				//	NPC->client->dismemberProbHands = n;
 				}
@@ -2321,7 +2321,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 				//	NPC->client->dismemberProbWaist = n;
 				}
@@ -2339,7 +2339,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					Com_Printf( "bad %s in NPC '%s'\n", token, NPCName );
 					continue;
 				}
-				if ( NPC->NPC )
+				if ( NPC_->NPC )
 				{
 				//	NPC->client->dismemberProbLegs = n;
 				}
@@ -2355,8 +2355,8 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					continue;
 				}
 
-				NPC->r.mins[0] = NPC->r.mins[1] = -n;
-				NPC->r.maxs[0] = NPC->r.maxs[1] = n;
+				NPC_->r.mins[0] = NPC_->r.mins[1] = -n;
+				NPC_->r.maxs[0] = NPC_->r.maxs[1] = n;
 				continue;
 			}
 
@@ -2366,21 +2366,21 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client->NPC_class == CLASS_VEHICLE
-					&& NPC->m_pVehicle
-					&& NPC->m_pVehicle->m_pVehicleInfo
-					&& NPC->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER )
+				if ( NPC_->client->NPC_class == CLASS_VEHICLE
+					&& NPC_->m_pVehicle
+					&& NPC_->m_pVehicle->m_pVehicleInfo
+					&& NPC_->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER )
 				{//a flying vehicle's origin must be centered in bbox and it should spawn on the ground
 					//trace_t		tr;
 					//vec3_t		bottom;
 					//float		adjust = 32.0f;
-					NPC->r.maxs[2] = NPC->client->ps.standheight = (n/2.0f);
-					NPC->r.mins[2] = -NPC->r.maxs[2];
-					NPC->s.origin[2] += (DEFAULT_MINS_2-NPC->r.mins[2])+0.125f;
-					VectorCopy(NPC->s.origin, NPC->client->ps.origin);
-					VectorCopy(NPC->s.origin, NPC->r.currentOrigin);
-					G_SetOrigin( NPC, NPC->s.origin );
-					trap_LinkEntity(NPC);
+					NPC_->r.maxs[2] = NPC_->client->ps.standheight = (n/2.0f);
+					NPC_->r.mins[2] = -NPC_->r.maxs[2];
+					NPC_->s.origin[2] += (DEFAULT_MINS_2-NPC_->r.mins[2])+0.125f;
+					VectorCopy(NPC_->s.origin, NPC_->client->ps.origin);
+					VectorCopy(NPC_->s.origin, NPC_->r.currentOrigin);
+					G_SetOrigin( NPC_, NPC_->s.origin );
+					trap_LinkEntity(NPC_);
 					//now trace down
 					/*
 					VectorCopy( NPC->s.origin, bottom );
@@ -2395,10 +2395,10 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				else
 				{
-					NPC->r.mins[2] = DEFAULT_MINS_2;//Cannot change
-					NPC->r.maxs[2] = NPC->client->ps.standheight = n + DEFAULT_MINS_2;
+					NPC_->r.mins[2] = DEFAULT_MINS_2;//Cannot change
+					NPC_->r.maxs[2] = NPC_->client->ps.standheight = n + DEFAULT_MINS_2;
 				}
-				NPC->radius = n;
+				NPC_->radius = n;
 				continue;
 			}
 
@@ -2409,7 +2409,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					continue;
 				}
 
-				NPC->client->ps.crouchheight = n + DEFAULT_MINS_2;
+				NPC_->client->ps.crouchheight = n + DEFAULT_MINS_2;
 				continue;
 			}
 
@@ -2423,7 +2423,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					}
 					if ( Q_stricmp( "flyswim", value ) == 0 )
 					{
-						NPC->client->ps.eFlags2 |= EF2_FLYING;
+						NPC_->client->ps.eFlags2 |= EF2_FLYING;
 					}
 					//NPC->client->moveType = (movetype_t)MoveTypeNameToEnum(value);
 					//rwwFIXMEFIXME: support for movetypes
@@ -2440,7 +2440,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf(  "bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->yawSpeed = ((float)(n));
 					}
@@ -2460,7 +2460,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->walkSpeed = n;
 					}
@@ -2480,7 +2480,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->runSpeed = n;
 					}
@@ -2500,7 +2500,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						stats->acceleration = n;
 					}
@@ -2526,9 +2526,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						Com_Printf( S_COLOR_YELLOW"WARNING: bad %s in NPC '%s'\n", token, NPCName );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
-						NPC->NPC->defaultBehavior = (bState_t)(n);
+						NPC_->NPC->defaultBehavior = (bState_t)(n);
 					}
 					continue;
 				}
@@ -2541,7 +2541,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( !(NPC->r.svFlags&SVF_NO_BASIC_SOUNDS) )
+				if ( !(NPC_->r.svFlags&SVF_NO_BASIC_SOUNDS) )
 				{
 					//FIXME: store this in some sound field or parse in the soundTable like the animTable...
 					Q_strncpyz( sound, value, sizeof( sound ) );
@@ -2563,7 +2563,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( !(NPC->r.svFlags&SVF_NO_COMBAT_SOUNDS) )
+				if ( !(NPC_->r.svFlags&SVF_NO_COMBAT_SOUNDS) )
 				{
 					//FIXME: store this in some sound field or parse in the soundTable like the animTable...
 					Q_strncpyz( sound, value, sizeof( sound ) );
@@ -2584,7 +2584,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( !(NPC->r.svFlags&SVF_NO_EXTRA_SOUNDS) )
+				if ( !(NPC_->r.svFlags&SVF_NO_EXTRA_SOUNDS) )
 				{
 					//FIXME: store this in some sound field or parse in the soundTable like the animTable...
 					Q_strncpyz( sound, value, sizeof( sound ) );
@@ -2605,7 +2605,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( !(NPC->r.svFlags&SVF_NO_EXTRA_SOUNDS) )
+				if ( !(NPC_->r.svFlags&SVF_NO_EXTRA_SOUNDS) )
 				{
 					//FIXME: store this in some sound field or parse in the soundTable like the animTable...
 					Q_strncpyz( sound, value, sizeof( sound ) );
@@ -2633,12 +2633,12 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				weap = GetIDForString( WPTable, value );
 				if ( weap >= WP_NONE && weap <= WP_NUM_WEAPONS )///*WP_BLASTER_PISTOL*/WP_SABER ) //?!
 				{
-					NPC->client->ps.weapon = weap;
-					NPC->client->ps.stats[STAT_WEAPONS] |= ( 1 << NPC->client->ps.weapon );
+					NPC_->client->ps.weapon = weap;
+					NPC_->client->ps.stats[STAT_WEAPONS] |= ( 1 << NPC_->client->ps.weapon );
 					if ( weap > WP_NONE )
 					{
 					//	RegisterItem( FindItemForWeapon( (weapon_t)(NPC->client->ps.weapon) ) );	//precache the weapon
-						NPC->client->ps.ammo[weaponData[NPC->client->ps.weapon].ammoIndex] = 100;//FIXME: max ammo!
+						NPC_->client->ps.ammo[weaponData[NPC_->client->ps.weapon].ammoIndex] = 100;//FIXME: max ammo!
 					}
 				}
 				continue;
@@ -2654,11 +2654,11 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 						SkipRestOfLine( &p );
 						continue;
 					}
-					if ( NPC->NPC )
+					if ( NPC_->NPC )
 					{
 						if ( n != 0 )
 						{
-							NPC->NPC->scriptFlags |= SCF_ALT_FIRE;
+							NPC_->NPC->scriptFlags |= SCF_ALT_FIRE;
 						}
 					}
 					continue;
@@ -2687,13 +2687,13 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				if ( n )
 				{//set
-					NPC->client->ps.fd.forcePowersKnown |= ( 1 << fp );
+					NPC_->client->ps.fd.forcePowersKnown |= ( 1 << fp );
 				}
 				else
 				{//clear
-					NPC->client->ps.fd.forcePowersKnown &= ~( 1 << fp );
+					NPC_->client->ps.fd.forcePowersKnown &= ~( 1 << fp );
 				}
-				NPC->client->ps.fd.forcePowerLevel[fp] = n;
+				NPC_->client->ps.fd.forcePowerLevel[fp] = n;
 				continue;
 			}
 
@@ -2705,7 +2705,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					SkipRestOfLine( &p );
 					continue;
 				}
-				NPC->client->ps.fd.forcePowerMax = n;
+				NPC_->client->ps.fd.forcePowerMax = n;
 				continue;
 			}
 
@@ -2749,7 +2749,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				saberName = (char *)BG_TempAlloc(4096);//G_NewString( value );
 				strcpy(saberName, value);
 
-				WP_SaberParseParms( saberName, &NPC->client->saber[0] );
+				WP_SaberParseParms( saberName, &NPC_->client->saber[0] );
 				npcSaber1 = G_ModelIndex(va("@%s", saberName));
 
 				BG_TempFree(4096);
@@ -2764,15 +2764,15 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 					continue;
 				}
 
-				if ( !(NPC->client->saber[0].saberFlags&SFL_TWO_HANDED) )
+				if ( !(NPC_->client->saber[0].saberFlags&SFL_TWO_HANDED) )
 				{//can't use a second saber if first one is a two-handed saber...?
 					char *saberName = (char *)BG_TempAlloc(4096);//G_NewString( value );
 					strcpy(saberName, value);
 
-					WP_SaberParseParms( saberName, &NPC->client->saber[1] );
-					if ( (NPC->client->saber[1].saberFlags&SFL_TWO_HANDED) )
+					WP_SaberParseParms( saberName, &NPC_->client->saber[1] );
+					if ( (NPC_->client->saber[1].saberFlags&SFL_TWO_HANDED) )
 					{//tsk tsk, can't use a twoHanded saber as second saber
-						WP_RemoveSaber( NPC->client->saber, 1 );
+						WP_RemoveSaber( NPC_->client->saber, 1 );
 					}
 					else
 					{
@@ -2791,12 +2791,12 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
 					saber_colors_t color = TranslateSaberColor( value );
 					for ( n = 0; n < MAX_BLADES; n++ )
 					{
-						NPC->client->saber[0].blade[n].color = color;
+						NPC_->client->saber[0].blade[n].color = color;
 					}
 				}
 				continue;
@@ -2808,9 +2808,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[1].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[1].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2821,9 +2821,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[2].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[2].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2834,9 +2834,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[3].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[3].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2847,9 +2847,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[4].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[4].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2860,9 +2860,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[5].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[5].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2873,9 +2873,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[6].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[6].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2886,9 +2886,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[0].blade[7].color = TranslateSaberColor( value );
+					NPC_->client->saber[0].blade[7].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2899,12 +2899,12 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
 					saber_colors_t color = TranslateSaberColor( value );
 					for ( n = 0; n < MAX_BLADES; n++ )
 					{
-						NPC->client->saber[1].blade[n].color = color;
+						NPC_->client->saber[1].blade[n].color = color;
 					}
 				}
 				continue;
@@ -2916,9 +2916,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[1].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[1].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2929,9 +2929,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[2].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[2].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2942,9 +2942,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[3].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[3].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2955,9 +2955,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[4].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[4].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2968,9 +2968,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[5].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[5].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2981,9 +2981,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[6].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[6].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -2994,9 +2994,9 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					continue;
 				}
-				if ( NPC->client )
+				if ( NPC_->client )
 				{
-					NPC->client->saber[1].blade[7].color = TranslateSaberColor( value );
+					NPC_->client->saber[1].blade[7].color = TranslateSaberColor( value );
 				}
 				continue;
 			}
@@ -3017,7 +3017,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 
 				for ( n = 0; n < MAX_BLADES; n++ )
 				{
-					NPC->client->saber[0].blade[n].lengthMax = f;
+					NPC_->client->saber[0].blade[n].lengthMax = f;
 				}
 				continue;
 			}
@@ -3034,7 +3034,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[1].lengthMax = f;
+				NPC_->client->saber[0].blade[1].lengthMax = f;
 				continue;
 			}
 
@@ -3050,7 +3050,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[2].lengthMax = f;
+				NPC_->client->saber[0].blade[2].lengthMax = f;
 				continue;
 			}
 
@@ -3066,7 +3066,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[3].lengthMax = f;
+				NPC_->client->saber[0].blade[3].lengthMax = f;
 				continue;
 			}
 
@@ -3082,7 +3082,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[4].lengthMax = f;
+				NPC_->client->saber[0].blade[4].lengthMax = f;
 				continue;
 			}
 
@@ -3098,7 +3098,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[5].lengthMax = f;
+				NPC_->client->saber[0].blade[5].lengthMax = f;
 				continue;
 			}
 
@@ -3114,7 +3114,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[6].lengthMax = f;
+				NPC_->client->saber[0].blade[6].lengthMax = f;
 				continue;
 			}
 
@@ -3130,7 +3130,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[0].blade[7].lengthMax = f;
+				NPC_->client->saber[0].blade[7].lengthMax = f;
 				continue;
 			}
 
@@ -3148,7 +3148,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				for ( n = 0; n < MAX_BLADES; n++ )
 				{
-					NPC->client->saber[1].blade[n].lengthMax = f;
+					NPC_->client->saber[1].blade[n].lengthMax = f;
 				}
 				continue;
 			}
@@ -3165,7 +3165,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[1].lengthMax = f;
+				NPC_->client->saber[1].blade[1].lengthMax = f;
 				continue;
 			}
 
@@ -3181,7 +3181,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[2].lengthMax = f;
+				NPC_->client->saber[1].blade[2].lengthMax = f;
 				continue;
 			}
 
@@ -3197,7 +3197,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[3].lengthMax = f;
+				NPC_->client->saber[1].blade[3].lengthMax = f;
 				continue;
 			}
 
@@ -3213,7 +3213,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[4].lengthMax = f;
+				NPC_->client->saber[1].blade[4].lengthMax = f;
 				continue;
 			}
 
@@ -3229,7 +3229,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[5].lengthMax = f;
+				NPC_->client->saber[1].blade[5].lengthMax = f;
 				continue;
 			}
 
@@ -3245,7 +3245,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[6].lengthMax = f;
+				NPC_->client->saber[1].blade[6].lengthMax = f;
 				continue;
 			}
 
@@ -3261,7 +3261,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 4.0f;
 				}
-				NPC->client->saber[1].blade[7].lengthMax = f;
+				NPC_->client->saber[1].blade[7].lengthMax = f;
 				continue;
 			}
 
@@ -3280,7 +3280,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				for ( n = 0; n < MAX_BLADES; n++ )
 				{
-					NPC->client->saber[0].blade[n].radius = f;
+					NPC_->client->saber[0].blade[n].radius = f;
 				}
 				continue;
 			}
@@ -3297,7 +3297,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[1].radius = f;
+				NPC_->client->saber[0].blade[1].radius = f;
 				continue;
 			}
 
@@ -3313,7 +3313,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[2].radius = f;
+				NPC_->client->saber[0].blade[2].radius = f;
 				continue;
 			}
 
@@ -3329,7 +3329,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[3].radius = f;
+				NPC_->client->saber[0].blade[3].radius = f;
 				continue;
 			}
 
@@ -3345,7 +3345,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[4].radius = f;
+				NPC_->client->saber[0].blade[4].radius = f;
 				continue;
 			}
 
@@ -3361,7 +3361,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[5].radius = f;
+				NPC_->client->saber[0].blade[5].radius = f;
 				continue;
 			}
 
@@ -3377,7 +3377,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[6].radius = f;
+				NPC_->client->saber[0].blade[6].radius = f;
 				continue;
 			}
 
@@ -3393,7 +3393,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[0].blade[7].radius = f;
+				NPC_->client->saber[0].blade[7].radius = f;
 				continue;
 			}
 
@@ -3411,7 +3411,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				}
 				for ( n = 0; n < MAX_BLADES; n++ )
 				{
-					NPC->client->saber[1].blade[n].radius = f;
+					NPC_->client->saber[1].blade[n].radius = f;
 				}
 				continue;
 			}
@@ -3428,7 +3428,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[1].radius = f;
+				NPC_->client->saber[1].blade[1].radius = f;
 				continue;
 			}
 
@@ -3444,7 +3444,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[2].radius = f;
+				NPC_->client->saber[1].blade[2].radius = f;
 				continue;
 			}
 
@@ -3460,7 +3460,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[3].radius = f;
+				NPC_->client->saber[1].blade[3].radius = f;
 				continue;
 			}
 
@@ -3476,7 +3476,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[4].radius = f;
+				NPC_->client->saber[1].blade[4].radius = f;
 				continue;
 			}
 
@@ -3492,7 +3492,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[5].radius = f;
+				NPC_->client->saber[1].blade[5].radius = f;
 				continue;
 			}
 
@@ -3508,7 +3508,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[6].radius = f;
+				NPC_->client->saber[1].blade[6].radius = f;
 				continue;
 			}
 
@@ -3524,7 +3524,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					f = 0.25f;
 				}
-				NPC->client->saber[1].blade[7].radius = f;
+				NPC_->client->saber[1].blade[7].radius = f;
 				continue;
 			}
 
@@ -3549,7 +3549,7 @@ qboolean NPC_ParseParms( const char *NPCName, gentity_t *NPC )
 				{
 					n = 5;
 				}
-				NPC->client->ps.fd.saberAnimLevel = n;
+				NPC_->client->ps.fd.saberAnimLevel = n;
 				/*
 				if ( parsingPlayer )
 				{
@@ -3596,9 +3596,9 @@ Ghoul2 Insert Start
 				}
 				if ((rgb[0]+rgb[1]+rgb[2]) < 100) // too dark
 					rgb[0] = rgb[1] = rgb[2] = 255;
-				NPC->client->ps.customRGBA[0] = rgb[0];
-				NPC->client->ps.customRGBA[1] = rgb[1];
-				NPC->client->ps.customRGBA[2] = rgb[2];
+				NPC_->client->ps.customRGBA[0] = rgb[0];
+				NPC_->client->ps.customRGBA[1] = rgb[1];
+				NPC_->client->ps.customRGBA[2] = rgb[2];
 			}
 			else
 			{
@@ -3607,9 +3607,9 @@ Ghoul2 Insert Start
 				//trap_GetUserinfo( player->client->ps.clientNum, userinfo, sizeof( userinfo ) );
 				Q_strncpyz( playerModel, Info_ValueForKey (userinfo, "model"), sizeof(playerModel));
 				//copy over the customRGB data
-				NPC->client->ps.customRGBA[0] = player->client->ps.customRGBA[0];
-				NPC->client->ps.customRGBA[1] = player->client->ps.customRGBA[1];
-				NPC->client->ps.customRGBA[2] = player->client->ps.customRGBA[2];
+				NPC_->client->ps.customRGBA[0] = player->client->ps.customRGBA[0];
+				NPC_->client->ps.customRGBA[1] = player->client->ps.customRGBA[1];
+				NPC_->client->ps.customRGBA[2] = player->client->ps.customRGBA[2];
 			}
 
 			//parse custom skin if there is one.
@@ -3627,35 +3627,35 @@ Ghoul2 Insert Start
 		if (npcSaber1 == 0)
 		{ //use "kyle" for a default then
 			npcSaber1 = G_ModelIndex("@Kyle");
-			WP_SaberParseParms( "Kyle", &NPC->client->saber[0] );
+			WP_SaberParseParms( "Kyle", &NPC_->client->saber[0] );
 		}
 
-		NPC->s.npcSaber1 = npcSaber1;
-		NPC->s.npcSaber2 = npcSaber2;
+		NPC_->s.npcSaber1 = npcSaber1;
+		NPC_->s.npcSaber2 = npcSaber2;
 
 		if (!customSkin[0])
 		{
 			strcpy(customSkin, "default");
 		}
 
-		if ( NPC->client && NPC->client->NPC_class == CLASS_VEHICLE )
+		if ( NPC_->client && NPC_->client->NPC_class == CLASS_VEHICLE )
 		{ //vehicles want their names fed in as models
 			//we put the $ in front to indicate a name and not a model
 			strcpy(playerModel, va("$%s", NPCName));
 		}
-		SetupGameGhoul2Model(NPC, playerModel, customSkin);
+		SetupGameGhoul2Model(NPC_, playerModel, customSkin);
 
-		if (!NPC->NPC_type)
+		if (!NPC_->NPC_type)
 		{ //just do this for now so NPC_Precache can see the name.
-			NPC->NPC_type = (char *)NPCName;
+			NPC_->NPC_type = (char *)NPCName;
 			setTypeBack = qtrue;
 		}
 
-		NPC_Precache(NPC); //this will just soundindex some values for sounds on the client,
+		NPC_Precache(NPC_); //this will just soundindex some values for sounds on the client,
 
 		if (setTypeBack)
 		{ //don't want this being set if we aren't ready yet.
-			NPC->NPC_type = NULL;
+			NPC_->NPC_type = NULL;
 		}
 
 		//[CoOp]
@@ -3695,7 +3695,7 @@ Ghoul2 Insert Start
 	else
 	{
 		//[CoOp]
-		NPC->s.modelindex = G_ModelIndex( va("models/players/%s/lower.md3", playerModel) );
+		NPC_->s.modelindex = G_ModelIndex( va("models/players/%s/lower.md3", playerModel) );
 		//Com_Printf("MD3 MODEL NPC'S ARE NOT SUPPORTED IN MP!\n");
 		//return qfalse;
 		//[/CoOp]

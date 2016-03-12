@@ -85,7 +85,7 @@ void NPC_StandIdle( void )
 */
 }
 
-qboolean NPC_StandTrackAndShoot (gentity_t *NPC, qboolean canDuck)
+qboolean NPC_StandTrackAndShoot (gentity_t * NPC_, qboolean canDuck)
 {
 	qboolean	attack_ok = qfalse;
 	qboolean	duck_ok = qfalse;
@@ -97,7 +97,7 @@ qboolean NPC_StandTrackAndShoot (gentity_t *NPC, qboolean canDuck)
 	//Maybe is can be shot even when ducked, we should run away to the nearest cover?
 	if ( canDuck )
 	{
-		if ( NPC->health < 20 )
+		if ( NPC_->health < 20 )
 		{
 		//	if( NPC->svFlags&SVF_HEALING || random() )
 			if( random() )
@@ -105,7 +105,7 @@ qboolean NPC_StandTrackAndShoot (gentity_t *NPC, qboolean canDuck)
 				duck_ok = qtrue;
 			}
 		}
-		else if ( NPC->health < 40 )
+		else if ( NPC_->health < 40 )
 		{
 //			if ( NPC->svFlags&SVF_HEALING )
 //			{//Medic is on the way, get down!
@@ -132,11 +132,11 @@ qboolean NPC_StandTrackAndShoot (gentity_t *NPC, qboolean canDuck)
 	{//if we didn't attack check to duck if we're not already
 		if( !duck_ok )
 		{
-			if ( NPC->enemy->client )
+			if ( NPC_->enemy->client )
 			{
-				if ( NPC->enemy->enemy == NPC )
+				if ( NPC_->enemy->enemy == NPC_ )
 				{
-					if ( NPC->enemy->client->buttons & BUTTON_ATTACK )
+					if ( NPC_->enemy->client->buttons & BUTTON_ATTACK )
 					{//FIXME: determine if enemy fire angles would hit me or get close
 						if ( NPC_CheckDefend( 1.0 ) )//FIXME: Check self-preservation?  Health?
 						{

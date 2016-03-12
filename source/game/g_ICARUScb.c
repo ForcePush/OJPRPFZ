@@ -8737,10 +8737,10 @@ void SetVar( const char *type_name, const char *data ) {
 			return;
 		}
 		if ( !DeclaredVariables[numDeclaredVariables].inuse ) {
-			DeclaredVariable_t *var = &DeclaredVariables[numDeclaredVariables];
-			Q_strncpyz(var->name, type_name, sizeof(var->name));
-			Q_strncpyz(var->Data, data, sizeof(var->Data));
-			var->inuse = qtrue;
+			DeclaredVariable_t *var_ = &DeclaredVariables[numDeclaredVariables];
+			Q_strncpyz(var_->name, type_name, sizeof(var_->name));
+			Q_strncpyz(var_->Data, data, sizeof(var_->Data));
+			var_->inuse = qtrue;
 			numDeclaredVariables++;
 			return;
 		}

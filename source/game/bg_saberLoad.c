@@ -472,12 +472,11 @@ qboolean WP_UseFirstValidSaberStyle( saberInfo_t *saber1, saberInfo_t *saber2, i
 	}
 	if ( styleInvalid && validStyles )
 	{//using an invalid style and have at least one valid style to use, so switch to it
-		int styleNum;
-		for ( styleNum = SS_FAST; styleNum < SS_NUM_SABER_STYLES; styleNum++ )
+		for (int styleNum_ = SS_FAST; styleNum_ < SS_NUM_SABER_STYLES; styleNum_++ )
 		{
-			if ( (validStyles&(1<<styleNum)) )
+			if ( (validStyles&(1<<styleNum_)) )
 			{
-				*saberAnimLevel = styleNum;
+				*saberAnimLevel = styleNum_;
 				return qtrue;
 			}
 		}

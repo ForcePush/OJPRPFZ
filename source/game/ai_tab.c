@@ -2103,7 +2103,7 @@ void TAB_BotMove(bot_state_t *bs, vec3_t dest, qboolean wptravel, qboolean straf
 
 		if (bs->wpCurrent->flags & WPFLAG_JUMP)
 		{ //jump while travelling to this point
-			vec3_t ang;
+			vec3_t ang_local;
 			vec3_t viewang;
 			vec3_t velocity;
 			vec3_t flatorigin, flatstart, flatend;
@@ -2121,7 +2121,7 @@ void TAB_BotMove(bot_state_t *bs, vec3_t dest, qboolean wptravel, qboolean straf
 			distend = Distance(flatorigin, flatend);
 
 			VectorSubtract(dest, bs->origin, viewang); 
-			vectoangles(viewang, ang);
+			vectoangles(viewang, ang_local);
 
 			//never strafe during when jumping somewhere
 			strafe = qfalse;

@@ -4051,21 +4051,21 @@ void ClientSpawn(gentity_t *ent) {
 		{//In Team games, force one side to be merc and other to be jedi
 			if ( level.numPlayingClients > 0 )
 			{//already someone in the game
-				int		i, forceTeam = TEAM_SPECTATOR;
-				for ( i = 0 ; i < level.maxclients ; i++ ) 
+				int		forceTeam = TEAM_SPECTATOR;
+				for (int j = 0 ; j < level.maxclients ; j++ ) 
 				{
-					if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
+					if ( level.clients[j].pers.connected == CON_DISCONNECTED ) {
 						continue;
 					}
-					if ( level.clients[i].sess.sessionTeam == TEAM_BLUE || level.clients[i].sess.sessionTeam == TEAM_RED ) 
+					if ( level.clients[j].sess.sessionTeam == TEAM_BLUE || level.clients[j].sess.sessionTeam == TEAM_RED ) 
 					{//in-game
-						if ( WP_HasForcePowers( &level.clients[i].ps ) )
+						if ( WP_HasForcePowers( &level.clients[j].ps ) )
 						{//this side is using force
-							forceTeam = level.clients[i].sess.sessionTeam;
+							forceTeam = level.clients[j].sess.sessionTeam;
 						}
 						else
 						{//other team is using force
-							if ( level.clients[i].sess.sessionTeam == TEAM_BLUE )
+							if ( level.clients[j].sess.sessionTeam == TEAM_BLUE )
 							{
 								forceTeam = TEAM_RED;
 							}
@@ -4313,12 +4313,11 @@ void ClientSpawn(gentity_t *ent) {
 		}
 		else
 		{
-			int i;
-			for ( i = LAST_USEABLE_WEAPON ; i > WP_NONE ; i-- )
+			for (int j = LAST_USEABLE_WEAPON ; j > WP_NONE ; j-- )
 			{
-				if(client->ps.stats[STAT_WEAPONS] & (1 << i) )
+				if(client->ps.stats[STAT_WEAPONS] & (1 << j) )
 				{//have this one, equip it.
-					client->ps.weapon = i;
+					client->ps.weapon = j;
 					break;
 				}
 			}

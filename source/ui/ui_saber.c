@@ -802,9 +802,10 @@ void UI_DoSaber( vec3_t origin, vec3_t dir, float length, float lengthMax, float
 		saber.shaderRGBA[0] = saber.shaderRGBA[1] = saber.shaderRGBA[2] = saber.shaderRGBA[3] = 0xff;
 	else
 	{
-		int i;
-		for(i=0;i<3;i++)
-			saber.shaderRGBA[i] = rgb[i]*255;
+		for (int j = 0; j < 3; j++)
+		{
+			saber.shaderRGBA[j] = rgb[j] * 255;
+		}
 		saber.shaderRGBA[3] = 255;
 	}
 //[/RGBSabers]

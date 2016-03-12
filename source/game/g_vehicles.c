@@ -1695,15 +1695,14 @@ bool Initialize( Vehicle_t *pVeh )
 
 	if ( pVeh->m_pVehicleInfo->maxPassengers > 0 )
 	{
-		int i;
 
 		// Allocate an array of entity pointers.
 #ifndef _JK2MP //this is kind of silly if you ask me, I'm just using a static pointer array
 		pVeh->m_ppPassengers = (gentity_t**)G_Alloc ( sizeof(gentity_t*) * pVeh->m_pVehicleInfo->maxPassengers );
 #endif
-		for ( i = 0; i < pVeh->m_pVehicleInfo->maxPassengers; i++ )
+		for (int j = 0; j < pVeh->m_pVehicleInfo->maxPassengers; j++ )
 		{
-			pVeh->m_ppPassengers[i] = NULL;
+			pVeh->m_ppPassengers[j] = NULL;
 		}
 	}
 
@@ -3102,20 +3101,20 @@ void G_VehicleSetDamageLocFlags( gentity_t *veh, int impactDir, int deathPoint )
 	}
 	else
 	{
-		int	deathPoint, heavyDamagePoint, lightDamagePoint;
+		int	deathPoint_, heavyDamagePoint, lightDamagePoint;
 		switch(impactDir)
 		{
 		case SHIPSURF_FRONT:
-			deathPoint = veh->m_pVehicle->m_pVehicleInfo->health_front;
+			deathPoint_ = veh->m_pVehicle->m_pVehicleInfo->health_front;
 			break;
 		case SHIPSURF_BACK:
-			deathPoint = veh->m_pVehicle->m_pVehicleInfo->health_back;
+			deathPoint_ = veh->m_pVehicle->m_pVehicleInfo->health_back;
 			break;
 		case SHIPSURF_RIGHT:
-			deathPoint = veh->m_pVehicle->m_pVehicleInfo->health_right;
+			deathPoint_ = veh->m_pVehicle->m_pVehicleInfo->health_right;
 			break;
 		case SHIPSURF_LEFT:
-			deathPoint = veh->m_pVehicle->m_pVehicleInfo->health_left;
+			deathPoint_ = veh->m_pVehicle->m_pVehicleInfo->health_left;
 			break;
 		default:
 			return;
@@ -3131,16 +3130,16 @@ void G_VehicleSetDamageLocFlags( gentity_t *veh, int impactDir, int deathPoint )
 			{
 				perc = 0.99f;
 			}
-			lightDamagePoint = ceil( deathPoint*perc*0.25f );
-			heavyDamagePoint = ceil( deathPoint*perc );
+			lightDamagePoint = ceil( deathPoint_*perc*0.25f );
+			heavyDamagePoint = ceil( deathPoint_*perc );
 		}
 		else
 		{
-			heavyDamagePoint = ceil( deathPoint*0.66f );
-			lightDamagePoint = ceil( deathPoint*0.14f );
+			heavyDamagePoint = ceil( deathPoint_*0.66f );
+			lightDamagePoint = ceil( deathPoint_*0.14f );
 		}
 
-		if ( veh->locationDamage[impactDir] >= deathPoint)
+		if ( veh->locationDamage[impactDir] >= deathPoint_)
 		{//destroyed
 			G_SetVehDamageFlags( veh, impactDir, 3 );
 		}

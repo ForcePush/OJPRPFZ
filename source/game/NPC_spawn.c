@@ -95,7 +95,7 @@ extern void NPC_SandCreature_Pain		(gentity_t *self, gentity_t *attacker, int da
 
 //void HirogenAlpha_Precache( void );
 
-int WP_SetSaberModel( gclient_t *client, class_t npcClass )
+int WP_SetSaberModel( gclient_t *client_, class_t npcClass )
 {
 	//rwwFIXMEFIXME: Do something here, need to let the client know.
 	return 1;
@@ -1167,11 +1167,11 @@ extern qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle);
 void NPC_Begin (gentity_t *ent)
 {
 	vec3_t	spawn_origin, spawn_angles;
-	gclient_t	*client;
-	usercmd_t	ucmd;
+	gclient_t	*client_;
+	usercmd_t	ucmd_;
 	gentity_t	*spawnPoint = NULL;
 
-	memset( &ucmd, 0, sizeof( ucmd ) );
+	memset( &ucmd_, 0, sizeof( ucmd_ ) );
 
 	if ( !(ent->spawnflags & SFB_NOTSOLID) )
 	{//No NPCs should telefrag
@@ -1203,19 +1203,19 @@ void NPC_Begin (gentity_t *ent)
 	VectorCopy( ent->s.angles, spawn_angles);
 	spawn_angles[YAW] = ent->NPC->desiredYaw;
 
-	client = ent->client;
+	client_ = ent->client;
 
 	// increment the spawncount so the client will detect the respawn
-	client->ps.persistant[PERS_SPAWN_COUNT]++;
+	client_->ps.persistant[PERS_SPAWN_COUNT]++;
 
-	client->airOutTime = level.time + 12000;
+	client_->airOutTime = level.time + 12000;
 
-	client->ps.clientNum = ent->s.number;
+	client_->ps.clientNum = ent->s.number;
 	// clear entity values
 
 	if ( ent->health )	// Was health supplied in map
 	{
-		client->pers.maxHealth = client->ps.stats[STAT_MAX_HEALTH] = ent->health;
+		client_->pers.maxHealth = client_->ps.stats[STAT_MAX_HEALTH] = ent->health;
 	}
 	else if ( ent->NPC->stats.health )	// Was health supplied in NPC.cfg?
 	{
@@ -1229,11 +1229,11 @@ void NPC_Begin (gentity_t *ent)
 			ent->NPC->stats.health += ent->NPC->stats.health/4 * g_spskill.integer; // 100% on easy, 125% on medium, 150% on hard
 		}
 		
-		client->pers.maxHealth = client->ps.stats[STAT_MAX_HEALTH] = ent->NPC->stats.health;
+		client_->pers.maxHealth = client_->ps.stats[STAT_MAX_HEALTH] = ent->NPC->stats.health;
 	}
 	else
 	{
-		client->pers.maxHealth = client->ps.stats[STAT_MAX_HEALTH] = 100;
+		client_->pers.maxHealth = client_->ps.stats[STAT_MAX_HEALTH] = 100;
 	}
 
 	if ( !Q_stricmp( "rodian", ent->NPC_type ) )
@@ -1355,10 +1355,10 @@ void NPC_Begin (gentity_t *ent)
 	ent->client->ps.weaponstate = WEAPON_IDLE;
 	ChangeWeapon( ent, ent->client->ps.weapon );
 
-	VectorCopy( spawn_origin, client->ps.origin );
+	VectorCopy( spawn_origin, client_->ps.origin );
 
 	// the respawned flag will be cleared after the attack and jump keys come up
-	client->ps.pm_flags |= PMF_RESPAWNED;
+	client_->ps.pm_flags |= PMF_RESPAWNED;
 
 	// clear entity state values
 	//ent->s.eType = ET_PLAYER;
@@ -1369,7 +1369,7 @@ void NPC_Begin (gentity_t *ent)
 //	ent->s.origin[2] += 1;	// make sure off ground
 
 	SetClientViewAngle( ent, spawn_angles );
-	client->renderInfo.lookTarget = ENTITYNUM_NONE;
+	client_->renderInfo.lookTarget = ENTITYNUM_NONE;
 
 	if(!(ent->spawnflags & 64))
 	{
@@ -1378,16 +1378,16 @@ void NPC_Begin (gentity_t *ent)
 	}
 
 	// don't allow full run speed for a bit
-	client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
-	client->ps.pm_time = 100;
+	client_->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+	client_->ps.pm_time = 100;
 
-	client->respawnTime = level.time;
-	client->inactivityTime = level.time + g_inactivity.value * 1000;
-	client->latched_buttons = 0;
+	client_->respawnTime = level.time;
+	client_->inactivityTime = level.time + g_inactivity.value * 1000;
+	client_->latched_buttons = 0;
 	if ( ent->s.m_iVehicleNum )
 	{//I'm an NPC in a vehicle (or a vehicle), I already have owner set
 	}
-	else if ( client->NPC_class == CLASS_SEEKER && ent->activator != NULL )
+	else if ( client_->NPC_class == CLASS_SEEKER && ent->activator != NULL )
 	{//somebody else "owns" me
 		ent->s.owner = ent->r.ownerNum = ent->activator->s.number;
 	}
@@ -1442,11 +1442,11 @@ void NPC_Begin (gentity_t *ent)
 	if ( ent->health <= 0 )
 	{
 		//ORIGINAL ID: health will count down towards max_health
-		ent->health = client->ps.stats[STAT_HEALTH] = ent->client->pers.maxHealth;
+		ent->health = client_->ps.stats[STAT_HEALTH] = ent->client->pers.maxHealth;
 	}
 	else
 	{
-		client->ps.stats[STAT_HEALTH] = ent->health;
+		client_->ps.stats[STAT_HEALTH] = ent->health;
 	}
 
 	if (ent->s.shouldtarget)
@@ -1512,9 +1512,9 @@ void NPC_Begin (gentity_t *ent)
 
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
-	memset( &ucmd, 0, sizeof( ucmd ) );
+	memset( &ucmd_, 0, sizeof( ucmd_ ) );
 	//_VectorCopy( client->pers.cmd_angles, ucmd.angles );
-	VectorCopy(client->pers.cmd.angles, ucmd.angles);
+	VectorCopy(client_->pers.cmd.angles, ucmd_.angles);
 	
 	ent->client->ps.groundEntityNum = ENTITYNUM_NONE;
 
@@ -1524,7 +1524,7 @@ void NPC_Begin (gentity_t *ent)
 		//rwwFIXMEFIXME: Use this? Probably doesn't really matter for MP.
 	}
 
-	ClientThink( ent->s.number, &ucmd );
+	ClientThink( ent->s.number, &ucmd_ );
 
 	trap_LinkEntity( ent );
 
@@ -4990,7 +4990,7 @@ void Cmd_NPC_f( gentity_t *ent )
 	else if ( Q_stricmp ( cmd, "score" ) == 0 )
 	{
 		char		cmd2[1024];
-		gentity_t *ent = NULL;
+		gentity_t *ent_ = NULL;
 
 		trap_Argv(2, cmd2, 1024);
 
@@ -5001,19 +5001,19 @@ void Cmd_NPC_f( gentity_t *ent )
 			Com_Printf( "SCORE LIST:\n" );
 			for ( i = 0; i < ENTITYNUM_WORLD; i++ )
 			{
-				ent = &g_entities[i];
-				if ( !ent || !ent->client )
+				ent_ = &g_entities[i];
+				if ( !ent_ || !ent_->client )
 				{
 					continue;
 				}
-				NPC_PrintScore( ent );
+				NPC_PrintScore( ent_ );
 			}
 		}
 		else
 		{
-			if ( (ent = G_Find( NULL, FOFS(targetname), cmd2 )) != NULL && ent->client )
+			if ( (ent_ = G_Find( NULL, FOFS(targetname), cmd2 )) != NULL && ent_->client )
 			{
-				NPC_PrintScore( ent );
+				NPC_PrintScore( ent_ );
 			}
 			else
 			{

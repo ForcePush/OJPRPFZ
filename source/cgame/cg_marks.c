@@ -803,9 +803,9 @@ void CG_AddParticleToScene (cparticle_t *p, vec3_t org, float alpha)
 	{
 		vec3_t	rr, ru;
 		vec3_t	rotate_ang;
-		float	alpha;
+		float	alpha_;
 
-		alpha = p->alpha;
+		alpha_ = p->alpha;
 		
 		if (p->roll) 
 		{
@@ -862,7 +862,7 @@ void CG_AddParticleToScene (cparticle_t *p, vec3_t org, float alpha)
 	}
 	else if (p->type == P_FLAT_SCALEUP)
 	{
-		float width, height;
+		float width_, height_;
 		float sinR, cosR;
 
 		if (p->color == BLOODRED)
@@ -874,17 +874,17 @@ void CG_AddParticleToScene (cparticle_t *p, vec3_t org, float alpha)
 		time2 = p->endtime - p->time;
 		ratio = time / time2;
 
-		width = p->width + ( ratio * ( p->endwidth - p->width) );
-		height = p->height + ( ratio * ( p->endheight - p->height) );
+		width_ = p->width + ( ratio * ( p->endwidth - p->width) );
+		height_ = p->height + ( ratio * ( p->endheight - p->height) );
 
-		if (width > p->endwidth)
-			width = p->endwidth;
+		if (width_ > p->endwidth)
+			width_ = p->endwidth;
 
-		if (height > p->endheight)
-			height = p->endheight;
+		if (height_ > p->endheight)
+			height_ = p->endheight;
 
-		sinR = height * sin(DEG2RAD(p->roll)) * sqrt(2.0f);
-		cosR = width * cos(DEG2RAD(p->roll)) * sqrt(2.0f);
+		sinR = height_ * sin(DEG2RAD(p->roll)) * sqrt(2.0f);
+		cosR = width_ * cos(DEG2RAD(p->roll)) * sqrt(2.0f);
 
 		VectorCopy (org, verts[0].xyz);	
 		verts[0].xyz[0] -= sinR;

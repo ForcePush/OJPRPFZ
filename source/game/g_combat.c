@@ -2555,7 +2555,6 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	{ //kill everyone on board in the name of the attacker... if the vehicle has no death delay
 		gentity_t *murderer = NULL;
 		gentity_t *killEnt;
-		int i = 0;
 
 		if (self->client->ps.otherKillerTime >= level.time)
 		{ //use the last attacker
@@ -2655,7 +2654,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			if ( self->m_pVehicle->m_pVehicleInfo )
 			{
 				int numPass = self->m_pVehicle->m_iNumPassengers;
-				for ( i = 0; i < numPass && self->m_pVehicle->m_iNumPassengers; i++ )
+				for (int j = 0; j < numPass && self->m_pVehicle->m_iNumPassengers; j++ )
 				{//go through and eject the last passenger
 					killEnt = (gentity_t *)self->m_pVehicle->m_ppPassengers[self->m_pVehicle->m_iNumPassengers-1];
 					if ( killEnt )
@@ -3364,7 +3363,7 @@ extern void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd );
 	{
 		// normal death
 		
-		static int i;
+		static int i_;
 
 		anim = G_PickDeathAnim(self, self->pos1, damage, meansOfDeath, HL_NONE);
 
@@ -3426,11 +3425,11 @@ extern void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd );
 		//G_AddEvent( self, EV_DEATH1 + i, killer );
 		if (wasJediMaster)
 		{
-			G_AddEvent( self, EV_DEATH1 + i, 1 );
+			G_AddEvent( self, EV_DEATH1 + i_, 1 );
 		}
 		else
 		{
-			G_AddEvent( self, EV_DEATH1 + i, 0 );
+			G_AddEvent( self, EV_DEATH1 + i_, 0 );
 		}
 
 		if (self != attacker)
@@ -3448,7 +3447,7 @@ extern void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd );
 		self->takedamage = qtrue;
 
 		// globally cycle through the different death animations
-		i = ( i + 1 ) % 3;
+		i_ = ( i_ + 1 ) % 3;
 	}
 
 	if ( self->NPC )
@@ -3511,13 +3510,13 @@ extern void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd );
 		}
 		else if (self->client->sess.duelTeam == DUELTEAM_DOUBLE)
 		{
-			int i = 0;
+			int j = 0;
 			gentity_t *check;
 			qboolean heLives = qfalse;
 
-			while (i < MAX_CLIENTS)
+			while (j < MAX_CLIENTS)
 			{
-				check = &g_entities[i];
+				check = &g_entities[j];
 				if (check->inuse && check->client && check->s.number != self->s.number &&
 					check->client->pers.connected == CON_CONNECTED && !check->client->iAmALoser &&
 					check->client->ps.stats[STAT_HEALTH] > 0 &&
@@ -3527,7 +3526,7 @@ extern void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd );
 					heLives = qtrue;
 					break;
 				}
-				i++;
+				j++;
 			}
 
 			if (!heLives)

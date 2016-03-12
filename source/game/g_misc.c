@@ -4933,22 +4933,21 @@ void camera_aim( gentity_t *self )
 
 	if(self->target2 && !strcmp(self->classname, "misc_spotlight"))
 	{//spotlights check their fov for players and fire a trigger if a player is spoted.
-		gentity_t *player;
-		int i = 0;
-		for(; i < MAX_CLIENTS; i++)
+		gentity_t *player_;
+		for(int j = 0; j < MAX_CLIENTS; j++)
 		{
-			player = &g_entities[i];
+			player_ = &g_entities[j];
 
-			if(!player->inuse || !player->client)
+			if(!player_->inuse || !player_->client)
 				continue;
 
-			if(player->client->sess.sessionTeam == TEAM_SPECTATOR)
+			if(player_->client->sess.sessionTeam == TEAM_SPECTATOR)
 				continue;
 
-			if(InFOV3(player->client->ps.origin, self->r.currentOrigin, 
+			if(InFOV3(player_->client->ps.origin, self->r.currentOrigin, 
 				self->r.currentAngles, 15, 15))
 			{//found a player,
-				G_UseTargets2(self, player, self->target2);
+				G_UseTargets2(self, player_, self->target2);
 				//G_Printf("Player %i: Found by spotlight.\n", player->client->ps.clientNum);
 			}
 		}

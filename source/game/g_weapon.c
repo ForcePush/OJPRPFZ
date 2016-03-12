@@ -908,7 +908,7 @@ void WP_DisruptorAltFire( gentity_t *ent )
 	int			damage = 0, skip;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end;
-	vec3_t		muzzle2;
+	vec3_t		muzzle2_;
 	trace_t		tr;
 	gentity_t	*traceEnt, *tent;
 	float		shotRange = 8192.0f;
@@ -927,7 +927,7 @@ void WP_DisruptorAltFire( gentity_t *ent )
 
 	damage = DISRUPTOR_ALT_DAMAGE-30;
 
-	VectorCopy( muzzle, muzzle2 ); // making a backup copy
+	VectorCopy( muzzle, muzzle2_ ); // making a backup copy
 
 	if (ent->client)
 	{
@@ -1761,7 +1761,7 @@ static void WP_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t 
 void WP_Explode( gentity_t *self )
 {//make this entity explode
 	gentity_t	*attacker = self;
-	vec3_t		forward={0,0,1};
+	vec3_t		forward_={0,0,1};
 
 	// stop chain reaction runaway loops
 	self->takedamage = qfalse;
@@ -1770,7 +1770,7 @@ void WP_Explode( gentity_t *self )
 
 	if ( !self->client )
 	{
-		AngleVectors( self->s.angles, forward, NULL, NULL );
+		AngleVectors( self->s.angles, forward_, NULL, NULL );
 	}
 
 	/* RAFIXME - need to figure this thingy out.
@@ -1949,7 +1949,7 @@ void rocketThink( gentity_t *ent )
 //---------------------------------------------------------
 {
 	vec3_t newdir, targetdir, 
-			up={0,0,1}, right; 
+			up_={0,0,1}, right; 
 	vec3_t	org;
 	float dot, dot2, dis;
 	int i;
@@ -2041,7 +2041,7 @@ void rocketThink( gentity_t *ent )
 		if ( dot < 0.0f )
 		{	
 			// Go in the direction opposite, start a 180.
-			CrossProduct( ent->movedir, up, right );
+			CrossProduct( ent->movedir, up_, right );
 			dot2 = DotProduct( targetdir, right );
 
 			if ( dot2 > 0 )
@@ -3288,7 +3288,7 @@ static void WP_FireConcussionAlt( gentity_t *ent )
 	int			damage = CONC_ALT_DAMAGE, skip, traces = DISRUPTOR_ALT_TRACES;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end;
-	vec3_t		muzzle2, dir;
+	vec3_t		muzzle2_, dir;
 	trace_t		tr;
 	gentity_t	*traceEnt, *tent;
 	float		shotRange = 8192.0f;
@@ -3311,7 +3311,7 @@ static void WP_FireConcussionAlt( gentity_t *ent )
 	//FIXME: only if on ground?  So no "rocket jump"?  Or: (see next FIXME)
 	//FIXME: instead, set a forced ucmd backmove instead of this sliding
 
-	VectorCopy( muzzle, muzzle2 ); // making a backup copy
+	VectorCopy( muzzle, muzzle2_ ); // making a backup copy
 
 	VectorCopy( muzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );
@@ -3374,7 +3374,7 @@ static void WP_FireConcussionAlt( gentity_t *ent )
 		{
 			// should never happen, but basically we don't want to consider a hit to ourselves?
 			// Get ready for an attempt to trace through another person
-			VectorCopy( tr.endpos, muzzle2 );
+			VectorCopy( tr.endpos, muzzle2_ );
 			VectorCopy( tr.endpos, start );
 			skip = tr.entityNum;
 #ifdef _DEBUG
@@ -3509,7 +3509,7 @@ static void WP_FireConcussionAlt( gentity_t *ent )
 			}
 		}
 		// Get ready for an attempt to trace through another person
-		VectorCopy( tr.endpos, muzzle2 );
+		VectorCopy( tr.endpos, muzzle2_ );
 		VectorCopy( tr.endpos, start );
 		skip = tr.entityNum;
 		hitDodged = qfalse;
@@ -3854,7 +3854,7 @@ The down side would be that it does not necessarily look alright from a
 first person perspective.
 ===============
 */
-void CalcMuzzlePoint ( gentity_t *ent, vec3_t forward, vec3_t right, vec3_t up, vec3_t muzzlePoint ) 
+void CalcMuzzlePoint ( gentity_t *ent, vec3_t forward_, vec3_t right, vec3_t up_, vec3_t muzzlePoint ) 
 {
 	int weapontype;
 	vec3_t muzzleOffPoint;
@@ -3867,7 +3867,7 @@ void CalcMuzzlePoint ( gentity_t *ent, vec3_t forward, vec3_t right, vec3_t up, 
 	if (weapontype > WP_NONE && weapontype < WP_NUM_WEAPONS)
 	{	// Use the table to generate the muzzlepoint;
 		{	// Crouching.  Use the add-to-Z method to adjust vertically.
-			VectorMA(muzzlePoint, muzzleOffPoint[0], forward, muzzlePoint);
+			VectorMA(muzzlePoint, muzzleOffPoint[0], forward_, muzzlePoint);
 			VectorMA(muzzlePoint, muzzleOffPoint[1], right, muzzlePoint);
 			muzzlePoint[2] += ent->client->ps.viewheight + muzzleOffPoint[2];
 		}
@@ -3878,7 +3878,7 @@ void CalcMuzzlePoint ( gentity_t *ent, vec3_t forward, vec3_t right, vec3_t up, 
 }
 
 //[DualPistols]
-void CalcMuzzlePoint2 ( gentity_t *ent, vec3_t forward, vec3_t right, vec3_t up, vec3_t muzzlePoint ) 
+void CalcMuzzlePoint2 ( gentity_t *ent, vec3_t forward_, vec3_t right, vec3_t up_, vec3_t muzzlePoint ) 
 {
 	int weapontype;
 	vec3_t muzzleOffPoint;
@@ -3891,7 +3891,7 @@ void CalcMuzzlePoint2 ( gentity_t *ent, vec3_t forward, vec3_t right, vec3_t up,
 	if (weapontype > WP_NONE && weapontype < WP_NUM_WEAPONS)
 	{	// Use the table to generate the muzzlepoint;
 		{	// Crouching.  Use the add-to-Z method to adjust vertically.
-			VectorMA(muzzlePoint, muzzleOffPoint[0], forward, muzzlePoint);
+			VectorMA(muzzlePoint, muzzleOffPoint[0], forward_, muzzlePoint);
 			VectorMA(muzzlePoint, muzzleOffPoint[1], right, muzzlePoint);
 			muzzlePoint[2] += ent->client->ps.viewheight + muzzleOffPoint[2];
 		}
@@ -3909,7 +3909,8 @@ CalcMuzzlePointOrigin
 set muzzle location relative to pivoting eye
 ===============
 */
-void CalcMuzzlePointOrigin ( gentity_t *ent, vec3_t origin, vec3_t forward, vec3_t right, vec3_t up, vec3_t muzzlePoint ) {
+void CalcMuzzlePointOrigin ( gentity_t *ent, vec3_t origin, vec3_t forward_, vec3_t right, vec3_t up_, vec3_t muzzlePoint )
+{
 	VectorCopy( ent->s.pos.trBase, muzzlePoint );
 	muzzlePoint[2] += ent->client->ps.viewheight;
 	VectorMA( muzzlePoint, 14, forward, muzzlePoint );
@@ -4843,6 +4844,7 @@ int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float const
 extern void G_AddMercBalance(gentity_t *self, int amount);
 extern int PM_inKnockDown(playerState_t);
 //[/WeapAccuracy]
+extern int PM_InKnockDown(playerState_t *);
 void FireWeapon( gentity_t *ent, qboolean altFire ) 
 {
 	//[CoOp]

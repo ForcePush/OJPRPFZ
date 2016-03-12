@@ -3815,7 +3815,7 @@ float CG_DrawRadar ( float y )
 					float  x;
 					float  ly;
 					qhandle_t shader;
-					vec4_t    color;
+					vec4_t    color_;
 
 					x = (float)RADAR_X + (float)RADAR_RADIUS + (float)sin (angle) * distance;
 					ly = y + (float)RADAR_RADIUS + (float)cos (angle) * distance;
@@ -3871,7 +3871,7 @@ float CG_DrawRadar ( float y )
 							// generic enemy index specifies a shader to use for the radar entity.
 							if ( cent->currentState.genericenemyindex )
 							{
-								color[0] = color[1] = color[2] = color[3] = 1.0f;
+								color_[0] = color_[1] = color_[2] = color_[3] = 1.0f;
 								shader = cgs.gameIcons[cent->currentState.genericenemyindex];
 							}
 							else
@@ -3879,11 +3879,11 @@ float CG_DrawRadar ( float y )
 								if (cg.snap &&
 									cent->currentState.brokenLimbs == cg.snap->ps.persistant[PERS_TEAM])
 								{
-									VectorCopy ( g_color_table[ColorIndex(COLOR_RED)], color );
+									VectorCopy ( g_color_table[ColorIndex(COLOR_RED)], color_ );
 								}
 								else
 								{
-									VectorCopy ( g_color_table[ColorIndex(COLOR_GREEN)], color );
+									VectorCopy ( g_color_table[ColorIndex(COLOR_GREEN)], color_ );
 								}
 
 								shader = cgs.media.siegeItemShader;
@@ -3892,7 +3892,7 @@ float CG_DrawRadar ( float y )
 					}
 					else
 					{
-						color[0] = color[1] = color[2] = color[3] = 1.0f;
+						color_[0] = color_[1] = color_[2] = color_[3] = 1.0f;
 						
 						// generic enemy index specifies a shader to use for the radar entity.
 						if ( cent->currentState.genericenemyindex )
@@ -3914,15 +3914,15 @@ float CG_DrawRadar ( float y )
 						{								
 							if ( (cg.time / 200) & 1 )
 							{
-								color[3] = 0.1f + 0.9f * (float) (cg.time % 200) / 200.0f;
+								color_[3] = 0.1f + 0.9f * (float) (cg.time % 200) / 200.0f;
 							}
 							else
 							{
-								color[3] = 1.0f - 0.9f * (float) (cg.time % 200) / 200.0f;
+								color_[3] = 1.0f - 0.9f * (float) (cg.time % 200) / 200.0f;
 							}					
 						}
 
-						trap_R_SetColor ( color );
+						trap_R_SetColor ( color_ );
 						CG_DrawPic ( x - 4 + xOffset, ly - 4, arrowBaseScale, arrowBaseScale, shader );
 					}
 				}
@@ -4197,7 +4197,7 @@ float CG_DrawRadar ( float y )
 
 			case ET_PLAYER:
 			{
-				vec4_t color;
+				vec4_t color_;
 
 				cl = &cgs.clientinfo[ cent->currentState.number ];
 
@@ -4207,7 +4207,7 @@ float CG_DrawRadar ( float y )
 					continue;
 				}
 
-				VectorCopy4 ( teamColor, color );
+				VectorCopy4 ( teamColor, color_ );
 
 				arrowBaseScale = 16.0f;
 				zScale = 1.0f;
@@ -4217,12 +4217,12 @@ float CG_DrawRadar ( float y )
 				{
 					float f = (cent->vChatTime + 2000 - cg.time) / 3000.0f;
 					arrowBaseScale = 16.0f + 4.0f * f;
-					color[0] = teamColor[0] + (1.0f - teamColor[0]) * f;
-					color[1] = teamColor[1] + (1.0f - teamColor[1]) * f;
-					color[2] = teamColor[2] + (1.0f - teamColor[2]) * f;
+					color_[0] = teamColor[0] + (1.0f - teamColor[0]) * f;
+					color_[1] = teamColor[1] + (1.0f - teamColor[1]) * f;
+					color_[2] = teamColor[2] + (1.0f - teamColor[2]) * f;
 				}
 
-				trap_R_SetColor ( color );
+				trap_R_SetColor ( color_ );
 
 				//we want to scale the thing up/down based on the relative Z (up/down) positioning
 				if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])

@@ -497,22 +497,22 @@ void G_SetClientSound( gentity_t *ent ) {
 ClientImpacts
 ==============
 */
-void ClientImpacts( gentity_t *ent, pmove_t *pm ) {
+void ClientImpacts( gentity_t *ent, pmove_t *pm_ ) {
 	int		i, j;
 	trace_t	trace;
 	gentity_t	*other;
 
 	memset( &trace, 0, sizeof( trace ) );
-	for (i=0 ; i<pm->numtouch ; i++) {
+	for (i=0 ; i<pm_->numtouch ; i++) {
 		for (j=0 ; j<i ; j++) {
-			if (pm->touchents[j] == pm->touchents[i] ) {
+			if (pm_->touchents[j] == pm_->touchents[i] ) {
 				break;
 			}
 		}
 		if (j != i) {
 			continue;	// duplicated
 		}
-		other = &g_entities[ pm->touchents[i] ];
+		other = &g_entities[ pm_->touchents[i] ];
 
 		if ( ( ent->r.svFlags & SVF_BOT ) && ( ent->touch ) ) {
 			ent->touch( ent, other, &trace );
@@ -698,7 +698,7 @@ SpectatorThink
 =================
 */
 void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
-	pmove_t	pm;
+	pmove_t	pm_;
 	gclient_t	*client;
 
 	client = ent->client;
@@ -716,24 +716,24 @@ void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
 		client->ps.torsoTimer = 0;
 
 		// set up for pmove
-		memset (&pm, 0, sizeof(pm));
-		pm.ps = &client->ps;
-		pm.cmd = *ucmd;
-		pm.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY;	// spectators can fly through bodies
-		pm.trace = trap_Trace;
-		pm.pointcontents = trap_PointContents;
+		memset (&pm_, 0, sizeof(pm_));
+		pm_.ps = &client->ps;
+		pm_.cmd = *ucmd;
+		pm_.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY;	// spectators can fly through bodies
+		pm_.trace = trap_Trace;
+		pm_.pointcontents = trap_PointContents;
 
-		pm.noSpecMove = g_noSpecMove.integer;
+		pm_.noSpecMove = g_noSpecMove.integer;
 
-		pm.animations = NULL;
-		pm.nonHumanoid = qfalse;
+		pm_.animations = NULL;
+		pm_.nonHumanoid = qfalse;
 
 		//Set up bg entity data
-		pm.baseEnt = (bgEntity_t *)g_entities;
-		pm.entSize = sizeof(gentity_t);
+		pm_.baseEnt = (bgEntity_t *)g_entities;
+		pm_.entSize = sizeof(gentity_t);
 
 		// perform a pmove
-		Pmove (&pm);
+		Pmove (&pm_);
 		// save results of pmove
 		VectorCopy( client->ps.origin, ent->s.origin );
 
@@ -2484,7 +2484,7 @@ extern qboolean WP_SaberCanTurnOffSomeBlades( saberInfo_t *saber );
 //[/StanceSelection]
 void ClientThink_real( gentity_t *ent ) {
 	gclient_t	*client;
-	pmove_t		pm;
+	pmove_t		pm_;
 	int			oldEventSequence;
 	int			msec;
 	usercmd_t	*ucmd;
@@ -3250,7 +3250,7 @@ void ClientThink_real( gentity_t *ent ) {
 				&& duelAgainst->client->ps.duelTime)
 			{
 				//[DuelSys]
-				int playerDuelShield; // MJN - for Shields.
+				int playerDuelShield_; // MJN - for Shields.
 
 				//auto holster sabers at start of duel.
 				if( !duelAgainst->client->ps.saberHolstered ){
@@ -3287,15 +3287,15 @@ void ClientThink_real( gentity_t *ent ) {
 				duelAgainst->client->savedArmor = duelAgainst->client->ps.stats[STAT_ARMOR];
 
 				// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
-				playerDuelShield = g_playerDuelShield.integer;
+				playerDuelShield_ = g_playerDuelShield.integer;
 
 				// Make sure we have a valid value:
-				if( playerDuelShield > 100 )
-					playerDuelShield = 100;
+				if( playerDuelShield_ > 100 )
+					playerDuelShield_ = 100;
 
-				if( playerDuelShield >= 0 ){
+				if( playerDuelShield_ >= 0 ){
 					duelAgainst->client->ps.stats[STAT_HEALTH] = duelAgainst->health = 100; // defaults to 100.
-					duelAgainst->client->ps.stats[STAT_ARMOR]  = playerDuelShield;
+					duelAgainst->client->ps.stats[STAT_ARMOR]  = playerDuelShield_;
 				}
 				//[/DuelSys]
 			}
@@ -3665,7 +3665,7 @@ void ClientThink_real( gentity_t *ent ) {
 	// set up for pmove
 	oldEventSequence = client->ps.eventSequence;
 
-	memset (&pm, 0, sizeof(pm));
+	memset (&pm_, 0, sizeof(pm_));
 
 	if ( ent->flags & FL_FORCE_GESTURE ) {
 		ent->flags &= ~FL_FORCE_GESTURE;
@@ -3737,10 +3737,10 @@ void ClientThink_real( gentity_t *ent ) {
 	//play/stop any looping sounds tied to controlled movement
 	G_CheckMovingLoopingSounds( ent, ucmd );
 
-	pm.ps = &client->ps;
-	pm.cmd = *ucmd;
-	if ( pm.ps->pm_type == PM_DEAD ) {
-		pm.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY;
+	pm_.ps = &client->ps;
+	pm_.cmd = *ucmd;
+	if ( pm_.ps->pm_type == PM_DEAD ) {
+		pm_.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY;
 	}
 	//[BotTweaks]
 	//We want to allow players to be able to move thru monsterclips.
@@ -3751,20 +3751,20 @@ void ClientThink_real( gentity_t *ent ) {
 	*/
 	//[/BotTweaks]
 	else {
-		pm.tracemask = MASK_PLAYERSOLID;
+		pm_.tracemask = MASK_PLAYERSOLID;
 	}
-	pm.trace = trap_Trace;
-	pm.pointcontents = trap_PointContents;
-	pm.debugLevel = g_debugMove.integer;
-	pm.noFootsteps = ( g_dmflags.integer & DF_NO_FOOTSTEPS ) > 0;
+	pm_.trace = trap_Trace;
+	pm_.pointcontents = trap_PointContents;
+	pm_.debugLevel = g_debugMove.integer;
+	pm_.noFootsteps = ( g_dmflags.integer & DF_NO_FOOTSTEPS ) > 0;
 
-	pm.pmove_fixed = pmove_fixed.integer | client->pers.pmoveFixed;
-	pm.pmove_msec = pmove_msec.integer;
+	pm_.pmove_fixed = pmove_fixed.integer | client->pers.pmoveFixed;
+	pm_.pmove_msec = pmove_msec.integer;
 
-	pm.animations = bgAllAnims[ent->localAnimIndex].anims;//NULL;
+	pm_.animations = bgAllAnims[ent->localAnimIndex].anims;//NULL;
 
 	//rww - bgghoul2
-	pm.ghoul2 = NULL;
+	pm_.ghoul2 = NULL;
 
 #ifdef _DEBUG
 	if (g_disableServerG2.integer)
@@ -3777,13 +3777,13 @@ void ClientThink_real( gentity_t *ent ) {
 	{
 		if (ent->localAnimIndex > 1)
 		{ //if it isn't humanoid then we will be having none of this.
-			pm.ghoul2 = NULL;
+			pm_.ghoul2 = NULL;
 		}
 		else
 		{
-			pm.ghoul2 = ent->ghoul2;
-			pm.g2Bolts_LFoot = trap_G2API_AddBolt(ent->ghoul2, 0, "*l_leg_foot");
-			pm.g2Bolts_RFoot = trap_G2API_AddBolt(ent->ghoul2, 0, "*r_leg_foot");
+			pm_.ghoul2 = ent->ghoul2;
+			pm_.g2Bolts_LFoot = trap_G2API_AddBolt(ent->ghoul2, 0, "*l_leg_foot");
+			pm_.g2Bolts_RFoot = trap_G2API_AddBolt(ent->ghoul2, 0, "*r_leg_foot");
 		}
 	}
 
@@ -3805,16 +3805,16 @@ void ClientThink_real( gentity_t *ent ) {
 #endif
 
 	//I'll just do this every frame in case the scale changes in realtime (don't need to update the g2 inst for that)
-	VectorCopy(ent->modelScale, pm.modelScale);
+	VectorCopy(ent->modelScale, pm_.modelScale);
 	//rww end bgghoul2
 
-	pm.gametype = g_gametype.integer;
-	pm.debugMelee = g_debugMelee.integer;
-	pm.stepSlideFix = g_stepSlideFix.integer;
+	pm_.gametype = g_gametype.integer;
+	pm_.debugMelee = g_debugMelee.integer;
+	pm_.stepSlideFix = g_stepSlideFix.integer;
 
-	pm.noSpecMove = g_noSpecMove.integer;
+	pm_.noSpecMove = g_noSpecMove.integer;
 
-	pm.nonHumanoid = (ent->localAnimIndex > 0);
+	pm_.nonHumanoid = (ent->localAnimIndex > 0);
 
 	VectorCopy( client->ps.origin, client->oldOrigin );
 
@@ -3834,8 +3834,8 @@ void ClientThink_real( gentity_t *ent ) {
 	*/
 
 	//Set up bg entity data
-	pm.baseEnt = (bgEntity_t *)g_entities;
-	pm.entSize = sizeof(gentity_t);
+	pm_.baseEnt = (bgEntity_t *)g_entities;
+	pm_.entSize = sizeof(gentity_t);
 
 	if (ent->client->ps.saberLockTime > level.time)
 	{//racc - handle saberlocks
@@ -3960,16 +3960,16 @@ void ClientThink_real( gentity_t *ent ) {
 	{
 		ent->client->ps.saberLockFrame = 0;
 		//check for taunt
-		if ( (pm.cmd.generic_cmd == GENCMD_ENGAGE_DUEL) && (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL) )
+		if ( (pm_.cmd.generic_cmd == GENCMD_ENGAGE_DUEL) && (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL) )
 		{//already in a duel, make it a taunt command
-			pm.cmd.buttons |= BUTTON_GESTURE;
+			pm_.cmd.buttons |= BUTTON_GESTURE;
 		}
 	}
 
 	if (ent->s.number >= MAX_CLIENTS)
 	{
-		VectorCopy(ent->r.mins, pm.mins);
-		VectorCopy(ent->r.maxs, pm.maxs);
+		VectorCopy(ent->r.mins, pm_.mins);
+		VectorCopy(ent->r.maxs, pm_.maxs);
 #if 1
 		if (ent->s.NPC_class == CLASS_VEHICLE &&
 			ent->m_pVehicle )
@@ -3983,16 +3983,16 @@ void ClientThink_real( gentity_t *ent ) {
 					msec = 100;
 				}
 
-				memcpy(&pm.cmd, &ent->m_pVehicle->m_ucmd, sizeof(usercmd_t));
+				memcpy(&pm_.cmd, &ent->m_pVehicle->m_ucmd, sizeof(usercmd_t));
 				
 				//no veh can strafe
-				pm.cmd.rightmove = 0;
+				pm_.cmd.rightmove = 0;
 				//no crouching or jumping!
-				pm.cmd.upmove = 0;
+				pm_.cmd.upmove = 0;
 
 				//NOTE: button presses were getting lost!
 				assert(g_entities[ent->m_pVehicle->m_pPilot->s.number].client);
-				pm.cmd.buttons = (g_entities[ent->m_pVehicle->m_pPilot->s.number].client->pers.cmd.buttons&(BUTTON_ATTACK|BUTTON_ALT_ATTACK));
+				pm_.cmd.buttons = (g_entities[ent->m_pVehicle->m_pPilot->s.number].client->pers.cmd.buttons&(BUTTON_ATTACK|BUTTON_ALT_ATTACK));
 			}
 			if ( ent->m_pVehicle->m_pVehicleInfo->type == VH_WALKER )
 			{
@@ -4019,7 +4019,7 @@ void ClientThink_real( gentity_t *ent ) {
 #endif
 	}
 
-	Pmove (&pm);
+	Pmove (&pm_);
 
 	if (ent->client->solidHack)
 	{
@@ -4039,13 +4039,13 @@ void ClientThink_real( gentity_t *ent ) {
 		VectorCopy( ent->client->ps.viewangles, ent->r.currentAngles );
 	}
 
-	if (pm.checkDuelLoss)
+	if (pm_.checkDuelLoss)
 	{//racc - we owned someone in a saber duel, but didn't super break from the saberlock.  Check for death blow conditions. 
 		//[SaberLockSys]
 		//racc - losing a saberlock with checkDuelLoss set results in the loser mishaping.
-		if (pm.checkDuelLoss > 0 && (pm.checkDuelLoss <= MAX_CLIENTS || (pm.checkDuelLoss < (MAX_GENTITIES-1) && g_entities[pm.checkDuelLoss-1].s.eType == ET_NPC) ) )
+		if (pm_.checkDuelLoss > 0 && (pm_.checkDuelLoss <= MAX_CLIENTS || (pm_.checkDuelLoss < (MAX_GENTITIES-1) && g_entities[pm_.checkDuelLoss-1].s.eType == ET_NPC) ) )
 		{
-			gentity_t *clientLost = &g_entities[pm.checkDuelLoss-1];
+			gentity_t *clientLost = &g_entities[pm_.checkDuelLoss-1];
 
 			if (clientLost && clientLost->inuse && clientLost->client)
 			{
@@ -4088,7 +4088,7 @@ void ClientThink_real( gentity_t *ent ) {
 		*/
 		//[/SaberLockSys]
 
-		pm.checkDuelLoss = 0;
+		pm_.checkDuelLoss = 0;
 	}
 
 	//[Asteroids]
@@ -4114,28 +4114,28 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	//[/Asteroids]
 
-	if (pm.cmd.generic_cmd &&
-		(pm.cmd.generic_cmd != ent->client->lastGenCmd || ent->client->lastGenCmdTime < level.time))
+	if (pm_.cmd.generic_cmd &&
+		(pm_.cmd.generic_cmd != ent->client->lastGenCmd || ent->client->lastGenCmdTime < level.time))
 	{
-		ent->client->lastGenCmd = pm.cmd.generic_cmd;
+		ent->client->lastGenCmd = pm_.cmd.generic_cmd;
 		//[SaberSys]
-		if (pm.cmd.generic_cmd == GENCMD_SABERATTACKCYCLE)
+		if (pm_.cmd.generic_cmd == GENCMD_SABERATTACKCYCLE)
 		{//saber style toggling debounces debounces faster than normal debouncable commands.
 			ent->client->lastGenCmdTime = level.time + 100;
 		}
-		else if (pm.cmd.generic_cmd != GENCMD_FORCE_THROW &&
+		else if (pm_.cmd.generic_cmd != GENCMD_FORCE_THROW &&
 		//if (pm.cmd.generic_cmd != GENCMD_FORCE_THROW &&
 		//[/SaberSys]
 			//[ForceSys]
-			pm.cmd.generic_cmd != GENCMD_FORCE_PULL &&
-			pm.cmd.generic_cmd != GENCMD_FORCE_SPEED)
+			pm_.cmd.generic_cmd != GENCMD_FORCE_PULL &&
+			pm_.cmd.generic_cmd != GENCMD_FORCE_SPEED)
 			//pm.cmd.generic_cmd != GENCMD_FORCE_PULL)
 			//[/ForceSys]
 		{ //these are the only two where you wouldn't care about a delay between
 			ent->client->lastGenCmdTime = level.time + 300; //default 100ms debounce between issuing the same command.
 		}
 
-		switch(pm.cmd.generic_cmd)
+		switch(pm_.cmd.generic_cmd)
 		{
 		case 0:
 			break;
@@ -4378,17 +4378,17 @@ void ClientThink_real( gentity_t *ent ) {
 		!ent->m_pVehicle ||
 		!ent->m_pVehicle->m_iRemovedSurfaces)
 	{ //let vehicles that are getting broken apart do their own crazy sizing stuff
-		VectorCopy (pm.mins, ent->r.mins);
-		VectorCopy (pm.maxs, ent->r.maxs);
+		VectorCopy (pm_.mins, ent->r.mins);
+		VectorCopy (pm_.maxs, ent->r.maxs);
 	}
 
-	ent->waterlevel = pm.waterlevel;
-	ent->watertype = pm.watertype;
+	ent->waterlevel = pm_.waterlevel;
+	ent->watertype = pm_.watertype;
 
 	// execute client events
 	ClientEvents( ent, oldEventSequence );
 
-	if ( pm.useEvent )
+	if ( pm_.useEvent )
 	{
 		//TODO: Use
 //		TryUse( ent );
@@ -4412,7 +4412,7 @@ void ClientThink_real( gentity_t *ent ) {
 //	BotTestAAS(ent->r.currentOrigin);
 
 	// touch other objects
-	ClientImpacts( ent, &pm );
+	ClientImpacts( ent, &pm_ );
 
 	// save results of triggers and client events
 	if (ent->client->ps.eventSequence != oldEventSequence) {

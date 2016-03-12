@@ -1,6 +1,7 @@
 // hide these nasty warnings
 
 #ifdef _WIN32
+//#pragma warning(default : 4242) 
 #pragma warning(disable : 4018)     // signed/unsigned mismatch
 #pragma warning(disable : 4032)
 #pragma warning(disable : 4051)

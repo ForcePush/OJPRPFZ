@@ -239,14 +239,14 @@ void AOTCTC_Holocron_Savepositions( void )
 
 	while (loop < number_of_holocronpositions)
 	{
-		char lineout[MAX_INFO_STRING];
+		char lineout_local[MAX_INFO_STRING];
 
-		Com_sprintf( lineout, sizeof(lineout), "%f %f %f ", 
+		Com_sprintf( lineout_local, sizeof(lineout_local), "%f %f %f ", 
 				holocrons[loop].origin[0],
 				holocrons[loop].origin[1],
 				holocrons[loop].origin[2] );
 		
-		trap_FS_Write( lineout, strlen(lineout), f);
+		trap_FS_Write( lineout_local, strlen(lineout_local), f);
 
 		loop++;
 	}

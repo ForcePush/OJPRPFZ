@@ -586,10 +586,9 @@ void UpdateForceUsed(void)
 	//Made Force Seeing Level 1 a pre-req to taking any additional force powers, except in the case of free sabers.
 	if(uiRank[FP_SEE].uiForcePowersRank <= FORCE_LEVEL_0)
 	{//can't use the force if we aren't Force sensitive.
-		int i;
-		for(i = 0; i < FP_SEE; i++) //saber powers set above!
+		for(int j = 0; j < FP_SEE; j++) //saber powers set above!
 		{
-			uiRank[i].uiForcePowersRank = 0;
+			uiRank[j].uiForcePowersRank = 0;
 		}
 
 		if(menu)

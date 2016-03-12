@@ -7142,17 +7142,17 @@ void ClientCommand(int clientNum) {
         }
     }
     else if ((Q_stricmp(cmd, "chatcolor") == 0) || (Q_stricmp(cmd, "amchatcolor") == 0)) {
-        char	cmd[1024];
-        trap_Argv(1, cmd, 1024);
+        char	cmd_[1024];
+        trap_Argv(1, cmd_, 1024);
         if (roar_allow_chatColors.integer == 0) {
             trap_SendServerCommand(ent - g_entities, va("print \"^3Chat colors are disabled.\n\""));
             return;
         }
-        else if (!cmd[0])
+        else if (!cmd_[0])
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3COLORS = RED GREEN YELLOW BLUE CYAN PURPLE WHITE BLACK\n\""));
         }
-        else if (Q_stricmp(cmd, "red") == 0)
+        else if (Q_stricmp(cmd_, "red") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^1RED\n\""));
             ent->client->pers.chatred = 1;
@@ -7164,7 +7164,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "green") == 0)
+        else if (Q_stricmp(cmd_, "green") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^2GREEN\n\""));
             ent->client->pers.chatred = 0;
@@ -7176,7 +7176,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "yellow") == 0)
+        else if (Q_stricmp(cmd_, "yellow") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^3YELLOW\n\""));
             ent->client->pers.chatred = 0;
@@ -7188,7 +7188,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "blue") == 0)
+        else if (Q_stricmp(cmd_, "blue") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^4BLUE\n\""));
             ent->client->pers.chatred = 0;
@@ -7200,7 +7200,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "cyan") == 0)
+        else if (Q_stricmp(cmd_, "cyan") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^5CYAN\n\""));
             ent->client->pers.chatred = 0;
@@ -7212,7 +7212,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "purple") == 0)
+        else if (Q_stricmp(cmd_, "purple") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^6PURPLE\n\""));
             ent->client->pers.chatred = 0;
@@ -7224,7 +7224,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 0;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "white") == 0)
+        else if (Q_stricmp(cmd_, "white") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^7WHITE\n\""));
             ent->client->pers.chatred = 0;
@@ -7236,7 +7236,7 @@ void ClientCommand(int clientNum) {
             ent->client->pers.chatwhite = 1;
             ent->client->pers.chatblack = 0;
         }
-        else if (Q_stricmp(cmd, "black") == 0)
+        else if (Q_stricmp(cmd_, "black") == 0)
         {
             trap_SendServerCommand(ent - g_entities, va("print \"^3CHAT COLOR CHANGED TO ^0BLACK\n\""));
             ent->client->pers.chatred = 0;
@@ -10335,8 +10335,8 @@ void ClientCommand(int clientNum) {
                 vec3_t intendedOrigin;
                 vec3_t boltOrg, pBoltOrg;
                 vec3_t tAngles, vDif;
-                vec3_t fwd, right;
-                trace_t tr;
+                vec3_t fwd_, right;
+                trace_t tr_;
                 trace_t tr2;
 
                 VectorSubtract(other->client->ps.origin, ent->client->ps.origin, otherDir);
@@ -10374,9 +10374,9 @@ void ClientCommand(int clientNum) {
                 VectorClear(tAngles);
                 tAngles[YAW] = ent->client->ps.viewangles[YAW];
                 VectorCopy(ent->client->ps.origin, pBoltOrg);
-                AngleVectors(tAngles, fwd, right, 0);
-                boltOrg[0] = pBoltOrg[0] + fwd[0] * 8 + right[0] * pDif;
-                boltOrg[1] = pBoltOrg[1] + fwd[1] * 8 + right[1] * pDif;
+                AngleVectors(tAngles, fwd_, right, 0);
+                boltOrg[0] = pBoltOrg[0] + fwd_[0] * 8 + right[0] * pDif;
+                boltOrg[1] = pBoltOrg[1] + fwd_[1] * 8 + right[1] * pDif;
                 boltOrg[2] = pBoltOrg[2];
 
                 VectorSubtract(boltOrg, pBoltOrg, vDif);
@@ -10387,10 +10387,10 @@ void ClientCommand(int clientNum) {
                 intendedOrigin[1] = pBoltOrg[1] + vDif[1] * pDif;
                 intendedOrigin[2] = other->client->ps.origin[2];
 
-                trap_Trace(&tr, intendedOrigin, other->r.mins, other->r.maxs, intendedOrigin, other->s.number, other->clipmask);
+                trap_Trace(&tr_, intendedOrigin, other->r.mins, other->r.maxs, intendedOrigin, other->s.number, other->clipmask);
                 trap_Trace(&tr2, ent->client->ps.origin, ent->r.mins, ent->r.maxs, intendedOrigin, ent->s.number, CONTENTS_SOLID);
 
-                if (tr.fraction == 1.0 && !tr.startsolid && tr2.fraction == 1.0 && !tr2.startsolid)
+                if (tr_.fraction == 1.0 && !tr_.startsolid && tr2.fraction == 1.0 && !tr2.startsolid)
                 {
                     VectorCopy(intendedOrigin, other->client->ps.origin);
                 }

@@ -1146,13 +1146,13 @@ int	NAV_MoveToGoal( gentity_t *self, navInfo_t *info )
 	{
 		if ( NAVDEBUG_showEnemyPath )
 		{
-			vec3_t	origin, torigin;
+			vec3_t	origin_, torigin;
 
 			trap_Nav_GetNodePosition( self->NPC->goalEntity->waypoint, torigin );
-			trap_Nav_GetNodePosition( self->waypoint, origin );
+			trap_Nav_GetNodePosition( self->waypoint, origin_ );
 
 			G_DrawNode( torigin, NODE_GOAL );
-			G_DrawNode( origin, NODE_GOAL );
+			G_DrawNode( origin_, NODE_GOAL );
 			G_DrawNode( self->NPC->goalEntity->r.currentOrigin, NODE_START );
 		}
 		

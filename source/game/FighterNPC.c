@@ -1031,10 +1031,10 @@ static void FighterDamageRoutine( Vehicle_t *pVeh, bgEntity_t *parent, playerSta
 #ifdef QAGAME
 	if ( pVeh->m_LandTrace.fraction < 1.0f )
 	{ //if you land at all when pieces of your ship are missing, then die
-		gentity_t *parent = (gentity_t *)pVeh->m_pParentEntity;
+		gentity_t *parent_ = (gentity_t *)pVeh->m_pParentEntity;
 //[Asteroids]	
 #ifdef _JK2MP//only have this info in MP...
-		G_DamageFromKiller( parent, parent, NULL, parent->client->ps.origin, 999999, DAMAGE_NO_ARMOR, MOD_SUICIDE );
+		G_DamageFromKiller( parent_, parent_, NULL, parent_->client->ps.origin, 999999, DAMAGE_NO_ARMOR, MOD_SUICIDE );
 #else
 		gentity_t *killer = parent;
 

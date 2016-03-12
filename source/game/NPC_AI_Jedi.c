@@ -3299,14 +3299,14 @@ evasionType_t Jedi_CheckFlipEvasions( gentity_t *self, float rightdot, float zdi
 		if ( trace.fraction >= 1.0f && allowCartWheels )
 		{//it's clear, let's do it
 			//FIXME: check for drops?
-			vec3_t fwdAngles, jumpRt;
+			vec3_t fwdAngles_, jumpRt;
 
 			NPC_SetAnim( self, parts, anim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
 			self->client->ps.weaponTime = self->client->ps.legsTimer;//don't attack again until this anim is done
-			VectorCopy( self->client->ps.viewangles, fwdAngles );
-			fwdAngles[PITCH] = fwdAngles[ROLL] = 0;
+			VectorCopy( self->client->ps.viewangles, fwdAngles_ );
+			fwdAngles_[PITCH] = fwdAngles_[ROLL] = 0;
 			//do the flip
-			AngleVectors( fwdAngles, NULL, jumpRt, NULL );
+			AngleVectors( fwdAngles_, NULL, jumpRt, NULL );
 			VectorScale( jumpRt, speed, self->client->ps.velocity );
 			self->client->ps.fd.forceJumpCharge = 0;//so we don't play the force flip anim
 			self->client->ps.velocity[2] = 200;
@@ -3355,7 +3355,7 @@ evasionType_t Jedi_CheckFlipEvasions( gentity_t *self, float rightdot, float zdi
 						{//it's clear, let's do it
 							if ( allowWallFlips )
 							{//okay to do wall-flips with this saber
-								int parts;
+								int parts_;
 
 								//FIXME: check for drops?
 								//turn the cartwheel into a wallflip in the other dir
@@ -3373,12 +3373,12 @@ evasionType_t Jedi_CheckFlipEvasions( gentity_t *self, float rightdot, float zdi
 								}
 								self->client->ps.velocity[2] = forceJumpStrength[FORCE_LEVEL_2]/2.25f;
 								//animate me
-								parts = SETANIM_LEGS;
+								parts_ = SETANIM_LEGS;
 								if ( !self->client->ps.weaponTime )
 								{
-									parts = SETANIM_BOTH;
+									parts_ = SETANIM_BOTH;
 								}
-								NPC_SetAnim( self, parts, anim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
+								NPC_SetAnim( self, parts_, anim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
 								self->client->ps.fd.forceJumpZStart = self->r.currentOrigin[2];//so we don't take damage if we land at same height
 								//self->client->ps.pm_flags |= (PMF_JUMPING|PMF_SLOW_MO_FALL);
 								//[CoOp]
@@ -3445,7 +3445,7 @@ evasionType_t Jedi_CheckFlipEvasions( gentity_t *self, float rightdot, float zdi
 					}
 					if ( allowWallRuns )
 					{//okay to do wallruns with this saber
-						int parts;
+						int parts_;
 
 						//FIXME: check for long enough wall and a drop at the end?
 						if ( bestCheckDist > 0 )
@@ -3458,12 +3458,12 @@ evasionType_t Jedi_CheckFlipEvasions( gentity_t *self, float rightdot, float zdi
 						}
 						self->client->ps.velocity[2] = forceJumpStrength[FORCE_LEVEL_2]/2.25f;
 						//animate me
-						parts = SETANIM_LEGS;
+						parts_ = SETANIM_LEGS;
 						if ( !self->client->ps.weaponTime )
 						{
-							parts = SETANIM_BOTH;
+							parts_ = SETANIM_BOTH;
 						}
-						NPC_SetAnim( self, parts, anim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
+						NPC_SetAnim( self, parts_, anim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
 						self->client->ps.fd.forceJumpZStart = self->r.currentOrigin[2];//so we don't take damage if we land at same height
 						//self->client->ps.pm_flags |= (PMF_JUMPING|PMF_SLOW_MO_FALL);
 						//[CoOp]

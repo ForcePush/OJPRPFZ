@@ -1858,15 +1858,15 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	if (g_gametype.integer == GT_SIEGE)
 	{ //just get these configstrings registered now...
-		int i = 0;
-		while (i < MAX_CUSTOM_SIEGE_SOUNDS)
+		int j = 0;
+		while (j < MAX_CUSTOM_SIEGE_SOUNDS)
 		{
-			if (!bg_customSiegeSoundNames[i])
+			if (!bg_customSiegeSoundNames[j])
 			{
 				break;
 			}
-			G_SoundIndex((char *)bg_customSiegeSoundNames[i]);
-			i++;
+			G_SoundIndex((char *)bg_customSiegeSoundNames[j]);
+			j++;
 		}
 	}
 
@@ -1887,12 +1887,11 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	if (g_gametype.integer == GT_JEDIMASTER)
 	{//make sure that there's a jedimaster saber spawn point.
 		gentity_t *jmsaber = NULL;
-		int i = 0;
-		for(i = 0; i < level.num_entities; i++)
+		for(int j = 0; j < level.num_entities; j++)
 		{//scan for jmsaber
-			if(g_entities[i].isSaberEntity)
+			if(g_entities[j].isSaberEntity)
 			{
-				jmsaber = &g_entities[i];
+				jmsaber = &g_entities[j];
 				break;
 			}
 		}
@@ -1920,16 +1919,15 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 #ifdef SUN
 	{
 		gentity_t*sun;
-		int i=0;
-		for(i=0;i<level.num_entities;i++)
+		for(int j = 0; j < level.num_entities; j++)
 		{
-			light=&g_entities[i];
+			light=&g_entities[j];
 			
 			if(light)
 			{
 				if(Q_stricmp(light->classname,"light")==0)
 				{
-					sun=&g_entities[i];
+					sun=&g_entities[j];
 					sun=light;
 					G_FreeEntity(light);
 				}
@@ -3599,21 +3597,21 @@ void CheckExitRules( void ) {
 
 	if (gEscaping)
 	{
-		int i = 0;
+		int j = 0;
 		int numLiveClients = 0;
 
-		while (i < MAX_CLIENTS)
+		while (j < MAX_CLIENTS)
 		{
-			if (g_entities[i].inuse && g_entities[i].client && g_entities[i].health > 0)
+			if (g_entities[j].inuse && g_entities[j].client && g_entities[j].health > 0)
 			{
-				if (g_entities[i].client->sess.sessionTeam != TEAM_SPECTATOR &&
-					!(g_entities[i].client->ps.pm_flags & PMF_FOLLOW))
+				if (g_entities[j].client->sess.sessionTeam != TEAM_SPECTATOR &&
+					!(g_entities[j].client->ps.pm_flags & PMF_FOLLOW))
 				{
 					numLiveClients++;
 				}
 			}
 
-			i++;
+			j++;
 		}
 		if (gEscapeTime < level.time)
 		{
@@ -4754,11 +4752,11 @@ void G_RunFrame( int levelTime ) {
 		g_siegeRespawn.integer &&
 		g_siegeRespawnCheck < level.time)
 	{ //check for a respawn wave
-		int i = 0;
+		int j = 0;
 		gentity_t *clEnt;
-		while (i < MAX_CLIENTS)
+		while (j < MAX_CLIENTS)
 		{
-			clEnt = &g_entities[i];
+			clEnt = &g_entities[j];
 
 			if (clEnt->inuse && clEnt->client &&
 				clEnt->client->tempSpectate > level.time &&
@@ -4767,7 +4765,7 @@ void G_RunFrame( int levelTime ) {
 				respawn(clEnt);
 				clEnt->client->tempSpectate = 0;
 			}
-			i++;
+			j++;
 		}
 
 		g_siegeRespawnCheck = level.time + g_siegeRespawn.integer * 1000;
@@ -4779,11 +4777,11 @@ void G_RunFrame( int levelTime ) {
 		ojp_ffaRespawnTimer.integer &&
 		ojp_ffaRespawnTimerCheck < level.time)
 	{
-		int i = 0;
+		int j = 0;
 		gentity_t *clEnt;
-		while (i < MAX_CLIENTS)
+		while (j < MAX_CLIENTS)
 		{
-			clEnt = &g_entities[i];
+			clEnt = &g_entities[j];
 
 			if (clEnt->inuse && clEnt->client &&
 				clEnt->client->tempSpectate > level.time &&
@@ -4792,7 +4790,7 @@ void G_RunFrame( int levelTime ) {
 				respawn(clEnt);
 				clEnt->client->tempSpectate = 0;
 			}
-			i++;
+			j++;
 		}
 
 		ojp_ffaRespawnTimerCheck = level.time + 30000;

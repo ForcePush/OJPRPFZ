@@ -762,12 +762,12 @@ void Window_Paint(Window *w, float fadeAmount, float fadeClamp, float fadeCycle)
 #ifndef CGAME
 		if (w->flags & WINDOW_PLAYERCOLOR) 
 		{
-			vec4_t	color;
-			color[0] = ui_char_color_red.integer/255.0f;
-			color[1] = ui_char_color_green.integer/255.0f;
-			color[2] = ui_char_color_blue.integer/255.0f;
-			color[3] = 1;
-			DC->setColor(color);
+			vec4_t	color_;
+			color_[0] = ui_char_color_red.integer/255.0f;
+			color_[1] = ui_char_color_green.integer/255.0f;
+			color_[2] = ui_char_color_blue.integer/255.0f;
+			color_[3] = 1;
+			DC->setColor(color_);
 		}
 #endif // 
 
@@ -5492,15 +5492,15 @@ void Item_Model_Paint(itemDef_t *item)
 #ifndef CGAME
 	if (uiInfo.moveAnimTime && (uiInfo.moveAnimTime < uiInfo.uiDC.realTime))
 	{
-		modelDef_t *modelPtr;
-		modelPtr = (modelDef_t*)item->typeData;
-		if (modelPtr)
+		modelDef_t *modelPtr_;
+		modelPtr_ = (modelDef_t*)item->typeData;
+		if (modelPtr_)
 		{
 			char modelPath[MAX_QPATH];
 
 			Com_sprintf( modelPath, sizeof( modelPath ), "models/players/%s/model.glm", UI_Cvar_VariableString ( "ui_char_model" ) );
 			//HACKHACKHACK: check for any multi-part anim sequences, and play the next anim, if needbe
-			switch( modelPtr->g2anim )
+			switch( modelPtr_->g2anim )
 			{
 			case BOTH_FORCEWALLREBOUND_FORWARD:
 			case BOTH_FORCEJUMP1: 
@@ -6131,8 +6131,8 @@ void Item_OwnerDraw_Paint(itemDef_t *item) {
 
 	if (DC->ownerDrawItem) {
 		vec4_t color, lowLight;
-		menuDef_t *parent = (menuDef_t*)item->parent;
-		Fade(&item->window.flags, &item->window.foreColor[3], parent->fadeClamp, &item->window.nextTime, parent->fadeCycle, qtrue, parent->fadeAmount);
+		menuDef_t *parent_ = (menuDef_t*)item->parent;
+		Fade(&item->window.flags, &item->window.foreColor[3], parent_->fadeClamp, &item->window.nextTime, parent_->fadeCycle, qtrue, parent_->fadeAmount);
 		memcpy(&color, &item->window.foreColor, sizeof(color));
 		if (item->numColors > 0 && DC->getValue) {
 			// if the value is within one of the ranges then set color to that, otherwise leave at default
@@ -6147,11 +6147,11 @@ void Item_OwnerDraw_Paint(itemDef_t *item) {
 		}
 
 		if (item->window.flags & WINDOW_HASFOCUS) {
-			lowLight[0] = 0.8 * parent->focusColor[0]; 
-			lowLight[1] = 0.8 * parent->focusColor[1]; 
-			lowLight[2] = 0.8 * parent->focusColor[2]; 
-			lowLight[3] = 0.8 * parent->focusColor[3]; 
-			LerpColor(parent->focusColor,lowLight,color,0.5+0.5*sin((float)(DC->realTime / PULSE_DIVISOR)));
+			lowLight[0] = 0.8 * parent_->focusColor[0]; 
+			lowLight[1] = 0.8 * parent_->focusColor[1]; 
+			lowLight[2] = 0.8 * parent_->focusColor[2]; 
+			lowLight[3] = 0.8 * parent_->focusColor[3]; 
+			LerpColor(parent_->focusColor,lowLight,color,0.5+0.5*sin((float)(DC->realTime / PULSE_DIVISOR)));
 		} else if (item->textStyle == ITEM_TEXTSTYLE_BLINK && !((DC->realTime/BLINK_DIVISOR) & 1)) {
 			lowLight[0] = 0.8 * item->window.foreColor[0]; 
 			lowLight[1] = 0.8 * item->window.foreColor[1]; 
@@ -6162,11 +6162,11 @@ void Item_OwnerDraw_Paint(itemDef_t *item) {
 
 		if (item->disabled) 
 		{
-			memcpy(color, parent->disableColor, sizeof(vec4_t)); // bk001207 - FIXME: Com_Memcpy
+			memcpy(color, parent_->disableColor, sizeof(vec4_t)); // bk001207 - FIXME: Com_Memcpy
 		}
 
 		if (item->cvarFlags & (CVAR_ENABLE | CVAR_DISABLE) && !Item_EnableShowViaCvar(item, CVAR_ENABLE)) {
-		  memcpy(color, parent->disableColor, sizeof(vec4_t)); // bk001207 - FIXME: Com_Memcpy
+		  memcpy(color, parent_->disableColor, sizeof(vec4_t)); // bk001207 - FIXME: Com_Memcpy
 		}
 	
 		if (item->text) {
@@ -6687,16 +6687,16 @@ void Item_Paint(itemDef_t *item)
   // Draw box to show rectangle extents, in debug mode
   if (debugMode) 
   {
-	vec4_t color;
-    color[1] = color[3] = 1;
-    color[0] = color[2] = 0;
+	vec4_t color_;
+    color_[1] = color_[3] = 1;
+    color_[0] = color_[2] = 0;
 	DC->drawRect(
 		item->window.rect.x, 
 		item->window.rect.y, 
 		item->window.rect.w, 
 		item->window.rect.h, 
 		1, 
-		color);
+		color_);
   }
 
   //DC->drawRect(item->window.rect.x, item->window.rect.y, item->window.rect.w, item->window.rect.h, 1, red);

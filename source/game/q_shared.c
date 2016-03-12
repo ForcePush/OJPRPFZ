@@ -352,7 +352,7 @@ const char *SkipWhitespace( const char *data, qboolean *hasNewLines ) {
 
 int COM_Compress( char *data_p ) {
 	char *in, *out;
-	int c;
+	char c;
 	qboolean newline = qfalse, whitespace = qfalse;
 	
 	in = out = data_p;
@@ -420,7 +420,7 @@ int COM_Compress( char *data_p ) {
 
 char *COM_ParseExt( const char **data_p, qboolean allowLineBreaks )
 {
-	int c = 0, len;
+	char c = 0, len;
 	qboolean hasNewLines = qfalse;
 	const char *data;
 
@@ -1119,7 +1119,7 @@ int Q_PrintStrlen( const char *string ) {
 char *Q_CleanStr( char *string ) {
 	char*	d;
 	char*	s;
-	int		c;
+	char	c;
 
 	s = string;
 	d = string;

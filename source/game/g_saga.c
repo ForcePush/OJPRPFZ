@@ -1514,26 +1514,26 @@ void SiegeItemThink(gentity_t *ent)
 
 	if (carrier)
 	{
-		gentity_t *carrier = &g_entities[ent->genericValue8];
+		gentity_t *carrier_ = &g_entities[ent->genericValue8];
 
 		//This checking can be a bit iffy on the death stuff, but in theory we should always
 		//get a think in before the default minimum respawn time is exceeded.
-		if (!carrier->inuse || !carrier->client ||
-			(carrier->client->sess.sessionTeam != SIEGETEAM_TEAM1 && carrier->client->sess.sessionTeam != SIEGETEAM_TEAM2) ||
-			(carrier->client->ps.pm_flags & PMF_FOLLOW))
+		if (!carrier_->inuse || !carrier_->client ||
+			(carrier_->client->sess.sessionTeam != SIEGETEAM_TEAM1 && carrier_->client->sess.sessionTeam != SIEGETEAM_TEAM2) ||
+			(carrier_->client->ps.pm_flags & PMF_FOLLOW))
 		{ //respawn on the original spot
 			SiegeItemRespawnOnOriginalSpot(ent, NULL);
 		}
-		else if (carrier->health < 1)
+		else if (carrier_->health < 1)
 		{ //The carrier died so pop out where he is (unless in nodrop).
 			if (ent->target6 && ent->target6[0])
 			{
 				G_UseTargets2(ent, ent, ent->target6);
 			}
 
-			if ( trap_PointContents(carrier->client->ps.origin, carrier->s.number) & CONTENTS_NODROP )
+			if ( trap_PointContents(carrier_->client->ps.origin, carrier_->s.number) & CONTENTS_NODROP )
 			{ //In nodrop land, go back to the original spot.
-				SiegeItemRespawnOnOriginalSpot(ent, carrier);
+				SiegeItemRespawnOnOriginalSpot(ent, carrier_);
 			}
 			
 			else
@@ -1542,12 +1542,12 @@ void SiegeItemThink(gentity_t *ent)
 				//perform a startsolid check to make sure the seige item doesn't get stuck
 				//in a wall or something
 				trace_t tr;
-				trap_Trace(&tr, carrier->client->ps.origin, ent->r.mins, ent->r.maxs, carrier->client->ps.origin, ent->s.number, ent->clipmask);
+				trap_Trace(&tr, carrier_->client->ps.origin, ent->r.mins, ent->r.maxs, carrier_->client->ps.origin, ent->s.number, ent->clipmask);
 
 				if(tr.startsolid)
 				{//bad spawning area, try again with the trace up a bit.
 					vec3_t TracePoint;
-					VectorCopy(carrier->client->ps.origin, TracePoint);
+					VectorCopy(carrier_->client->ps.origin, TracePoint);
 					TracePoint[2] += 30;
 					trap_Trace(&tr, TracePoint, ent->r.mins, ent->r.maxs, TracePoint, ent->s.number, ent->clipmask);
 					
@@ -1556,13 +1556,13 @@ void SiegeItemThink(gentity_t *ent)
 						//away from where the dude was facing (in case the carrier was
 						//close to something they were attacking.)
 						vec3_t fwd;
-						AngleVectors(carrier->client->ps.viewangles,fwd, NULL, NULL);
+						AngleVectors(carrier_->client->ps.viewangles,fwd, NULL, NULL);
 						VectorMA(TracePoint, -30, fwd, TracePoint);
 						trap_Trace(&tr, TracePoint, ent->r.mins, ent->r.maxs, TracePoint, ent->s.number, ent->clipmask);
 						
 						if(tr.startsolid)
 						{
-							SiegeItemRespawnOnOriginalSpot(ent, carrier);
+							SiegeItemRespawnOnOriginalSpot(ent, carrier_);
 							return;
 						}
 					}
@@ -1571,7 +1571,7 @@ void SiegeItemThink(gentity_t *ent)
 				}
 				else
 				{//we're good at the player's origin
-					G_SetOrigin(ent, carrier->client->ps.origin);
+					G_SetOrigin(ent, carrier_->client->ps.origin);
 				}
 				
 
@@ -1585,7 +1585,7 @@ void SiegeItemThink(gentity_t *ent)
 				//assume we may not be reachable and respawn on the original spot.
 				ent->genericValue9 = level.time + SIEGE_ITEM_RESPAWN_TIME;
 
-				SiegeItemRemoveOwner(ent, carrier);
+				SiegeItemRemoveOwner(ent, carrier_);
 			}
 		}
 	}
