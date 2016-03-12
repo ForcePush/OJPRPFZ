@@ -1,4 +1,3 @@
-#include "../g_local.h"
 #include "ac_public.h"
 #include "ac_main.h"
 #include "ac_admin.h"

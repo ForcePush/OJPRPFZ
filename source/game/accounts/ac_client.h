@@ -2,8 +2,10 @@
 #define AC_CLIENT_H
 #pragma once
 
+#define NO_ICARUS 
+extern "C" {
 #include "../g_local.h"
-
+}
 #include "ac_public.h"
 #include "ac_main.h"
 

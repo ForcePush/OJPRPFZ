@@ -271,11 +271,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="accounts\ac_admin.c" />
-    <ClCompile Include="accounts\ac_client.c" />
-    <ClCompile Include="accounts\ac_cmds.c" />
-    <ClCompile Include="accounts\ac_file_format.c" />
-    <ClCompile Include="accounts\ac_main.c" />
+    <ClCompile Include="accounts\ac_admin.cpp" />
+    <ClCompile Include="accounts\ac_client.cpp" />
+    <ClCompile Include="accounts\ac_cmds.cpp" />
+    <ClCompile Include="accounts\ac_file_format.cpp" />
+    <ClCompile Include="accounts\ac_main.cpp" />
     <ClCompile Include="ai_aotc.c" />
     <ClCompile Include="ai_hybrid.c" />
     <ClCompile Include="ai_main.c" />
@@ -386,6 +386,7 @@
     <ClCompile Include="q_shared.c" />
     <ClCompile Include="SpeederNPC.c" />
     <ClCompile Include="tri_coll_test.c" />
+    <ClCompile Include="util\u_cmds.cpp" />
     <ClCompile Include="w_force.c" />
     <ClCompile Include="w_saber.c" />
     <ClCompile Include="WalkerNPC.c" />
@@ -448,6 +449,9 @@
     <ClInclude Include="..\qcommon\tags.h" />
     <ClInclude Include="teams.h" />
     <ClInclude Include="..\cgame\tr_types.h" />
+    <ClInclude Include="util\u_cmds.h" />
+    <ClInclude Include="util\u_main.h" />
+    <ClInclude Include="util\u_public.h" />
     <ClInclude Include="w_saber.h" />
     <ClInclude Include="..\icarus\interpreter.h" />
     <ClInclude Include="..\icarus\Q3_Interface.h" />

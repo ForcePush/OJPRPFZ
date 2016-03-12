@@ -338,19 +338,22 @@
     <ClCompile Include="g_roll.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accounts\ac_cmds.c">
+    <ClCompile Include="util\u_cmds.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accounts\ac_main.c">
+    <ClCompile Include="accounts\ac_admin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accounts\ac_file_format.c">
+    <ClCompile Include="accounts\ac_client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accounts\ac_client.c">
+    <ClCompile Include="accounts\ac_cmds.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accounts\ac_admin.c">
+    <ClCompile Include="accounts\ac_file_format.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="accounts\ac_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -533,6 +536,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NPC_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\u_cmds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\u_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\u_public.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

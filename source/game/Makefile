@@ -24,6 +24,7 @@ CFLAGS += -g3 -D_DEBUG
 CFLAGS += -I./
 CFLAGS += -D_JK2 -DQAGAME
 CFLAGS += -fPIC -Wall -masm=intel -m32# -fno-strict-aliasing -march=i586
+CFLAGS += -std=c99
 
 OFILES += ai_aotc.o ai_hybrid.o ai_main.o ai_tab.o ai_util.o ai_wpnav.o
 OFILES += aotctc_holocron.o
@@ -39,6 +40,7 @@ OFILES += NPC_behavior.o NPC_combat.o NPC_goal.o NPC_misc.o NPC_move.o NPC_react
 OFILES += q_math.o q_shared.o
 OFILES += tri_coll_test.o
 OFILES += w_force.o w_saber.o
+OFILES += ac_admin.o ac_client.o ac_acmds.o ac_file_format.o ac_main.o
 
 
 $(TARGET): $(OFILES)

@@ -51,6 +51,7 @@ build/
 [Oo]bj/
 
 *.bsc
+*.o
 *.dll
 
 # MSTest test Results

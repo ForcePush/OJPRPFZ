@@ -194,19 +194,22 @@ qboolean AC_CheckPassword(const ac_account_t *acc, const char *password)
     return (strcmp(acc->password, password) == 0);
 }
 
-void AC_Init(void)
+extern "C"
 {
-    AC_InitCommands();
-    AC_InitAccounts();
-}
-
-void AC_Shutdown(void)
-{
-    if (ac_accountsFile)  // G_Error happened while parsing accounts file
+    void AC_Init(void)
     {
-        fclose(ac_accountsFile);
-        ac_accountsFile = NULL;
+        AC_InitCommands();
+        AC_InitAccounts();
     }
 
-    AC_ShutdownAccounts(qtrue);
+    void AC_Shutdown(void)
+    {
+        if (ac_accountsFile)  // G_Error happened while parsing accounts file
+        {
+            fclose(ac_accountsFile);
+            ac_accountsFile = NULL;
+        }
+
+        AC_ShutdownAccounts(qtrue);
+    }
 }

@@ -4,8 +4,7 @@
 #include "ac_client.h"
 #include "ac_admin.h"
 
-ac_cmd_t ac_cmdTable[AC_MAX_CMDS];
-int ac_cmdsAmount;
+#include "../util/u_cmds.h"
 
 // Skinpack: TODO: a better way of doing it?
 qboolean AC_Cmd_AdminCheck(gentity_t *ent)
@@ -497,65 +496,22 @@ void AC_Cmd_Logout(gentity_t *ent)
 }
 // end commands section
 
-
-// Skinpack: TODO: AC_RemoveCommand
-void AC_AddCommand(const char *cmd, ac_cmdFunction func)
-{
-    if (ac_cmdsAmount >= AC_MAX_CMDS)
-    {
-        G_Printf("^1AC_Addcommand: AC_MAX_CMDS reached!\n");
-        return;
-    }
-    
-    if (strlen(cmd) > AC_MAX_CMD_NAME_LEN)
-    {
-        G_Printf("^3AC_Addcommand: too big cmd name.\n");
-        return;
-    }
-    
-    for (int i = 0; i < ac_cmdsAmount; i++)
-    {
-        if (Q_stricmp(cmd, ac_cmdTable[i].name) == 0)
-        {
-            G_Printf("^3AC_Addcommand: \"%s\" is already defined.\n", cmd);
-            return;
-        }
-    }
-    
-    strcpy(ac_cmdTable[ac_cmdsAmount].name, cmd);
-    ac_cmdTable[ac_cmdsAmount].func = func;
-    ac_cmdsAmount++;
-}
-
-qboolean AC_ExecuteCommand(const char *cmd, gentity_t *ent)
-{
-    for (int i = 0; i < ac_cmdsAmount; i++)
-    {
-        if (stricmp(ac_cmdTable[i].name, cmd) == 0)
-        {
-            ac_cmdTable[i].func(ent);
-            return qtrue;
-        }
-    }
-    
-    return qfalse;
-}
-
 void AC_InitCommands(void)
 {
-    AC_AddCommand("ac_test", AC_Cmd_Test);
-    AC_AddCommand("ac_register", AC_Cmd_Register);
-    AC_AddCommand("ac_removeAccount", AC_Cmd_RemoveAccount);
-    AC_AddCommand("ac_setf", AC_Cmd_SetField);
-    AC_AddCommand("ac_addf", AC_Cmd_AddField);
-    AC_AddCommand("ac_find", AC_Cmd_FindAccount);
-    AC_AddCommand("ac_list", AC_Cmd_ListAccounts);
-    AC_AddCommand("ac_info", AC_Cmd_AccountDetails);
-    AC_AddCommand("ac_reloadAccounts", AC_Cmd_ReloadAccounts);
-    AC_AddCommand("ac_adminLogin", AC_Cmd_AdminLogin);
-    AC_AddCommand("ac_adminLogout", AC_Cmd_AdminLogout);
+    Util::Commands::addCommand("ac_test", AC_Cmd_Test);
+    Util::Commands::addCommand("ac_register", AC_Cmd_Register);
+    Util::Commands::addCommand("ac_removeAccount", AC_Cmd_RemoveAccount);
+    Util::Commands::addCommand("ac_setf", AC_Cmd_SetField);
+    Util::Commands::addCommand("ac_addf", AC_Cmd_AddField);
+    Util::Commands::addCommand("ac_find", AC_Cmd_FindAccount);
+    Util::Commands::addCommand("ac_list", AC_Cmd_ListAccounts);
+    Util::Commands::addCommand("ac_info", AC_Cmd_AccountDetails);
+    Util::Commands::addCommand("ac_reloadAccounts", AC_Cmd_ReloadAccounts);
+    Util::Commands::addCommand("ac_adminLogin", AC_Cmd_AdminLogin);
+    Util::Commands::addCommand("ac_adminLogout", AC_Cmd_AdminLogout);
 
-    AC_AddCommand("ac_login", AC_Cmd_Login);
-    AC_AddCommand("ac_logout", AC_Cmd_Logout);
+    Util::Commands::addCommand("ac_login", AC_Cmd_Login);
+    Util::Commands::addCommand("ac_logout", AC_Cmd_Logout);
+
 	return;
 }

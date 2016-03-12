@@ -116,7 +116,7 @@ int *AC_GetNumberField(ac_account_t *acc, const ac_fileField_t *field)
     return (int *)((char *)acc + field->offset);
 }
 
-forcePowers_t AC_ForcePowerFromString(const char *name)
+int AC_ForcePowerFromString(const char *name)
 {
     for (int i = 0; i < NUM_FORCE_POWERS; i++)
     {
@@ -129,7 +129,7 @@ forcePowers_t AC_ForcePowerFromString(const char *name)
     return -1;
 }
 
-skills_t AC_SkillFromString(const char *name)
+int AC_SkillFromString(const char *name)
 {
     for (int i = 0; i < NUM_SKILLS; i++)
     {
@@ -195,7 +195,7 @@ void AC_ParseSkills(unsigned char *skillsArray, char *value, int currentLine, in
             skillLevel = 3;
         }
 
-        skills_t skillInt = AC_SkillFromString(skill);
+        skills_t skillInt = static_cast<skills_t>(AC_SkillFromString(skill));
 
         if (skillInt  < 0)
         {
@@ -262,7 +262,7 @@ void AC_ParseForces(unsigned char *forceArray, char *value, int currentLine, int
         force[forceLen - 1] = '\0';  // remove level
         forceLen--;
 
-        forcePowers_t forceInt = AC_ForcePowerFromString(force);
+        forcePowers_t forceInt = static_cast<forcePowers_t>(AC_ForcePowerFromString(force));
         if (forceInt  < 0)
         {
             if (playerNum >= 0 && playerNum <= MAX_CLIENTS)

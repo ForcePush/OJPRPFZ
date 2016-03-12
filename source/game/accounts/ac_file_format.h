@@ -60,8 +60,8 @@ typedef struct
     size_t nameLen;
 } skillToString_t;
 
-forcePowers_t AC_ForcePowerFromString(const char *name);
-skills_t AC_SkillFromString(const char *name);
+int AC_ForcePowerFromString(const char *name);
+int AC_SkillFromString(const char *name);
 
 extern const forcePowerToString_t forcePowerStrings[NUM_FORCE_POWERS];
 extern const skillToString_t skillStrings[NUM_SKILLS];

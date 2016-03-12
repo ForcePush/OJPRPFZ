@@ -12,6 +12,7 @@
 //[/SVN]
 
 #include "accounts/ac_public.h"
+#include "util/u_public.h"
 
 //[CoOp]
 extern	qboolean		in_camera;
@@ -10769,7 +10770,7 @@ void ClientCommand(int clientNum) {
 //			trap_SendServerCommand( clientNum, va("print \"You can only add bots as the server.\n\"" ) );
             trap_SendServerCommand(clientNum, va("print \"%s.\n\"", G_GetStringEdString("MP_SVGAME", "ONLY_ADD_BOTS_AS_SERVER")));
         }
-        else if (!AC_ExecuteCommand(cmd, ent))  // Skinpack: accounts system
+        else if (!Util_ExecuteCommand(cmd, ent))
         {
             trap_SendServerCommand(clientNum, va("print \"unknown cmd %s\n\"", cmd));
         }
