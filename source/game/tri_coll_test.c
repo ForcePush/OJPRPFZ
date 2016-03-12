@@ -37,7 +37,7 @@
             dest[1]=v1[1]-v2[1]; \
             dest[2]=v1[2]-v2[2]; 
 
-/* sort so that a<=b */
+/*sort so that a<=b
 #define SORT(a,b)       \
              if(a>b)    \
              {          \
@@ -46,6 +46,18 @@
                a=b;     \
                b=c;     \
              }
+*/
+
+void floatSwapIfGreater(float *a, float *b)
+{
+    if (*a > *b)
+    {
+        float temp;
+        temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+}
 
 #define ISECT(VV0,VV1,VV2,D0,D1,D2,isect0,isect1) \
               isect0=VV0+(VV1-VV0)*D0/(D0-D1);    \
@@ -284,8 +296,8 @@ qboolean tri_tri_intersect(vec3_t V0,vec3_t V1,vec3_t V2,
   /* compute interval for triangle 2 */
   COMPUTE_INTERVALS(up0,up1,up2,du0,du1,du2,du0du1,du0du2,isect2[0],isect2[1]);
 
-  SORT(isect1[0],isect1[1]);
-  SORT(isect2[0],isect2[1]);
+  floatSwapIfGreater(&isect1[0], &isect1[1]);
+  floatSwapIfGreater(&isect2[0], &isect2[1]);
 
   if(isect1[1]<isect2[0] || isect2[1]<isect1[0]) return qtrue;
   return qfalse;

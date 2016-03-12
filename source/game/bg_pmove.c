@@ -8471,7 +8471,8 @@ static void PM_Weapon( void )
 
 	if ( pm_entSelf->s.NPC_class != CLASS_VEHICLE && pm->ps->m_iVehicleNum )
 	{ //riding a vehicle
-		if ( (veh = pm_entVeh) && veh->m_pVehicle && (veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER || veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER) )
+        veh = pm_entVeh;
+		if ( veh && veh->m_pVehicle && (veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER || veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER) )
 		{//riding a walker/fighter
 			//keep saber off, do no weapon stuff at all!
 			pm->ps->saberHolstered = 2;

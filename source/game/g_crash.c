@@ -206,7 +206,11 @@
 #elif defined WIN32
 	#include <windows.h>
 	#include <process.h>
-	#include <imagehlp.h>
+    // Skinpack: warnings in WINAPI...
+    #pragma warning(push)
+    #pragma warning(disable:4091)
+    #include <imagehlp.h>
+    #pragma warning(pop)
 
 #pragma warning(disable:4090)
 #pragma warning(disable:4028)

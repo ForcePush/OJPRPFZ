@@ -230,6 +230,7 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x30000000</BaseAddress>
       <ImportLibrary>.\../Debug/cgamex86.lib</ImportLibrary>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug(Final)|Win32'">

@@ -3,7 +3,12 @@
 
 #include <windows.h>
 #include <process.h>
+
+// Skinpack: warnings in WINAPI...
+#pragma warning(push)
+#pragma warning(disable:4091)
 #include <imagehlp.h>
+#pragma warning(pop)
 
 char crashLog[MAX_PATH] = { 0 };
 
